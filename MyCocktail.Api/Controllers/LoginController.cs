@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MyCocktail.Api.Services.Authentication;
+using MyCocktail.Api.Services.Authentication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

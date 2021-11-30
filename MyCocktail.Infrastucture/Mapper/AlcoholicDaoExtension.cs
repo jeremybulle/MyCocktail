@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using MyCocktail.Infrastucture.Dao;
 
 namespace MyCocktail.Infrastucture.Mapper
 {
@@ -10,7 +7,7 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Alcoholic ToModel(this AlcoholicDao alcoholicDao)
         {
-            return new Alcoholic() { Name = alcoholicDao.Name };
+            return new Alcoholic() { Id = alcoholicDao.Id, Name= alcoholicDao.Name };
         }
     }
 }

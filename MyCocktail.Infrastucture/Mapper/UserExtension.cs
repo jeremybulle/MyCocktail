@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyCocktail.Domain.Aggregates.UserAggregate;
+using MyCocktail.Domain.Helper;
+using MyCocktail.Infrastucture.Dao;
+using System;
 
 namespace MyCocktail.Infrastucture.Mapper
 {
     public static class UserExtension
     {
-        public static UserDao ToDao(this User userToConvert)
+       public static UserDao ToDao(this User userToMap)
         {
-            return new UserDao
+            if(userToMap == null)
             {
+                return null;
+            }
+
+            return new UserDao()
+            {
+                Id = userToMap.Id ?? Guid.NewGuid(),
                 CreationDate = DateTime.Now,
-                Id = Guid.NewGuid(),
-                Password = PasswordHasher.Hash(userToConvert.Password),
-                Role = UserRole.Reader,
-                UserName = userToConvert.UserName,
-                Email = userToConvert.Email,
-                FirstName = userToConvert.FirstName,
-                LastName = userToConvert.LastName,
+                Email = userToMap.Email,
+                FirstName = userToMap.FirstName,
+                LastName = userToMap.LastName,
+                Password = PasswordHasher.Hash(userToMap.Password),
+                UserName = userToMap.UserName,
+                Role = userToMap.Role,
             };
         }
     }

@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MyCocktail.Api.Dto;
+using MyCocktail.Api.Dto.Extensions;
+using MyCocktail.Api.Services.Authentication;
+using MyCocktail.Domain.Aggregates.UserAggregate;
+using MyCocktail.Domain.Helper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -62,7 +66,7 @@ namespace MyCocktail.Api.Controllers
                     FirstName = userFromBody.FirstName,
                     LastName = userFromBody.LastName,
                     Password = userFromBody.Password,
-                    Role = UserRole.Reader,
+                    Role = UserRole.User,
                     UserName = userFromBody.UserName
                 };
             }

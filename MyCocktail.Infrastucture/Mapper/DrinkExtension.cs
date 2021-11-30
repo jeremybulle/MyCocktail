@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using MyCocktail.Infrastucture.Dao;
+using System;
 
 namespace MyCocktail.Infrastucture.Mapper
 {
@@ -16,7 +14,7 @@ namespace MyCocktail.Infrastucture.Mapper
 
             var drinkToReturn = new DrinkDao()
             {
-                Id = Guid.NewGuid(),
+                Id = drink.Id ?? Guid.NewGuid(),
                 IdSource = drink.IdSource ?? throw new ArgumentNullException(nameof(drink.IdSource)),
                 Instruction = drink.Instruction ?? throw new ArgumentNullException(nameof(drink.Instruction)),
                 Name = drink.Name ?? throw new ArgumentNullException(nameof(drink.Name)),

@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using MyCocktail.Domain.Helper;
+using MyCocktail.Infrastucture.Dao;
+using MyCocktail.Infrastucture.Mapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyCocktail.Infrastucture.Repositories
@@ -22,7 +26,7 @@ namespace MyCocktail.Infrastucture.Repositories
         }
 
         private Dictionary<Guid, Drink> _drinkCache = new Dictionary<Guid, Drink>();
-        public async Task<DrinkDto> AddAsync(Drink drink)
+        public async Task<Drink> AddAsync(Drink drink)
         {
             if (!_context.Drinks.Any(d => d.Name == drink.Name))
             {
@@ -47,9 +51,9 @@ namespace MyCocktail.Infrastucture.Repositories
                 await _context.Drinks.AddAsync(drinkToSave);
 
                 await _context.SaveChangesAsync();
-                return drinkToSave.ToDto();
+                return drinkToSave.ToModel();
             }
-            return (await _context.Drinks.FirstOrDefaultAsync(d => d.Name == drink.Name)).ToDto();
+            return (await _context.Drinks.FirstOrDefaultAsync(d => d.Name == drink.Name)).ToModel();
         }
 
         public void Delete(Guid id)
@@ -63,47 +67,47 @@ namespace MyCocktail.Infrastucture.Repositories
             }
         }
 
-        public Task<DrinkDto> GetByNameAsync(string name)
+        public Task<Drink> GetByNameAsync(string name)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<DrinkPartialDto>> GetAsync()
+        public async Task<IEnumerable<Drink>> GetAsync()
         {
-            var drinksFind = new List<DrinkPartialDto>();
+            var drinksFind = new List<Drink>();
             var query = _context.Drinks.OrderBy(d => d.Name).Include(d => d.Glass).Include(d => d.Category).Include(d => d.Alcoholic).Include(d => d.Measures).ThenInclude(m => m.Ingredient);
             Console.WriteLine(query.ToQueryString());
             foreach (var drinkDao in await query.ToListAsync())
             {
-                drinksFind.Add(drinkDao.ToPartialDto());
+                drinksFind.Add(drinkDao.ToModel());
             }
 
             return drinksFind;
         }
 
-        public async Task<DrinkDto> GetByIdAsync(Guid id)
+        public async Task<Drink> GetByIdAsync(Guid id)
         {
             var drinkFound = await _context.Drinks.Include(d => d.Glass).Include(d => d.Category).Include(d => d.Alcoholic).Include(d => d.Measures).ThenInclude(m => m.Ingredient).FirstOrDefaultAsync(d => d.Id == id);
             if (drinkFound != null)
             {
-                return drinkFound.ToDto();
+                return drinkFound.ToModel();
             }
             return null;
         }
 
-        public async Task<IEnumerable<DrinkPartialDto>> GetLastUpdatedAsync(int nbSearch)
+        public async Task<IEnumerable<Drink>> GetLastUpdatedAsync(int nbSearch)
         {
             var drinkSorted = _context.Drinks.Include(d => d.Glass).Include(d => d.Category).Include(d => d.Alcoholic).Include(d => d.Measures).ThenInclude(m => m.Ingredient).OrderByDescending(d => d.DateModified).Take(nbSearch);
-            var listToReturn = new List<DrinkPartialDto>();
+            var listToReturn = new List<Drink>();
             foreach (var drink in await drinkSorted.ToListAsync())
             {
-                listToReturn.Add(drink.ToPartialDto());
+                listToReturn.Add(drink.ToModel());
             }
             return listToReturn;
         }
 
         //TODO 
-        public async Task<DrinkDto> UpdateAsync(Guid id, Drink drink)
+        public async Task<Drink> UpdateAsync(Guid id, Drink drink)
         {
             var drinkToUpdate = await _context.Drinks
                 .Include(d => d.Alcoholic)
@@ -188,10 +192,10 @@ namespace MyCocktail.Infrastucture.Repositories
 
             var result = await _context.Drinks.FirstOrDefaultAsync(d => d.Id == drinkToUpdate.Id);
 
-            return result != null ? result.ToDto() : null;
+            return result != null ? result.ToModel() : null;
         }
 
-        public async Task<IEnumerable<DrinkPartialDto>> GetDrinksByIngredient(IEnumerable<Guid> ingredientIds)
+        public async Task<IEnumerable<Drink>> GetDrinksByIngredient(IEnumerable<Guid> ingredientIds)
         {
 
             //var query = _context.Measures.Include(m => m.Drink).Include(m => m.Drink.Alcoholic).Include(m => m.Drink.Category).Include(m => m.Drink.Glass).Where(m => ingredientIds.Any(i => i == m.IngredientId)).Select(m => m.Drink); //=> Drink Contient au moins 1 des ingredients de la liste
@@ -201,24 +205,24 @@ namespace MyCocktail.Infrastucture.Repositories
 
             var grpPurged = grp.Where(g => ingredientIds.All(ingredientId => g.ingredients.Any(i => i == ingredientId)));
 
-            return grpPurged.Select(e => e.Drink.ToPartialDto());
+            return grpPurged.Select(e => e.Drink.ToModel());
         }
 
 
-        public async Task<IEnumerable<IngredientDto>> GetAllIngredients()
+        public async Task<IEnumerable<Ingredient>> GetAllIngredients()
         {
             var ingredientsDao = await _context.Ingredients.ToListAsync();
-            var ingredientsToReturn = new List<IngredientDto>();
+            var ingredientsToReturn = new List<Ingredient>();
 
             if (ingredientsDao.IsNullOrEmpty())
             {
                 return ingredientsToReturn;
             }
 
-            return ingredientsDao.ToDto();
+            return ingredientsDao.ToModel();
         }
 
-        public async Task<IngredientDto> GetIngredientById(Guid id)
+        public async Task<Ingredient> GetIngredientById(Guid id)
         {
             var ingredientDao = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id);
 
@@ -226,7 +230,7 @@ namespace MyCocktail.Infrastucture.Repositories
             {
                 return null;
             }
-            return ingredientDao.ToDto();
+            return ingredientDao.ToModel();
         }
 
         public void ClearCaches()
@@ -339,9 +343,9 @@ namespace MyCocktail.Infrastucture.Repositories
             return _measureCache[(drinkName, measure.Ingredient.Name, measure.Quantity)];
         }
 
-        public async Task<bool> UpdateIngredientAsync(IngredientDto ingredient)
+        public async Task<bool> UpdateIngredientAsync(Ingredient ingredient)
         {
-            var ingredientDao = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == Guid.Parse(ingredient.Id));
+            var ingredientDao = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == ingredient.Id);
 
             if (ingredientDao != null)
             {
@@ -352,12 +356,12 @@ namespace MyCocktail.Infrastucture.Repositories
             return false;
         }
 
-        public async Task<IngredientDto> AddAsync(Ingredient ingredient)
+        public async Task<Ingredient> AddAsync(Ingredient ingredient)
         {
             var ingredientToSave = ingredient.ToDao();
             ingredientToSave.Id = Guid.NewGuid();
             await _context.Ingredients.AddAsync(ingredientToSave);
-            return await _context.SaveChangesAsync() > 0 ? ingredientToSave.ToDto() : null;
+            return await _context.SaveChangesAsync() > 0 ? ingredientToSave.ToModel() : null;
         }
 
 

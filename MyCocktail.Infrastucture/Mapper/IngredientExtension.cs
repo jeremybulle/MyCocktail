@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using MyCocktail.Infrastucture.Dao;
+using System;
 
 namespace MyCocktail.Infrastucture.Mapper
 {
@@ -12,6 +10,7 @@ namespace MyCocktail.Infrastucture.Mapper
         {
             return new IngredientDao()
             {
+                Id = ingredientToMap.Id ?? Guid.NewGuid(),
                 Name = ingredientToMap.Name
             };
         }

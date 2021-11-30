@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MyCocktail.Domain.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCocktail.Domain.Aggregates.Drink
+namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
     /// <summary>
     /// Measures is an <seealso cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Ingredient"/> associated to a quantity.
@@ -12,12 +13,33 @@ namespace MyCocktail.Domain.Aggregates.Drink
     /// </summary>
     public class Measure
     {
-        private string _name;
+        #region Id
+        private Guid? _id;
+        public Guid? Id
+        {
+            get
+            {
+                if (_id == null)
+                {
+                    return null;
+                }
+
+                return _id == null ? null : new Guid(_id.ToString());
+            }
+            init
+            {
+                _id = value;
+            }
+        }
+        #endregion
+
+        #region IngredientName
+        private string _ingredientName;
         public string IngredientName
         {
             get
             {
-                return new string(_name);
+                return new string(_ingredientName);
             }
             init
             {
@@ -25,11 +47,13 @@ namespace MyCocktail.Domain.Aggregates.Drink
                 {
                     throw new ArgumentException(nameof(IngredientName));
                 }
-                _name = value.Trim();
-                _name = IngredientName.ToLower();
+                _ingredientName = value.Trim();
+                _ingredientName = IngredientName.ToLower();
             }
         }
+        #endregion
 
+        #region Quantity
         private string _quantity;
         public string Quantity
         {
@@ -51,6 +75,8 @@ namespace MyCocktail.Domain.Aggregates.Drink
 
             }
         }
+        #endregion
+
 
         public override bool Equals(object obj)
         {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using MyCocktail.Infrastucture.Dao;
 
 namespace MyCocktail.Infrastucture.Mapper
 {
@@ -10,7 +7,11 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Measure ToModel(this MeasureDao measureDao)
         {
-            return new Measure() { IngredientName = measureDao.Ingredient.Name, Quantity = measureDao.Quantity };
+            return new Measure() { 
+                Id = measureDao.Id,
+                IngredientName = measureDao.Ingredient.Name, 
+                Quantity = measureDao.Quantity 
+            };
         }
     }
 }

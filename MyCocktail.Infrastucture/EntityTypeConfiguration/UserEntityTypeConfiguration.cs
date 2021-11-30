@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyCocktail.Domain.Aggregates.User;
+using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Infrastucture.Dao;
 
 namespace MyCocktail.Infrastucture.EntityTypeConfiguration

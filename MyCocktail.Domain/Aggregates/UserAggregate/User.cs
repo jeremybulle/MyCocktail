@@ -1,16 +1,30 @@
-﻿using System;
+﻿using MyCocktail.Domain.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCocktail.Domain.Aggregates.User
+namespace MyCocktail.Domain.Aggregates.UserAggregate
 {
     /// <summary>
     /// A user of the application
     /// </summary>
     public class User
     {
+        #region Id
+        private Guid? _id;
+
+        public Guid? Id
+        {
+            get
+            {
+                return _id == null ? null : new Guid(_id.ToString());
+            }
+        }
+        #endregion
+
+        #region UserName
         private string _userName;
         public string UserName
         {
@@ -27,7 +41,9 @@ namespace MyCocktail.Domain.Aggregates.User
                 _userName = value.Trim();
             }
         }
+        #endregion
 
+        #region FirstName
         private string _firstName;
         public string FirstName
         {
@@ -49,7 +65,9 @@ namespace MyCocktail.Domain.Aggregates.User
                 _firstName = value.Trim();
             }
         }
+        #endregion
 
+        #region LastName
         private string _lastName;
         public string LastName
         {
@@ -71,7 +89,9 @@ namespace MyCocktail.Domain.Aggregates.User
                 _lastName = value.Trim();
             }
         }
+        #endregion
 
+        #region Email
         private string _email;
         public string Email
         {
@@ -93,6 +113,8 @@ namespace MyCocktail.Domain.Aggregates.User
                 _email = value.Trim();
             }
         }
+        #endregion
+
 
         public string Password { get; set; }
 

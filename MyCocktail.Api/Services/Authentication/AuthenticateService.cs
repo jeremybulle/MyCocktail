@@ -1,6 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using MyCocktail.Api.Dto;
+using MyCocktail.Api.Services.Authentication.Models;
+using MyCocktail.Domain.Aggregates.UserAggregate;
+using MyCocktail.Domain.Helper;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MyCocktail.Api.Services.Authentication

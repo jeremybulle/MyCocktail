@@ -7,15 +7,14 @@ namespace MyCocktail.Infrastucture
     public class DrinkDbContext : DbContext
     {
 
-        public DbSet<AlcoholicDao> Alcoholics { get; set; }
-        public DbSet<CategoryDao> Categories { get; set; }
-        public DbSet<DrinkDao> Drinks { get; set; }
-        public DbSet<GlassDao> Glasses { get; set; }
-        public DbSet<IngredientDao> Ingredients { get; set; }
-        public DbSet<MeasureDao> Measures { get; set; }
-        public DbSet<UserDao> Users { get; set; }
-
-        public DbSet<FavoriteDao> Favorites { get; set; }
+        public virtual DbSet<AlcoholicDao> Alcoholics { get; set; }
+        public virtual DbSet<CategoryDao> Categories { get; set; }
+        public virtual DbSet<DrinkDao> Drinks { get; set; }
+        public virtual DbSet<GlassDao> Glasses { get; set; }
+        public virtual DbSet<IngredientDao> Ingredients { get; set; }
+        public virtual DbSet<MeasureDao> Measures { get; set; }
+        public virtual DbSet<UserDao> Users { get; set; }
+        public virtual DbSet<FavoriteDao> Favorites { get; set; }
 
         public DrinkDbContext() : base()
         {

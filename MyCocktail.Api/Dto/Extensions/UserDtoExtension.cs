@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿using MyCocktail.Domain.Aggregates.UserAggregate;
+using System;
 namespace MyCocktail.Api.Dto.Extensions
 {
     public static class UserDtoExtension

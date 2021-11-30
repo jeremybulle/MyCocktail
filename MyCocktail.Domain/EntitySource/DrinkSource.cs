@@ -3,14 +3,14 @@ using MyCocktail.Domain.Helper;
 using System;
 using System.Collections.Generic;
 
-namespace MyCocktail.Api.Dto
+namespace MyCocktail.Domain.EntitySource
 {
-    public class DrinksSourceDto
+    public class DrinksSource
     {
-        public DrinkSourceDto[] drinks { get; set; }
+        public DrinkSource[] drinks { get; set; }
     }
 
-    public class DrinkSourceDto
+    public class DrinkSource
     {
         public string idDrink { get; set; }
         public string strDrink { get; set; }

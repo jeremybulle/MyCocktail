@@ -1,16 +1,36 @@
-﻿using System;
+﻿using MyCocktail.Domain.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCocktail.Domain.Aggregates.Drink
+namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
     /// <summary>
     /// Represent a Cockatail. Contains all personal informations like Name, Measures, Instructions etc...
     /// </summary>
     public class Drink
     {
+        #region Id
+        private Guid? _id;
+        public Guid? Id
+        {
+            get
+            {
+                if (_id == null)
+                {
+                    return null;
+                }
+
+                return _id == null ? null : new Guid(_id.ToString());
+            }
+            init
+            {
+                _id = value;
+            }
+        }
+        #endregion
         #region IdSource
         private string _idSource;
 

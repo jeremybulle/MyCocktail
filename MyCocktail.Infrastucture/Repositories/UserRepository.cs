@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyCocktail.Domain.Aggregates.User;
+using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Domain.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyCocktail.Infrastucture.Repositories
@@ -18,7 +17,7 @@ namespace MyCocktail.Infrastucture.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<UserDto> AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
             if (!_context.Users.Any(u => u.UserName == user.UserName))
             {
@@ -43,7 +42,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return await _context.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAsync()
+        public async Task<IEnumerable<User>> GetAsync()
         {
             var query = _context.Users.OrderBy(u => u.LastName).OrderBy(u => u.FirstName);
             var result = await query.ToListAsync();
