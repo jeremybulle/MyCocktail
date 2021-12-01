@@ -30,30 +30,5 @@ namespace MyCocktail.Infrastucture.Mapper
 
             return ingredientsToReturn;
         }
-
-        //public static IngredientDto ToDto(this IngredientDao ingredientDao)
-        //{
-        //    return new IngredientDto
-        //    {
-        //        Id = ingredientDao.Id.ToString(),
-        //        Name = ingredientDao.Name
-        //    };
-        //}
-
-        //public static IEnumerable<IngredientDto> ToDto(this IEnumerable<IngredientDao> ingredientsDao)
-        //{
-        //    if (ingredientsDao.IsNullOrEmpty())
-        //    {
-        //        return null;
-        //    }
-        //    var ingredientsToReturn = new List<IngredientDto>();
-
-        //    foreach (var ingredient in ingredientsDao)
-        //    {
-        //        ingredientsToReturn.Add(ingredient.ToDto());
-        //    }
-
-        //    return ingredientsToReturn;
-        //}
     }
 }

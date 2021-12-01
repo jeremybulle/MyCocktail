@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Domain.Helper;
+using MyCocktail.Infrastucture.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +24,14 @@ namespace MyCocktail.Infrastucture.Repositories
             if (!_context.Users.Any(u => u.UserName == user.UserName))
             {
                 var userToSave = user.ToDao();
+                if (userToSave.Password.IsNullOrEmpty())
+                {
+                    throw new ArgumentException("Can not Create an user wihtout password");
+                }
                 await _context.Users.AddAsync(userToSave);
                 await _context.SaveChangesAsync();
 
-                return userToSave.ToDto();
+                return userToSave.ToModel();
             }
             return null;
         }
@@ -47,26 +53,26 @@ namespace MyCocktail.Infrastucture.Repositories
             var query = _context.Users.OrderBy(u => u.LastName).OrderBy(u => u.FirstName);
             var result = await query.ToListAsync();
 
-            return result.ToDtoWithoutPassword();
+            return result.ToModel();
         }
 
-        public async Task<UserDto> GetByIdAsync(Guid id)
+        public async Task<User> GetByIdAsync(Guid id)
         {
             var result = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            return result == null ? null : result.ToDtoWithoutPassword();
+            return result == null ? null : result.ToModel();
         }
 
-        public async Task<UserDto> GetByUserNameAsync(string userName)
+        public async Task<User> GetByUserNameAsync(string userName)
         {
             var query = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
-            var result = query?.ToDto();
+            var result = query?.ToModel();
 
             return result == null ? null : result;
         }
 
-        public async Task<bool> UpdateAsync(UserDto user)
+        public async Task<bool> UpdateAsync(User user)
         {
-            var userDao = await _context.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(user.Id));
+            var userDao = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
 
             if (userDao == null)
             {
@@ -76,18 +82,18 @@ namespace MyCocktail.Infrastucture.Repositories
             userDao.FirstName = user.FirstName;
             userDao.LastName = user.LastName;
             userDao.Email = user.Email;
-            userDao.Role = (UserRole)UInt32.Parse(user.Role);
+            userDao.Role = user.Role;
             userDao.UserName = user.UserName;
-            userDao.Password = PasswordHasher.Hash(user.Password);
+            userDao.Password = user.Password.IsNullOrEmpty()? PasswordHasher.Hash(user.Password) : throw new ArgumentNullException("Can not Update a user whith null or empty password");
 
             return await _context.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<IEnumerable<DrinkPartialDto>> GetFavorites(Guid idUser)
+        public async Task<IEnumerable<Drink>> GetFavorites(Guid idUser)
         {
             var query = _context.Favorites.Include(f => f.Drink).Where(f => f.IdUser == idUser).Select(f => f.Drink);
             var result = await query.ToListAsync();
-            return result.IsNullOrEmpty() ? null : result.Select(d => d.ToPartialDto());
+            return result.IsNullOrEmpty() ? null : result.Select(d => d.ToModel());
         }
     }
 }

@@ -166,11 +166,11 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         {
             get
             {
-                return new Glass() { Name = _glass.Name };
+                return new Glass() { Id = _glass.Id, Name = _glass.Name };
             }
             set
             {
-                _glass = new Glass() { Name = value.Name };
+                _glass = new Glass() { Id = value.Id, Name = value.Name };
             }
         }
         #endregion
@@ -185,11 +185,11 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         {
             get
             {
-                return new Category() { Name = _category.Name };
+                return new Category() { Id = _category.Id, Name = _category.Name };
             }
             set
             {
-                _category = new Category() { Name = value.Name };
+                _category = new Category() {Id = value.Id, Name = value.Name };
             }
         }
         #endregion
@@ -205,11 +205,11 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         {
             get
             {
-                return new Alcoholic() { Name = _alcoholic.Name };
+                return new Alcoholic() { Id = _alcoholic.Id, Name = _alcoholic.Name };
             }
             init
             {
-                _alcoholic = new Alcoholic() { Name = value.Name };
+                _alcoholic = new Alcoholic() { Id = value.Id, Name = value.Name };
             }
         }
         #endregion
@@ -245,21 +245,22 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             List<Measure> measuresToReturn = new List<Measure>();
             foreach (var m in _measures)
             {
-                measuresToReturn.Add(new Measure() { IngredientName = m.IngredientName, Quantity = m.Quantity });
+                measuresToReturn.Add(new Measure() { Ingredient = new Ingredient() {Id = m.Ingredient.Id, Name = m.Ingredient.Name }, Quantity = m.Quantity });
             }
 
             return measuresToReturn;
         }
 
         /// <summary>
-        /// Search a <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/> by its name
+        /// Search a Measure by Ingredient Name
         /// </summary>
         /// <param name="ingredientName">Measure's name searched</param>
         /// <returns>Measure or null</returns>
         public Measure GetMeasureByIngredientName(string ingredientName)
         {
-            var measure = _measures.FirstOrDefault(m => m.IngredientName == ingredientName);
-            return measure != null ? new Measure() { IngredientName = measure.IngredientName, Quantity = measure.Quantity } : null;
+            var ingredientNameHandled = ingredientName.ToLower().Trim();
+            var measure = _measures.FirstOrDefault(m => m.Ingredient.Name == ingredientNameHandled);
+            return measure != null ? new Measure() { Ingredient = new Ingredient() { Id = measure.Ingredient.Id, Name = ingredientNameHandled }, Quantity = measure.Quantity } : null;
         }
 
         /// <summary>
@@ -269,10 +270,20 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// <param name="quantity"></param>
         public void AddMeasure(string ingedientName, string quantity)
         {
-            var isMeasureForIngredient = _measures.Any(m => m.IngredientName == ingedientName);
+            var ingredientNameHandled = ingedientName.ToLower().Trim();
+            var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == ingredientNameHandled);
             if (!isMeasureForIngredient)
             {
-                _measures.Add(new Measure() { IngredientName = ingedientName, Quantity = quantity });
+                _measures.Add(new Measure() { Ingredient = new Ingredient() {Name = ingredientNameHandled }, Quantity = quantity });
+            }
+        }
+
+        public void AddMeasure(Measure measure)
+        {
+            var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == measure.Ingredient.Name);
+            if (!isMeasureForIngredient)
+            {
+                _measures.Add(measure);
             }
         }
 
@@ -282,11 +293,11 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// <param name="measureModified">New value for the measure to update</param>
         public void ModifyMeasure(Measure measureModified)
         {
-            if (measureModified == null || !_measures.Any(m => m.IngredientName == measureModified.IngredientName))
+            if (measureModified == null || !_measures.Any(m => m.Ingredient.Name == measureModified.Ingredient.Name))
             {
                 return;
             }
-            var measureToUpdate = _measures.RemoveWhere(m => m.IngredientName == measureModified.IngredientName);
+            var measureToUpdate = _measures.RemoveWhere(m => m.Ingredient.Name == measureModified.Ingredient.Name);
             _measures.Add(measureModified);
         }
 
@@ -296,7 +307,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// <param name="IngredientName"></param>
         public void DeleteMeasure(Measure measureToDelete)
         {
-            var measureToDrop = _measures.FirstOrDefault(m => m.IngredientName == measureToDelete.IngredientName && m.Quantity == measureToDelete.Quantity);
+            var measureToDrop = _measures.FirstOrDefault(m => m.Ingredient.Name == measureToDelete.Ingredient.Name && m.Quantity == measureToDelete.Ingredient.Name);
             if (measureToDelete != null)
             {
                 _measures.Remove(measureToDelete);
@@ -312,7 +323,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             var ingredients = new List<Ingredient>();
             foreach (var measure in _measures)
             {
-                ingredients.Add(new Ingredient() { Name = measure.IngredientName });
+                ingredients.Add(new Ingredient() { Name = measure.Ingredient.Name });
             }
             return ingredients;
         }

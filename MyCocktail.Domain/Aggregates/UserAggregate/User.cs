@@ -21,6 +21,10 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
             {
                 return _id == null ? null : new Guid(_id.ToString());
             }
+            init
+            {
+                _id = value;
+            }
         }
         #endregion
 
@@ -115,6 +119,22 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
         }
         #endregion
 
+        #region CreationDate
+        private DateTime _creationDate;
+
+        public DateTime CreationDate
+        {
+            get
+            {
+                return new DateTime(_creationDate.Year, _creationDate.Month, _creationDate.Day);
+            }
+            init
+            {
+                _creationDate = value;
+            }
+        }
+        
+        #endregion
 
         public string Password { get; set; }
 

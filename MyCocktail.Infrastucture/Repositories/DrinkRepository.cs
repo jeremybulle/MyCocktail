@@ -44,7 +44,7 @@ namespace MyCocktail.Infrastucture.Repositories
 
                 foreach (var measureToSave in drink.GetMeasures())
                 {
-                    var ingredientCurrent = Add(new IngredientDao() { Id = Guid.NewGuid(), Name = measureToSave.IngredientName });
+                    var ingredientCurrent = Add(new IngredientDao() { Id = Guid.NewGuid(), Name = measureToSave.Ingredient.Name });
                     Add(new MeasureDao() { Id = Guid.NewGuid(), Drink = drinkToSave, DrinkId = drinkToSave.Id, Ingredient = ingredientCurrent, IngredientId = ingredientCurrent.Id, Quantity = measureToSave.Quantity }, drinkToSave.Name);
                 }
 
@@ -76,7 +76,6 @@ namespace MyCocktail.Infrastucture.Repositories
         {
             var drinksFind = new List<Drink>();
             var query = _context.Drinks.OrderBy(d => d.Name).Include(d => d.Glass).Include(d => d.Category).Include(d => d.Alcoholic).Include(d => d.Measures).ThenInclude(m => m.Ingredient);
-            Console.WriteLine(query.ToQueryString());
             foreach (var drinkDao in await query.ToListAsync())
             {
                 drinksFind.Add(drinkDao.ToModel());

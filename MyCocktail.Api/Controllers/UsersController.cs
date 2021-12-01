@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using MyCocktail.Api.Dto;
 using MyCocktail.Api.Dto.Extensions;
+using MyCocktail.Api.Mapper;
 using MyCocktail.Api.Services.Authentication;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Domain.Helper;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -29,7 +31,8 @@ namespace MyCocktail.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var result = await _repo.GetAsync();
-            return result.IsNullOrEmpty() ? NoContent() : Ok(result);
+            
+            return result.IsNullOrEmpty() ? NoContent() : Ok(result.ToDtoNoPassword());
         }
 
         // GET api/<UsersController>/5
@@ -49,7 +52,7 @@ namespace MyCocktail.Api.Controllers
             }
             var result = await _repo.GetByIdAsync(id);
 
-            return result == null ? NotFound(idUser) : Ok(result);
+            return result == null ? NotFound(idUser) : Ok(result.ToDtoNoPassword());
         }
 
         // POST api/<UsersController>
@@ -67,7 +70,7 @@ namespace MyCocktail.Api.Controllers
                     LastName = userFromBody.LastName,
                     Password = userFromBody.Password,
                     Role = UserRole.User,
-                    UserName = userFromBody.UserName
+                    UserName = userFromBody.UserName,
                 };
             }
             catch (Exception)
@@ -77,7 +80,7 @@ namespace MyCocktail.Api.Controllers
 
             var result = await _repo.AddAsync(userToSave);
 
-            return result != null ? Ok(result) : BadRequest();
+            return result != null ? Ok(result.ToDtoNoPassword()) : BadRequest();
 
         }
 
@@ -94,27 +97,27 @@ namespace MyCocktail.Api.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(500);
             }
 
             if (id == Guid.Parse(userFromBody.Id) || HttpContext.User.IsInRole("Admin"))
             {
+                User userToUpdate;
                 try
                 {
-                    var userDomain = userFromBody.ToModel();
-                    var userToSave = userDomain.ToDto();
+                    userToUpdate = userFromBody.ToModel();
                 }
                 catch (Exception)
                 {
                     throw new ArgumentException(nameof(userFromBody));
                 }
 
-                var result = await _repo.UpdateAsync(userFromBody);
+                var result = await _repo.UpdateAsync(userToUpdate);
 
                 return result ? Ok(userFromBody) : BadRequest(userFromBody);
             }
 
-            return BadRequest();
+            return Unauthorized();
         }
 
         // DELETE api/<UsersController>/5

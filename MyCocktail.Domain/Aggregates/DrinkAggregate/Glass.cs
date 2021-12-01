@@ -52,25 +52,25 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         }
         #endregion
 
-        public static bool operator ==(Glass a, Glass b)
-        {
-            if (a == null && b == null)
-            {
-                return true;
-            }
-            if (a == null || b == null)
-            {
-                return false;
-            }
+        //public static bool operator ==(Glass a, Glass b)
+        //{
+        //    if (a == null && b == null)
+        //    {
+        //        return true;
+        //    }
+        //    if (a == null || b == null)
+        //    {
+        //        return false;
+        //    }
 
-            return a.Equals(b);
-        }
+        //    return a.Equals(b);
+        //}
 
-        public static bool operator !=(Glass a, Glass b)
-        {
+        //public static bool operator !=(Glass a, Glass b)
+        //{
 
-            return !(a == b);
-        }
+        //    return !(a == b);
+        //}
 
         public override bool Equals(object obj)
         {

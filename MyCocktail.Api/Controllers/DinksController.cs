@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MyCocktail.Api.Dto;
+using MyCocktail.Api.Dto.Extensions;
+using MyCocktail.Api.Mapper;
+using MyCocktail.Api.Services.Authentication;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using System;
 using System.Collections.Generic;
@@ -32,7 +35,7 @@ namespace MyCocktail.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(drinksFind);
+            return Ok(drinksFind.ToPartialDto());
         }
 
         // GET api/<DrinksController>/5
@@ -49,7 +52,7 @@ namespace MyCocktail.Api.Controllers
                 return BadRequest(id);
             }
             var drinkFound = await _repo.GetByIdAsync(idToGet);
-            return drinkFound == null ? NotFound(id) : Ok(drinkFound);
+            return drinkFound == null ? NotFound(id) : Ok(drinkFound.ToDto());
         }
 
         // GET api/<DrinksController>/LastUpdated/6
@@ -67,7 +70,7 @@ namespace MyCocktail.Api.Controllers
                 return BadRequest(nbSearch);
             }
             var drinkFound = await _repo.GetLastUpdatedAsync(nbCocktail);
-            return drinkFound == null ? NotFound() : Ok(drinkFound);
+            return drinkFound == null ? NotFound() : Ok(drinkFound.ToPartialDto());
         }
 
         // GET api/<DrinksController>/5/Ingredients/
@@ -85,9 +88,9 @@ namespace MyCocktail.Api.Controllers
             }
             var drinkFound = await _repo.GetByIdAsync(idToGet);
             var ingredients = new List<IngredientDto>();
-            foreach (var measure in drinkFound.Measures)
+            foreach (var measure in drinkFound.GetMeasures())
             {
-                ingredients.Add(measure.Ingedient);
+                ingredients.Add(measure.Ingredient.ToDto());
             }
 
             if (ingredients.Count() < 0)
@@ -102,7 +105,7 @@ namespace MyCocktail.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] DrinkDto drinkDto)
         {
-            DrinkDto result;
+            Drink result;
             try
             {
                 var drinkModel = drinkDto.ToModel();
@@ -112,7 +115,7 @@ namespace MyCocktail.Api.Controllers
             {
                 return BadRequest();
             }
-            return result == null ? BadRequest() : Ok(result);
+            return result == null ? BadRequest() : Ok(result.ToDto());
         }
 
         // POST api/Ingredients
@@ -120,7 +123,7 @@ namespace MyCocktail.Api.Controllers
         [HttpPost("Ingredients")]
         public async Task<IActionResult> GetDrinksByIndregient([FromBody] IEnumerable<string> ingredientIds)
         {
-            IEnumerable<DrinkPartialDto> results;
+            IEnumerable<Drink> results;
             try
             {
                 var ingredientGuids = ingredientIds.Select(id => Guid.Parse(id)).ToList();
@@ -130,7 +133,7 @@ namespace MyCocktail.Api.Controllers
             {
                 return BadRequest(ex);
             }
-            return results == null ? BadRequest() : Ok(results);
+            return results == null ? BadRequest() : Ok(results.ToPartialDto());
         }
 
 
@@ -162,7 +165,7 @@ namespace MyCocktail.Api.Controllers
                     return BadRequest(drinkDtoToUpdate);
                 }
                 var result = await _repo.UpdateAsync(id, drinkToSave);
-                return result != null ? Ok(result) : BadRequest(drinkDtoToUpdate);
+                return result != null ? Ok(result.ToDto()) : BadRequest(drinkDtoToUpdate);
             }
             return Unauthorized();
         }

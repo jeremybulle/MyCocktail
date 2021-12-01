@@ -12,7 +12,7 @@ namespace MyCocktail.Api.Dto.Extensions
         {
             return new Ingredient()
             {
-                Id = new Guid(ingredientDto.Id),
+                Id = ingredientDto == null? null : new Guid(ingredientDto.Id),
                 Name = ingredientDto.Name
             };
         }

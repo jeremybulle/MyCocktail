@@ -1,5 +1,6 @@
 ﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Infrastucture.Dao;
+using System;
 
 namespace MyCocktail.Infrastucture.Mapper
 {
@@ -7,7 +8,7 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Alcoholic ToModel(this AlcoholicDao alcoholicDao)
         {
-            return new Alcoholic() { Id = alcoholicDao.Id, Name= alcoholicDao.Name };
+            return new Alcoholic() { Id = alcoholicDao.Id, Name = alcoholicDao.Name }; ;
         }
     }
 }

@@ -33,22 +33,25 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         }
         #endregion
 
-        #region IngredientName
-        private string _ingredientName;
-        public string IngredientName
+        #region Ingredient
+        private Ingredient _ingredient;
+        public Ingredient Ingredient
         {
             get
             {
-                return new string(_ingredientName);
+                return new Ingredient()
+                {
+                    Id = _ingredient.Id,
+                    Name = _ingredient.Name,
+                };
             }
             init
             {
-                if (value.IsNullOrEmpty())
+                if (value == null)
                 {
-                    throw new ArgumentException(nameof(IngredientName));
+                    throw new ArgumentException(nameof(Ingredient));
                 }
-                _ingredientName = value.Trim();
-                _ingredientName = IngredientName.ToLower();
+                _ingredient = value;
             }
         }
         #endregion
@@ -81,13 +84,13 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         public override bool Equals(object obj)
         {
             return obj is Measure measure &&
-                   IngredientName == measure.IngredientName &&
+                   Ingredient.Name == measure.Ingredient.Name &&
                    Quantity == measure.Quantity;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(IngredientName, Quantity);
+            return HashCode.Combine(Ingredient.Name, Quantity);
         }
     }
 }

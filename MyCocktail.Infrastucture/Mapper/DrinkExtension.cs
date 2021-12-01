@@ -15,7 +15,7 @@ namespace MyCocktail.Infrastucture.Mapper
             var drinkToReturn = new DrinkDao()
             {
                 Id = drink.Id ?? Guid.NewGuid(),
-                IdSource = drink.IdSource ?? throw new ArgumentNullException(nameof(drink.IdSource)),
+                IdSource = drink.IdSource,
                 Instruction = drink.Instruction ?? throw new ArgumentNullException(nameof(drink.Instruction)),
                 Name = drink.Name ?? throw new ArgumentNullException(nameof(drink.Name)),
                 UrlPicture = drink.UrlPicture.ToString(),

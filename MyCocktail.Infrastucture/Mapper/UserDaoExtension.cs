@@ -11,19 +11,24 @@ namespace MyCocktail.Infrastucture.Mapper
 {
     public static class UserDaoExtension
     {
-        public static UserDao ToDao(this User userToConvert)
+        public static User ToModel(this UserDao userToConvert)
         {
-            return new UserDao
+            return new User()
             {
-                CreationDate = DateTime.Now,
-                Id = userToConvert.Id ?? Guid.NewGuid(),
-                Password = PasswordHasher.Hash(userToConvert.Password),
-                Role = UserRole.User,
-                UserName = userToConvert.UserName,
-                Email = userToConvert.Email,
-                FirstName = userToConvert.FirstName,
-                LastName = userToConvert.LastName,
+               Id = userToConvert.Id,
+               FirstName = userToConvert.FirstName,
+               LastName = userToConvert.LastName,
+               UserName = userToConvert.UserName,
+               Email = userToConvert.Email,
+               Password = userToConvert.Password,
+               Role = userToConvert.Role,
+               CreationDate = userToConvert.CreationDate,
             };
+        }
+
+        public static IEnumerable<User> ToModel(this IEnumerable<UserDao> usersToConvert)
+        {
+            return usersToConvert.Select(u => u.ToModel());
         }
         //public static UserDto ToDto(this UserDao userDao)
         //{

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyCocktail.Api.Dto;
+using MyCocktail.Api.Dto.Extensions;
+using MyCocktail.Api.Mapper;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using System;
 using System.Linq;
@@ -32,14 +34,14 @@ namespace MyCocktail.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(result);
+            return Ok(result.ToDto());
         }
 
         // GET api/<IngredientsController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            IngredientDto result;
+            Ingredient result;
 
             try
             {
@@ -49,7 +51,7 @@ namespace MyCocktail.Api.Controllers
             catch (Exception)
             {
 
-                return BadRequest();
+                return BadRequest(id);
             }
 
             if (result == null)
@@ -57,7 +59,7 @@ namespace MyCocktail.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(result);
+            return Ok(result.ToDto());
 
         }
 
@@ -79,7 +81,7 @@ namespace MyCocktail.Api.Controllers
 
             var result = await _repo.AddAsync(ingredientToSave);
 
-            return result != null ? Ok(result) : BadRequest(ingredientFromBody);
+            return result != null ? Ok(result.ToDto()) : BadRequest(ingredientFromBody);
         }
 
         // PUT api/<IngredientsController>/5
@@ -87,19 +89,19 @@ namespace MyCocktail.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] IngredientDto ingredientDto)
         {
+            Ingredient ingredientToUpdate;
             try
             {
-                var ingredientDomain = ingredientDto.ToModel();
-                ingredientDto.Name = ingredientDomain.Name;
+                ingredientToUpdate = ingredientDto.ToModel();
             }
             catch (Exception)
             {
                 throw new ArgumentException(nameof(ingredientDto));
             }
 
-            var result = await _repo.UpdateIngredientAsync(ingredientDto);
+            var result = await _repo.UpdateIngredientAsync(ingredientToUpdate);
 
-            return result ? Ok(ingredientDto) : BadRequest(ingredientDto);
+            return result ? Ok(result) : BadRequest(ingredientDto);
         }
 
         //// DELETE api/<IngredientsController>/5

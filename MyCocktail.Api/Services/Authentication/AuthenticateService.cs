@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using MyCocktail.Api.Dto;
 using MyCocktail.Api.Services.Authentication.Models;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Domain.Helper;
@@ -45,7 +44,7 @@ namespace MyCocktail.Api.Services.Authentication
         }
 
         // helper methods
-        private string GenerateJwtToken(UserDto user)
+        private string GenerateJwtToken(User user)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -58,7 +57,7 @@ namespace MyCocktail.Api.Services.Authentication
             {
                 Subject = new ClaimsIdentity(new[] {
                     new Claim("id", user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role) }),
+                    new Claim(ClaimTypes.Role, user.Role.ToString()) }),
                 Issuer = myIssuer,
                 Audience = myAudience,
                 Expires = DateTime.UtcNow.AddDays(1),
