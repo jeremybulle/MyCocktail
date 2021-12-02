@@ -8,9 +8,9 @@ namespace MyCocktail.Domain.Helper
 {
     public static class StringHelper
     {
-        public static bool ContainUnAuhtorizedChar(this string stringToTest, IEnumerable<Char> UnAutorizedChar = "@0123456789/:.;,?§!%*¨^£$¤*-+{}²&~#()|\\<>°")
+        public static bool ContainUnAuhtorizedChar(this string stringToTest, string UnAutorizedChar = "@0123456789/:.;,?§!%*¨^£$¤*-+{}²&~#()|\\<>°")
         {
-            if (stringToTest.All(letter => UnAutorizedChar.Contains(letter)))
+            if (stringToTest.Any(letter => UnAutorizedChar.Contains(letter)))
             {
                 return true;
             }

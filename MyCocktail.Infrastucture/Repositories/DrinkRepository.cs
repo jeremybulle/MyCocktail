@@ -200,7 +200,7 @@ namespace MyCocktail.Infrastucture.Repositories
             //var query = _context.Measures.Include(m => m.Drink).Include(m => m.Drink.Alcoholic).Include(m => m.Drink.Category).Include(m => m.Drink.Glass).Where(m => ingredientIds.Any(i => i == m.IngredientId)).Select(m => m.Drink); //=> Drink Contient au moins 1 des ingredients de la liste
             //var query = _context.Drinks.Include(d => d.Measures).Include(d => d.Alcoholic).Include(d => d.Category).Include(d => d.Glass).Where(d => d.Measures.All( m => ingredientIds.Contains(m.IngredientId))); => Drink contient tous les ingrétients de la liste pas plus pas moins
 
-            var grp = await Task.FromResult(_context.Measures.Include(m => m.Drink).Include(m => m.Drink.Alcoholic).Include(m => m.Drink.Category).Include(m => m.Drink.Glass).AsEnumerable().GroupBy(m => m.Drink, (key, g) => new { Drink = key, ingredients = g.Select(e => e.IngredientId) }));
+            var grp = await Task.FromResult(_context.Measures.Include(m => m.Drink).Include(m => m.Drink.Alcoholic).Include(m => m.Drink.Category).Include(m => m.Drink.Glass).Include(m => m.Ingredient).AsEnumerable().GroupBy(m => m.Drink, (key, g) => new { Drink = key, ingredients = g.Select(e => e.IngredientId) }));
 
             var grpPurged = grp.Where(g => ingredientIds.All(ingredientId => g.ingredients.Any(i => i == ingredientId)));
 
