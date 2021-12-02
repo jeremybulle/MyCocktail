@@ -7,7 +7,6 @@ using MyCocktail.Api.Services.Authentication;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Domain.Helper;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -31,7 +30,7 @@ namespace MyCocktail.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var result = await _repo.GetAsync();
-            
+
             return result.IsNullOrEmpty() ? NoContent() : Ok(result.ToDtoNoPassword());
         }
 

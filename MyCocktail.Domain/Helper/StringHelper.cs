@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Domain.Helper
 {
@@ -10,6 +7,16 @@ namespace MyCocktail.Domain.Helper
     {
         public static bool ContainUnAuhtorizedChar(this string stringToTest, string UnAutorizedChar = "@0123456789/:.;,?§!%*¨^£$¤*-+{}²&~#()|\\<>°")
         {
+            if (stringToTest == null)
+            {
+                throw new ArgumentNullException(nameof(stringToTest));
+            }
+
+            if (UnAutorizedChar == null)
+            {
+                throw new ArgumentNullException(nameof(UnAutorizedChar));
+            }
+
             if (stringToTest.Any(letter => UnAutorizedChar.Contains(letter)))
             {
                 return true;

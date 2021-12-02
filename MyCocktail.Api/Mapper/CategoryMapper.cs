@@ -1,9 +1,5 @@
 ﻿using MyCocktail.Api.Dto;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Api.Mapper
 {
@@ -11,7 +7,7 @@ namespace MyCocktail.Api.Mapper
     {
         public static CategoryDto ToDto(this Category category)
         {
-            if(category == null)
+            if (category == null)
             {
                 return null;
             }

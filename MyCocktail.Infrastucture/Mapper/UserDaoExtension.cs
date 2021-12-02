@@ -1,11 +1,7 @@
 ﻿using MyCocktail.Domain.Aggregates.UserAggregate;
-using MyCocktail.Domain.Helper;
 using MyCocktail.Infrastucture.Dao;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Infrastucture.Mapper
 {
@@ -15,14 +11,14 @@ namespace MyCocktail.Infrastucture.Mapper
         {
             return new User()
             {
-               Id = userToConvert.Id,
-               FirstName = userToConvert.FirstName,
-               LastName = userToConvert.LastName,
-               UserName = userToConvert.UserName,
-               Email = userToConvert.Email,
-               Password = userToConvert.Password,
-               Role = userToConvert.Role,
-               CreationDate = userToConvert.CreationDate,
+                Id = userToConvert.Id,
+                FirstName = userToConvert.FirstName,
+                LastName = userToConvert.LastName,
+                UserName = userToConvert.UserName,
+                Email = userToConvert.Email,
+                Password = userToConvert.Password,
+                Role = userToConvert.Role,
+                CreationDate = userToConvert.CreationDate,
             };
         }
 

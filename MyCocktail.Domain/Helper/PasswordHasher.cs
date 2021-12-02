@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Domain.Helper
 {
@@ -15,6 +12,10 @@ namespace MyCocktail.Domain.Helper
 
         public static string Hash(string password)
         {
+            if(password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
             using (var algorithm = new Rfc2898DeriveBytes(
               password,
               SaltSize,

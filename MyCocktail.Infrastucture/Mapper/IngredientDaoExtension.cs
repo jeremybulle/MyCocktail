@@ -9,7 +9,8 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Ingredient ToModel(this IngredientDao ingredientDao)
         {
-            return new Ingredient() { 
+            return new Ingredient()
+            {
                 Id = ingredientDao.Id,
                 Name = ingredientDao.Name
             };

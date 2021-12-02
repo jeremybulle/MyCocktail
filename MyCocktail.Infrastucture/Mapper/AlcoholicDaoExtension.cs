@@ -1,6 +1,5 @@
 ﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Infrastucture.Dao;
-using System;
 
 namespace MyCocktail.Infrastucture.Mapper
 {

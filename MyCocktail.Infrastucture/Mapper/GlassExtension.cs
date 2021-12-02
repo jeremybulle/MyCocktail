@@ -7,9 +7,10 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Glass ToModel(this GlassDao glassDao)
         {
-            return new Glass() { 
+            return new Glass()
+            {
                 Id = glassDao.Id,
-                Name = glassDao.Name 
+                Name = glassDao.Name
             };
         }
     }

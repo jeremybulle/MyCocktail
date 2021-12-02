@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
@@ -189,7 +187,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             }
             set
             {
-                _category = new Category() {Id = value.Id, Name = value.Name };
+                _category = new Category() { Id = value.Id, Name = value.Name };
             }
         }
         #endregion
@@ -245,7 +243,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             List<Measure> measuresToReturn = new List<Measure>();
             foreach (var m in _measures)
             {
-                measuresToReturn.Add(new Measure() { Ingredient = new Ingredient() {Id = m.Ingredient.Id, Name = m.Ingredient.Name }, Quantity = m.Quantity });
+                measuresToReturn.Add(new Measure() { Ingredient = new Ingredient() { Id = m.Ingredient.Id, Name = m.Ingredient.Name }, Quantity = m.Quantity });
             }
 
             return measuresToReturn;
@@ -274,7 +272,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == ingredientNameHandled);
             if (!isMeasureForIngredient)
             {
-                _measures.Add(new Measure() { Ingredient = new Ingredient() {Name = ingredientNameHandled }, Quantity = quantity });
+                _measures.Add(new Measure() { Ingredient = new Ingredient() { Name = ingredientNameHandled }, Quantity = quantity });
             }
         }
 

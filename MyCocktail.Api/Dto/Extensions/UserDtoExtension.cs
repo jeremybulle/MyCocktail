@@ -15,7 +15,7 @@ namespace MyCocktail.Api.Dto.Extensions
                 Email = userDto.Email,
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
-                Password = userDto.Password.IsNullOrEmpty()? throw new ArgumentException("User Password can not be null or empty") : PasswordHasher.Hash(userDto.Password),
+                Password = userDto.Password.IsNullOrEmpty() ? throw new ArgumentException("User Password can not be null or empty") : PasswordHasher.Hash(userDto.Password),
             };
         }
     }

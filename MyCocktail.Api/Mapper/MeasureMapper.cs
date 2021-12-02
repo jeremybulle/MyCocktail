@@ -1,10 +1,8 @@
 ﻿using MyCocktail.Api.Dto;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Domain.Helper;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Api.Mapper
 {
@@ -12,7 +10,7 @@ namespace MyCocktail.Api.Mapper
     {
         public static MeasureDto ToDto(this Measure measureToConvert)
         {
-            if(measureToConvert == null)
+            if (measureToConvert == null)
             {
                 return null;
             }

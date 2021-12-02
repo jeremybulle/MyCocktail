@@ -1,8 +1,5 @@
 ﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Api.Dto.Extensions
 {
@@ -12,7 +9,7 @@ namespace MyCocktail.Api.Dto.Extensions
         {
             return new Ingredient()
             {
-                Id = ingredientDto == null? null : new Guid(ingredientDto.Id),
+                Id = ingredientDto == null ? null : new Guid(ingredientDto.Id),
                 Name = ingredientDto.Name
             };
         }

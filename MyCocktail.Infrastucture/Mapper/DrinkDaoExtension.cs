@@ -8,7 +8,7 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Drink ToModel(this DrinkDao drinkDao)
         {
-            if(drinkDao != null)
+            if (drinkDao != null)
             {
                 var drinkToReturn = new Drink()
                 {
@@ -24,7 +24,7 @@ namespace MyCocktail.Infrastucture.Mapper
                     UrlPicture = drinkDao.UrlPicture != null ? new Uri(drinkDao.UrlPicture) : null,
                 };
 
-                foreach(var measure in drinkDao.Measures)
+                foreach (var measure in drinkDao.Measures)
                 {
                     drinkToReturn.AddMeasure(new Measure() { Id = measure.Id, Quantity = measure.Quantity, Ingredient = new Ingredient() { Id = measure.Ingredient.Id, Name = measure.Ingredient.Name } });
                 }

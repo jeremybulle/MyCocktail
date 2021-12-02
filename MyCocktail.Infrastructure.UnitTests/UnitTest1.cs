@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace MyCocktail.Infrastructure.UnitTests

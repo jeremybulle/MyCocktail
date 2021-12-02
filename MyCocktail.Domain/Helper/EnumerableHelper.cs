@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Domain.Helper
 {
@@ -20,28 +18,42 @@ namespace MyCocktail.Domain.Helper
 
         public static void PurgeNullValue<TKey, TValue>(this IDictionary<TKey, TValue> dict)
         {
-            foreach (var entry in dict)
+            if (dict != null)
             {
-                if (entry.Value == null)
+                foreach (var entry in dict)
                 {
-                    dict.Remove(entry.Key);
+                    if (entry.Value == null)
+                    {
+                        dict.Remove(entry.Key);
+                    }
                 }
             }
         }
 
         public static void PurgeEmptyAndNullValue<Tkey>(this IDictionary<Tkey, string> dict)
         {
-            foreach (var entry in dict)
+            if (dict != null)
             {
-                if (entry.Value == null || entry.Value == "")
+                foreach (var entry in dict)
                 {
-                    dict.Remove(entry.Key);
+                    if (entry.Value == null || entry.Value == "")
+                    {
+                        dict.Remove(entry.Key);
+                    }
                 }
             }
         }
 
         public static bool ContainsAllItems<T>(this IEnumerable<T> a, IEnumerable<T> b)
         {
+            if (a == null)
+            {
+                throw new ArgumentNullException("The collection which probably contain the other can not be null");
+            }
+            if (b == null)
+            {
+                return true;
+            }
             return !b.Except(a).Any();
         }
     }

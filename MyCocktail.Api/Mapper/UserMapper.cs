@@ -1,10 +1,8 @@
 ﻿using MyCocktail.Api.Dto;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Domain.Helper;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyCocktail.Api.Mapper
 {
@@ -12,7 +10,7 @@ namespace MyCocktail.Api.Mapper
     {
         public static UserDto ToDtoNoPassword(this User user)
         {
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }

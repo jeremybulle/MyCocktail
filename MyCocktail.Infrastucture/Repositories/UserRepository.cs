@@ -84,7 +84,7 @@ namespace MyCocktail.Infrastucture.Repositories
             userDao.Email = user.Email;
             userDao.Role = user.Role;
             userDao.UserName = user.UserName;
-            userDao.Password = user.Password.IsNullOrEmpty()? PasswordHasher.Hash(user.Password) : throw new ArgumentNullException("Can not Update a user whith null or empty password");
+            userDao.Password = user.Password.IsNullOrEmpty() ? PasswordHasher.Hash(user.Password) : throw new ArgumentNullException("Can not Update a user whith null or empty password");
 
             return await _context.SaveChangesAsync() > 0 ? true : false;
         }

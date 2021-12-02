@@ -7,9 +7,9 @@ namespace MyCocktail.Infrastucture.Mapper
 {
     public static class UserExtension
     {
-       public static UserDao ToDao(this User userToMap)
+        public static UserDao ToDao(this User userToMap)
         {
-            if(userToMap == null)
+            if (userToMap == null)
             {
                 return null;
             }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyCocktail.Domain.Aggregates.DrinkAggregate;
 
 namespace MyCocktail.Domain.Aggregates.UserAggregate
 {

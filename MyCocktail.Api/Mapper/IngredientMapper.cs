@@ -10,7 +10,7 @@ namespace MyCocktail.Api.Mapper
     {
         public static IngredientDto ToDto(this Ingredient ingredientToConvert)
         {
-            if(ingredientToConvert == null)
+            if (ingredientToConvert == null)
             {
                 return null;
             }
@@ -24,7 +24,7 @@ namespace MyCocktail.Api.Mapper
 
         public static IEnumerable<IngredientDto> ToDto(this IEnumerable<Ingredient> ingredientsToConvert)
         {
-            if(ingredientsToConvert.IsNullOrEmpty())
+            if (ingredientsToConvert.IsNullOrEmpty())
             {
                 return null;
             }

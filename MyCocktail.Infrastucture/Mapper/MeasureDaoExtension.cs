@@ -7,10 +7,11 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Measure ToModel(this MeasureDao measureDao)
         {
-            return new Measure() { 
+            return new Measure()
+            {
                 Id = measureDao.Id,
-                Ingredient = measureDao.Ingredient.ToModel(), 
-                Quantity = measureDao.Quantity 
+                Ingredient = measureDao.Ingredient.ToModel(),
+                Quantity = measureDao.Quantity
             };
         }
     }
