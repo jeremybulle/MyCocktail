@@ -45,7 +45,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             {
                 if (value == null)
                 {
-                    throw new ArgumentException(nameof(Ingredient));
+                    throw new ArgumentNullException(nameof(Ingredient));
                 }
                 _ingredient = value;
             }

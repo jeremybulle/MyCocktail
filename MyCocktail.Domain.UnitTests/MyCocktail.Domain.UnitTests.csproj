@@ -23,11 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\DrinkAggregate\" />
-    <Folder Include="Aggregates\UserAggregate\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MyCocktail.Domain\MyCocktail.Domain.csproj" />
   </ItemGroup>
 
