@@ -53,8 +53,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             //Assert
             Assert.IsType<ArgumentNullException>(ex);
         }
-        ///////
-        ///
+       
         [Fact]
         public void Constructor_WithValidQuantity_ShouldHaveTrimedName()
         {
@@ -108,10 +107,11 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         }
 
         [Fact]
-        public void Constructor_WhenNonValidQuantity_ShouldThrowArgumentException()
+        public void Constructor_WhenNullOrEmptyQuantity_ShouldReturnEmptyString()
         {
             //Arrange
             var ingredient = _fixture.Create<Ingredient>();
+            var expected = "";
 
             //Act
             var measure1 = new Measure()
@@ -127,8 +127,8 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             };
 
             //Assert
-            Assert.Null(measure1.Quantity);
-            measure2.Quantity.Should().BeNull();
+            Assert.Equal(measure1.Quantity, expected);
+            measure2.Quantity.Should().BeEquivalentTo("");
         }
     }
 }
