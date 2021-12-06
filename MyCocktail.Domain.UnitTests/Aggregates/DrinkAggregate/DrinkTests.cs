@@ -191,7 +191,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         }
 
         [Fact]
-        public void GetMeasures_WhenDrinkContainMeasure_ShouldReturnAllMeasures()
+        public void GetMeasures_WhenDrinkContainsMeasure_ShouldReturnAllMeasures()
         {
             //Arrange
             var measures = _fixture.CreateMany<Measure>(4);
@@ -219,7 +219,38 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 
             //Assert
             Assert.Equal(measures.Count(), result.Count());
-            Assert.True(result.ContainsAllItems(measures));
+            Assert.True(!result.Except(measures).Any());
+        }
+
+        [Fact]
+        public void GetMeasures_WhenDrinkNotContainsMeasure_ShouldReturnEmptyEnumerable()
+        {
+            //Arrange
+            var measures = new List<Measure>();
+            var drink = new Drink()
+            {
+                Id = Guid.NewGuid(),
+                Alcoholic = _fixture.Create<Alcoholic>(),
+                Category = _fixture.Create<Category>(),
+                DateModified = DateTime.Now,
+                Glass = _fixture.Create<Glass>(),
+                IdOwner = Guid.NewGuid(),
+                IdSource = _fixture.Create<string>(),
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>()
+            };
+            foreach (var measure in measures)
+            {
+                drink.AddMeasure(measure);
+            }
+
+            //Act
+            var result = drink.GetMeasures();
+
+
+            //Assert
+            Assert.Equal(measures.Count(), result.Count());
         }
 
 
