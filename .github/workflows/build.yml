@@ -55,7 +55,7 @@ jobs:
       - name : Check Coverage File
         shell: powershell
         run: |
-          cd ./MyCocktail.Domain.UnitTests/
+          cd ./MyCocktail.Domain.UnitTests/TestResults/
           echo $(ls)
           
           
