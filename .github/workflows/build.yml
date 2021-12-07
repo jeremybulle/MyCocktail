@@ -51,13 +51,12 @@ jobs:
           dotnet build
           dotnet test --collect:"XPlat Code Coverage"
           function test(){
-            for (path in $@)
-            do
-                id=$"${path#*TestResults/}"
+            for (path in $@){
+              id=$"${path#*TestResults/}"
                 filname="$id".coverage.cobertura.xml
                 echo $filname
                 cp $path/coverage.cobertura.xml ./CoverageFiles/$filname
-            done
+            }
           }
 
           test $(find . -name 'coverage.cobertura.xml' -printf '%h\n')
