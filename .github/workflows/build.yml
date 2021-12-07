@@ -50,16 +50,18 @@ jobs:
           
           dotnet build
           dotnet test --collect:"XPlat Code Coverage"
-          function test(){
-            for (path in $@){
+
+          function MoveCoverageFiles(){
+            for path in $@
+            do
               id=$"${path#*TestResults/}"
-                filname="$id".coverage.cobertura.xml
-                echo $filname
-                cp $path/coverage.cobertura.xml ./CoverageFiles/$filname
-            }
+              filname="$id".coverage.cobertura.xml
+              echo $filname
+              cp $path/coverage.cobertura.xml ./CoverageFiles/$filname
+            done
           }
 
-          test $(find . -name 'coverage.cobertura.xml' -printf '%h\n')
+          MoveCoverageFiles $(find . -name 'coverage.cobertura.xml' -printf '%h\n')
 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       
