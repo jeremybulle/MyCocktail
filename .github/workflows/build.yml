@@ -52,7 +52,7 @@ jobs:
           dotnet test --collect:"XPlat Code Coverage"
 
           function MoveCoverageFiles(){
-            for (path in $@)
+            for ($path in $@)
             {
               id=$"${path#*TestResults/}"
               filname="$id".coverage.cobertura.xml
