@@ -44,6 +44,6 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"jeremybulle_MyCocktail" /o:"jeremybulle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true
           dotnet build
-          dotnet test --collect:"XPlat Code Coverage" --logger
+          dotnet test --collect:"XPlat Code Coverage"
           echo $(ls)
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
