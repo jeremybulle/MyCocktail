@@ -51,7 +51,12 @@ jobs:
           dotnet test --collect:"XPlat Code Coverage"
           echo $(pwd)
           echo $(ls)
-          cd ./MyCocktail.Domain/
-          echo Domain dir
-          echo $(ls)
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name : Check Coverage File
+        shell: powershell
+        run: |
+          cd ./MyCocktail.Domain.UnitTests/
+          echo $(ls)
+          
+          
+
