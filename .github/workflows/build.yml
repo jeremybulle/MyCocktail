@@ -52,13 +52,13 @@ jobs:
           dotnet test --collect:"XPlat Code Coverage"
 
           function MoveCoverageFiles(){
-            for path in $@
-            do
+            for (local path in $@)
+            {
               id=$"${path#*TestResults/}"
               filname="$id".coverage.cobertura.xml
               echo $filname
               cp $path/coverage.cobertura.xml ./CoverageFiles/$filname
-            done
+            }
           }
 
           MoveCoverageFiles $(find . -name 'coverage.cobertura.xml' -printf '%h\n')
