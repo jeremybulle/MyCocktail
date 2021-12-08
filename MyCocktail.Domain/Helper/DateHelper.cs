@@ -27,7 +27,7 @@ namespace MyCocktail.Domain.Helper
 
             var ymdhmsConverted = new int[ymd.Length + hms.Length];
 
-            for (int i = 0; i < ymdhms.Count(); i++)
+            for (int i = 0; i < ymdhms.Count; i++)
             {
                 try
                 {

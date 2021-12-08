@@ -19,21 +19,32 @@ namespace MyCocktail.Infrastucture.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<User> AddAsync(User user)
+        public Task<User> AddAsync(User user)
         {
-            if (!_context.Users.Any(u => u.UserName == user.UserName))
+            if (user != null)
             {
-                var userToSave = user.ToDao();
-                if (userToSave.Password.IsNullOrEmpty())
-                {
-                    throw new ArgumentException("Can not Create an user wihtout password");
-                }
-                await _context.Users.AddAsync(userToSave);
-                await _context.SaveChangesAsync();
-
-                return userToSave.ToModel();
+                throw new ArgumentNullException(nameof(user));
             }
-            return null;
+            if(_context.Users.Any(u => u.UserName == user.UserName))
+            {
+                return Task.FromResult<User>(null);
+            }
+
+            return AddInternalAsync(user);
+        }
+
+        private async Task<User> AddInternalAsync(User user)
+        {
+            var userToSave = user.ToDao();
+            if (userToSave.Password.IsNullOrEmpty())
+            {
+                throw new ArgumentException("Can not Create an user wihtout password");
+            }
+            await _context.Users.AddAsync(userToSave).ConfigureAwait(false);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+
+            return userToSave.ToModel();
+          
         }
 
         public async Task<bool> DeleteAsync(Guid id)

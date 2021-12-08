@@ -45,8 +45,6 @@ namespace MyCocktail.Domain.Helper
             var salt = Convert.FromBase64String(parts[1]);
             var key = Convert.FromBase64String(parts[2]);
 
-            //var needsUpgrade = iterations != Size;
-
             using (var algorithm = new Rfc2898DeriveBytes(
               password,
               salt,
@@ -57,7 +55,7 @@ namespace MyCocktail.Domain.Helper
 
                 var verified = keyToCheck.SequenceEqual(key);
 
-                return verified /*needsUpgrade*/;
+                return verified;
             }
         }
 

@@ -44,7 +44,13 @@ namespace MyCocktail.Domain.Aggregates
             }
         }
         #endregion
-        
+
+        public override bool Equals(object obj)
+        {
+            return obj is EntityBase entityBase &&
+                   Name == entityBase.Name &&
+                   Id == entityBase.Id;
+        }
 
         public override int GetHashCode()
         {

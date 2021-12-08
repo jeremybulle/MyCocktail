@@ -13,19 +13,18 @@ namespace MyCocktail.Infrastucture.Repositories
     public class DrinkRepository : IDrinkRepository
     {
         private readonly DrinkDbContext _context;
-        private Dictionary<string, AlcoholicDao> _alcoholicsCache = new Dictionary<string, AlcoholicDao>();
-        private Dictionary<string, CategoryDao> _categoriesCache = new Dictionary<string, CategoryDao>();
-        private Dictionary<string, GlassDao> _glassesCache = new Dictionary<string, GlassDao>();
-        private Dictionary<string, DrinkDao> _drinksCache = new Dictionary<string, DrinkDao>();
-        private Dictionary<string, IngredientDao> _ingredientsCache = new Dictionary<string, IngredientDao>();
-        private Dictionary<(string, string, string), MeasureDao> _measureCache = new Dictionary<(string, string, string), MeasureDao>(); // key (drinkName, ingredientName, Quantity ) utiliser un Hashset?
+        private readonly Dictionary<string, AlcoholicDao> _alcoholicsCache = new Dictionary<string, AlcoholicDao>();
+        private readonly Dictionary<string, CategoryDao> _categoriesCache = new Dictionary<string, CategoryDao>();
+        private readonly Dictionary<string, GlassDao> _glassesCache = new Dictionary<string, GlassDao>();
+        private readonly Dictionary<string, DrinkDao> _drinksCache = new Dictionary<string, DrinkDao>();
+        private readonly Dictionary<string, IngredientDao> _ingredientsCache = new Dictionary<string, IngredientDao>();
+        private readonly Dictionary<(string, string, string), MeasureDao> _measureCache = new Dictionary<(string, string, string), MeasureDao>(); // key (drinkName, ingredientName, Quantity ) utiliser un Hashset?
 
         public DrinkRepository(DrinkDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        private Dictionary<Guid, Drink> _drinkCache = new Dictionary<Guid, Drink>();
         public async Task<Drink> AddAsync(Drink drink)
         {
             if (!_context.Drinks.Any(d => d.Name == drink.Name))
@@ -105,7 +104,6 @@ namespace MyCocktail.Infrastucture.Repositories
             return listToReturn;
         }
 
-        //TODO 
         public async Task<Drink> UpdateAsync(Guid id, Drink drink)
         {
             var drinkToUpdate = await _context.Drinks
@@ -249,7 +247,6 @@ namespace MyCocktail.Infrastucture.Repositories
                 if (!_context.Alcoholics.Any(a => a.Name == alcoholic.Name))
                 {
                     _context.Alcoholics.Add(alcoholic);
-                    //_context.SaveChanges();
                     _alcoholicsCache.Add(alcoholic.Name, alcoholic);
                 }
                 else
@@ -269,7 +266,6 @@ namespace MyCocktail.Infrastucture.Repositories
                 if (!_context.Categories.Any(c => c.Name == category.Name))
                 {
                     _context.Categories.Add(category);
-                    //_context.SaveChanges();
                     _categoriesCache.Add(category.Name, category);
                 }
                 else
@@ -289,7 +285,6 @@ namespace MyCocktail.Infrastucture.Repositories
                 if (!_context.Glasses.Any(g => g.Name == glass.Name))
                 {
                     _context.Glasses.Add(glass);
-                    //_context.SaveChanges();
                     _glassesCache.Add(glass.Name, glass);
                 }
                 else
@@ -309,7 +304,6 @@ namespace MyCocktail.Infrastucture.Repositories
                 if (!_context.Ingredients.Any(i => i.Name == ingredient.Name))
                 {
                     _context.Ingredients.Add(ingredient);
-                    //_context.SaveChanges();
                     _ingredientsCache.Add(ingredient.Name, ingredient);
                 }
                 else
@@ -322,24 +316,21 @@ namespace MyCocktail.Infrastucture.Repositories
             return _ingredientsCache[ingredient.Name];
         }
 
-        private MeasureDao Add(MeasureDao measure, string drinkName)
+        private void Add(MeasureDao measure, string drinkName)
         {
             if (!_measureCache.ContainsKey((drinkName, measure.Ingredient.Name, measure.Quantity)))
             {
                 if (_context.Measures.Where(m => m.Drink.Name == drinkName && m.Ingredient.Name == measure.Ingredient.Name && m.Quantity == measure.Quantity).Count() < 1)
                 {
                     _context.Measures.Add(measure);
-                    //_context.SaveChanges();
                     _measureCache.Add((drinkName, measure.Ingredient.Name, measure.Quantity), measure);
                 }
                 else
                 {
                     var measureFound = _context.Measures.First(m => m.Drink.Name == drinkName && m.Ingredient.Name == measure.Ingredient.Name && m.Quantity == measure.Quantity);
                     _measureCache.Add((measureFound.Drink.Name, measureFound.Ingredient.Name, measureFound.Quantity), measureFound);
-                    return measureFound;
                 }
             }
-            return _measureCache[(drinkName, measure.Ingredient.Name, measure.Quantity)];
         }
 
         public async Task<bool> UpdateIngredientAsync(Ingredient ingredient)
@@ -349,7 +340,7 @@ namespace MyCocktail.Infrastucture.Repositories
             if (ingredientDao != null)
             {
                 ingredientDao.Name = ingredient.Name;
-                return await _context.SaveChangesAsync() > 0 ? true : false;
+                return await _context.SaveChangesAsync() > 0;
             }
 
             return false;

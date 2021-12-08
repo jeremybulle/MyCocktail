@@ -7,7 +7,7 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static Alcoholic ToModel(this AlcoholicDao alcoholicDao)
         {
-            return new Alcoholic() { Id = alcoholicDao.Id, Name = alcoholicDao.Name }; ;
+            return new Alcoholic() { Id = alcoholicDao.Id, Name = alcoholicDao.Name };
         }
     }
 }

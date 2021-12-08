@@ -8,7 +8,7 @@ namespace MyCocktail.Domain.Helper
     {
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
         {
-            if (enumerable == null || enumerable.Count() < 1)
+            if (enumerable == null || enumerable.Any())
             {
                 return true;
             }
@@ -44,17 +44,17 @@ namespace MyCocktail.Domain.Helper
             }
         }
 
-        public static bool ContainsAllItems<T>(this IEnumerable<T> a, IEnumerable<T> b)
+        public static bool ContainsAllItems<T>(this IEnumerable<T> collectionToTest, IEnumerable<T> itemsShoudlBeIncluded)
         {
-            if (a == null)
+            if (collectionToTest == null)
             {
-                throw new ArgumentNullException("The collection which probably contain the other can not be null");
+                throw new ArgumentNullException(nameof(collectionToTest), $"The collection which probably contain the other can not be null");
             }
-            if (b == null)
+            if (itemsShoudlBeIncluded == null)
             {
                 return true;
             }
-            return !b.Except(a).Any();
+            return !itemsShoudlBeIncluded.Except(collectionToTest).Any();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace MyCocktail.Infrastucture.Mapper
         {
             if (ingredientDaos.IsNullOrEmpty())
             {
-                return null;
+                return new List<Ingredient>();
             }
             var ingredientsToReturn = new List<Ingredient>();
 
