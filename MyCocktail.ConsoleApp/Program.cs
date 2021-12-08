@@ -21,7 +21,9 @@ namespace MyCocktail.ConsoleApp
                 db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
 
-                for (char c = 'a'; c <= 'z'; c++)
+                char[] dico = { 'a', 'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
+
+                foreach(var c in dico)
                 {
 
                     System.Console.WriteLine($"Calling Api for the letter => {c}");
@@ -49,34 +51,7 @@ namespace MyCocktail.ConsoleApp
                     }
 
                 }
-                for (char c = '0'; c <= '9'; c++)
-                {
-
-                    System.Console.WriteLine($"Calling Api for the letter => {c}");
-
-                    var result = await repoSource.GetCocktailSourcesByLetter(c);
-
-                    if (result != null)
-                    {
-                        System.Console.WriteLine($"Cocktails find => {result.Count()}");
-
-                        System.Console.WriteLine("Start Load DB");
-
-                        foreach (var drink in result)
-                        {
-                            await repo.AddAsync(drink.ToModel());
-                        }
-
-                        System.Console.WriteLine("End Load DB\n");
-                        Thread.Sleep(3000);
-                    }
-                    else
-                    {
-                        System.Console.WriteLine($"Cocktails find => Aucun\n");
-                        Thread.Sleep(5000);
-                    }
-
-                }
+               
                 System.Console.WriteLine($" nb Alcoholics = {db.Alcoholics.Count()}");
                 System.Console.WriteLine($" nb Glasse = {db.Glasses.Count()}");
                 System.Console.WriteLine($" nb Categories = {db.Categories.Count()}");
