@@ -8,27 +8,8 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
     /// <summary>
     /// Represent a Cockatail. Contains all personal informations like Name, Measures, Instructions etc...
     /// </summary>
-    public class Drink
+    public class Drink : EntityBase
     {
-        #region Id
-        private Guid? _id;
-        public Guid? Id
-        {
-            get
-            {
-                if (_id == null)
-                {
-                    return null;
-                }
-
-                return _id == null ? null : new Guid(_id.ToString());
-            }
-            init
-            {
-                _id = value;
-            }
-        }
-        #endregion
         #region IdSource
         private string _idSource;
 
@@ -44,30 +25,6 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             init
             {
                 _idSource = value;
-            }
-        }
-        #endregion
-
-        #region Name
-        private string _name;
-
-        /// <summary>
-        /// Name of the cocktail. Is Trimed, LowCased and can not be null or empty
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return new string(_name);
-            }
-            init
-            {
-                if (value.IsNullOrEmpty())
-                {
-                    throw new ArgumentException(nameof(Name));
-                }
-                _name = value.Trim();
-                _name = Name.ToLower();
             }
         }
         #endregion
@@ -232,7 +189,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         #endregion
 
 
-        private HashSet<Measure> _measures = new HashSet<Measure>();
+        private readonly HashSet<Measure> _measures = new HashSet<Measure>();
 
         /// <summary>
         /// Get all <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/>s related to this drink
@@ -295,7 +252,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             {
                 return;
             }
-            var measureToUpdate = _measures.RemoveWhere(m => m.Ingredient.Name == measureModified.Ingredient.Name);
+            _measures.RemoveWhere(m => m.Ingredient.Name == measureModified.Ingredient.Name);
             _measures.Add(measureModified);
         }
 
@@ -306,9 +263,9 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         public void DeleteMeasure(Measure measureToDelete)
         {
             var measureToDrop = _measures.FirstOrDefault(m => m.Ingredient.Name == measureToDelete.Ingredient.Name && m.Quantity == measureToDelete.Ingredient.Name);
-            if (measureToDelete != null)
+            if (measureToDrop != null)
             {
-                _measures.Remove(measureToDelete);
+                _measures.Remove(measureToDrop);
             }
         }
 

@@ -15,11 +15,6 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         {
             get
             {
-                if (_id == null)
-                {
-                    return null;
-                }
-
                 return _id == null ? null : new Guid(_id.ToString());
             }
             init
