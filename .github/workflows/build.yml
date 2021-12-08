@@ -43,7 +43,7 @@ jobs:
       - name : Run tests before start sonar scan
         shell: powershell
         run: |
-          dotnet test --collect:"XPlat Code Coverage"
+          dotnet test --collect:"Code Coverage" 
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
