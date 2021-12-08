@@ -60,3 +60,8 @@ function MoveCoverageFiles{
 #             #rename file
 #             Rename-Item $movedFile -NewName "$($id).$($movedFile.Name)"
 #           }
+
+
+$CoverageFiles = Get-ChildItem -Path .\**\TestResults\*\coverage.cobertura.xml
+
+echo $CoverageFiles
