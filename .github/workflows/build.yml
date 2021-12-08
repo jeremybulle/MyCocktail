@@ -40,6 +40,10 @@ jobs:
         shell: powershell
         run: |
           mkdir CoverageFiles
+      - name : Run tests before start sonar scan
+        shell: powershell
+        run: |
+          dotnet test --collect:"XPlat Code Coverage"
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -49,8 +53,6 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"jeremybulle_MyCocktail" /o:"jeremybulle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.opencover.reportsPaths=".\**\TestResults\*\coverage.cobertura.xml"
           
           dotnet build
-          
-          dotnet test --collect:"XPlat Code Coverage"
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       
