@@ -40,28 +40,6 @@ jobs:
         shell: powershell
         run: |
           mkdir CoverageFiles
-      - name : run tests and regroup coverage files
-        shell: powershell
-        run: |
-          dotnet test --collect:"XPlat Code Coverage"
-
-          $CoverageFiles = Get-ChildItem -Path *\TestResults\*\coverage.cobertura.xml -Recurse
-
-          foreach ($file in $CoverageFiles) {
-            #extract id
-            $path = Split-Path -Path $file -Parent
-            $path = $path.Split("\")
-            $id = $path[$path.Count -1]
-
-            #move file
-            Move-Item -Path $file.FullName -Destination ./CoverageFiles
-            
-            #retrieve file moved
-            $movedFile = Get-Item ./CoverageFiles\coverage.cobertura.xml
-
-            #rename file
-            Rename-Item $movedFile -NewName "$($id).$($movedFile.Name)"
-          }
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -69,7 +47,18 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"jeremybulle_MyCocktail" /o:"jeremybulle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.opencover.reportsPaths=".\CoverageFiles\*"
+          
           dotnet build
+          
+          dotnet test --collect:"XPlat Code Coverage"
+          --collect:"XPlat Code Coverage" `
+          --results-directory TestResults/ `
+          --logger "trx;LogFileName=unittests.trx" `
+          --no-build `
+          --no-restore `
+          --configuration release `
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       
           
