@@ -1,16 +1,40 @@
 function MoveCoverageFiles{
-    param ( [string[]]$FullPaths )
+    New-Item -Path "./" -Name "CoverageFiles" -ItemType "directory"
+    $CoverageFiles = Get-ChildItem -Path *\TestResults\*\coverage.cobertura.xml -Recurse
+    foreach ($file in $CoverageFiles) {
+        #extract id
+        $path = Split-Path -Path $val -Parent
+        $path = $path.Split("\")
+        $id = $path[$path.Count -1]
 
-    foreach ($Parameter in $ParameterName) {
-        id=$"${path#*TestResults/}"
-        filname="$id".coverage.cobertura.xml
-        Write-Output $filname
+        #move file
+        Move-Item -Path $testFile.FullName -Destination ./CoverageFiles
+        
+        #retrieve file moved
+        $movedFile = Get-Item ./CoverageFiles\coverage.cobertura.xml
+
+        #rename file
+        Rename-Item $movedFile -NewName "$($id).$($movedFile.Name)"
     }
 }
 
-$toto= Get-ChildItem -Path *\TestResults\*\coverage.cobertura.xml -Recurse
+# $toto= Get-ChildItem -Path *\TestResults\*\coverage.cobertura.xml -Recurse
 
-foreach ($val in $toto) {
-    $val | Select-Object -Property *
-    echo $val.FullName
-}
+# foreach ($val in $toto) {
+#     $val | Select-Object -Property *
+#     echo $val.FullName
+#     Write-Output  $val | Format-List -Property *
+# }
+
+# foreach ($val in $toto) {
+#     $path = Split-Path -Path $val -Parent
+#     $path = $path.Split("\")
+#     echo $path[$path.Count -1]
+# }
+
+# New-Item -Path "./" -Name "TestDir" -ItemType "directory" -Force
+# $testFile = Get-Item ./Test.txt
+# Move-Item -Path $testFile.FullName -Destination ./TestDir
+# $testFile = Get-Item ./TestDir\Test.txt
+# Rename-Item $testFile -NewName "$($testFile.BaseName)-Renamed.txt"
+

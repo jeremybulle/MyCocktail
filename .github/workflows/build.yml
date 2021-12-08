@@ -46,22 +46,28 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"jeremybulle_MyCocktail" /o:"jeremybulle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.opencover.reportsPaths=".\CoverageFiles\*"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"jeremybulle_MyCocktail" /o:"jeremybulle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.opencover.reportsPaths=".\CoverageFiles\"
           
           dotnet build
           dotnet test --collect:"XPlat Code Coverage"
 
-          function MoveCoverageFiles(){
-            for ($path in $@)
-            {
-              id=$"${path#*TestResults/}"
-              filname="$id".coverage.cobertura.xml
-              echo $filname
-              cp $path/coverage.cobertura.xml ./CoverageFiles/$filname
-            }
-          }
+          $CoverageFiles = Get-ChildItem -Path *\TestResults\*\coverage.cobertura.xml -Recurse
 
-          MoveCoverageFiles $(find . -name 'coverage.cobertura.xml' -printf '%h\n')
+          foreach ($file in $CoverageFiles) {
+            #extract id
+            $path = Split-Path -Path $val -Parent
+            $path = $path.Split("\")
+            $id = $path[$path.Count -1]
+
+            #move file
+            Move-Item -Path $testFile.FullName -Destination ./CoverageFiles
+            
+            #retrieve file moved
+            $movedFile = Get-Item ./CoverageFiles\coverage.cobertura.xml
+
+            #rename file
+            Rename-Item $movedFile -NewName "$($id).$($movedFile.Name)"
+          }
 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       
