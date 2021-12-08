@@ -8,7 +8,7 @@ namespace MyCocktail.Domain.Helper
     {
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
         {
-            if (enumerable == null || enumerable.Any())
+            if (enumerable == null || !enumerable.Any())
             {
                 return true;
             }
