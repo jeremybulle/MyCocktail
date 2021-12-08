@@ -3,7 +3,7 @@ function MoveCoverageFiles{
     $CoverageFiles = Get-ChildItem -Path *\TestResults\*\coverage.cobertura.xml -Recurse
     foreach ($file in $CoverageFiles) {
         #extract id
-        $path = Split-Path -Path $val -Parent
+        $path = Split-Path -Path $file -Parent
         $path = $path.Split("\")
         $id = $path[$path.Count -1]
 
