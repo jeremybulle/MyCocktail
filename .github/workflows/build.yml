@@ -60,7 +60,7 @@ jobs:
             $id = $path[$path.Count -1]
 
             #move file
-            Move-Item -Path $testFile.FullName -Destination ./CoverageFiles
+            Move-Item -Path $file.FullName -Destination ./CoverageFiles
             
             #retrieve file moved
             $movedFile = Get-Item ./CoverageFiles\coverage.cobertura.xml
