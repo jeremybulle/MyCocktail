@@ -13,7 +13,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 {
     public class DrinkTests
     {
-        private Fixture _fixture;
+        private readonly Fixture _fixture;
 
         public DrinkTests()
         {
@@ -250,7 +250,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 
 
             //Assert
-            Assert.Equal(measures.Count(), result.Count());
+            Assert.Equal(measures.Count, result.Count());
         }
 
 

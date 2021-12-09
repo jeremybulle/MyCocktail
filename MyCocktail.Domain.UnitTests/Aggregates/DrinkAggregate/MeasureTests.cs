@@ -12,7 +12,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 {
     public class MeasureTests
     {
-        private Fixture _fixture;
+        private readonly Fixture _fixture;
         public MeasureTests()
         {
             _fixture = new Fixture();

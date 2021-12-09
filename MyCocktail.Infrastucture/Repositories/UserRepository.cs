@@ -56,7 +56,7 @@ namespace MyCocktail.Infrastucture.Repositories
             }
             _context.Users.Remove(user);
 
-            return await _context.SaveChangesAsync() > 0 ? true : false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<IEnumerable<User>> GetAsync()
@@ -97,7 +97,7 @@ namespace MyCocktail.Infrastucture.Repositories
             userDao.UserName = user.UserName;
             userDao.Password = user.Password.IsNullOrEmpty() ? PasswordHasher.Hash(user.Password) : throw new ArgumentNullException("Can not Update a user whith null or empty password");
 
-            return await _context.SaveChangesAsync() > 0 ? true : false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<IEnumerable<Drink>> GetFavorites(Guid idUser)
