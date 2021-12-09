@@ -26,7 +26,7 @@ namespace MyCocktail.Api.Mapper
         {
             if (ingredientsToConvert.IsNullOrEmpty())
             {
-                return null;
+                return new List<IngredientDto>();
             }
 
             return ingredientsToConvert.Select(i => i.ToDto());

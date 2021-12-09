@@ -7,9 +7,13 @@ namespace MyCocktail.Api.Dto.Extensions
     {
         public static Ingredient ToModel(this IngredientDto ingredientDto)
         {
+            if(ingredientDto == null)
+            {
+                return null;
+            }
             return new Ingredient()
             {
-                Id = ingredientDto == null ? null : new Guid(ingredientDto.Id),
+                Id = ingredientDto.Id == null ? null : new Guid(ingredientDto.Id),
                 Name = ingredientDto.Name
             };
         }

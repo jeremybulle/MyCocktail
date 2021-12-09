@@ -27,7 +27,7 @@ namespace MyCocktail.Api.Mapper
         {
             if (measuresToConvert.IsNullOrEmpty())
             {
-                return null;
+                return new List<MeasureDto>();
             }
 
             return measuresToConvert.Select(m => m.ToDto());

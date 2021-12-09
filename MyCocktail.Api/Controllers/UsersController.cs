@@ -17,7 +17,7 @@ namespace MyCocktail.Api.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUserRepository _repo;
+        private readonly IUserRepository _repo;
 
         public UsersController(IUserRepository repo)
         {

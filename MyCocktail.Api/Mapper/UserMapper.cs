@@ -30,7 +30,7 @@ namespace MyCocktail.Api.Mapper
         {
             if (users.IsNullOrEmpty())
             {
-                return null;
+                return new List<UserDto>();
             }
 
             return users.Select(u => u.ToDtoNoPassword());

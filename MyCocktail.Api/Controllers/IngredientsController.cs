@@ -4,6 +4,7 @@ using MyCocktail.Api.Dto;
 using MyCocktail.Api.Dto.Extensions;
 using MyCocktail.Api.Mapper;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using MyCocktail.Domain.Helper;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace MyCocktail.Api.Controllers
     public class IngredientsController : ControllerBase
     {
 
-        private IDrinkRepository _repo;
+        private readonly IDrinkRepository _repo;
         public IngredientsController(IDrinkRepository repo)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
@@ -29,7 +30,7 @@ namespace MyCocktail.Api.Controllers
         {
             var result = await _repo.GetAllIngredients();
 
-            if (result.Count() <= 0)
+            if (result.IsNullOrEmpty())
             {
                 return NotFound();
             }
@@ -103,12 +104,5 @@ namespace MyCocktail.Api.Controllers
 
             return result ? Ok(result) : BadRequest(ingredientDto);
         }
-
-        //// DELETE api/<IngredientsController>/5
-        //[Authorize(Roles ="Admin")]
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

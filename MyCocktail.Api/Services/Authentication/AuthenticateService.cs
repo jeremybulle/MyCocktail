@@ -18,8 +18,8 @@ namespace MyCocktail.Api.Services.Authentication
 
     public class AuthenticateService : IAuthenticateService
     {
-        private IUserRepository _repo;
-        private IOptions<AuthOptions> _authOptions;
+        private readonly IUserRepository _repo;
+        private readonly IOptions<AuthOptions> _authOptions;
 
         public AuthenticateService(IUserRepository repo, IOptions<AuthOptions> authOptions)
         {

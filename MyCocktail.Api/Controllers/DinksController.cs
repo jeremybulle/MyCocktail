@@ -6,6 +6,7 @@ using MyCocktail.Api.Dto.Extensions;
 using MyCocktail.Api.Mapper;
 using MyCocktail.Api.Services.Authentication;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
+using MyCocktail.Domain.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace MyCocktail.Api.Controllers
     [ApiController]
     public class DrinksController : ControllerBase
     {
-        private IDrinkRepository _repo;
+        private readonly IDrinkRepository _repo;
         public DrinksController(IDrinkRepository repo)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
@@ -30,7 +31,7 @@ namespace MyCocktail.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var drinksFind = await _repo.GetAsync();
-            if (drinksFind.Count() <= 0)
+            if (drinksFind.IsNullOrEmpty())
             {
                 return NotFound();
             }
@@ -93,7 +94,7 @@ namespace MyCocktail.Api.Controllers
                 ingredients.Add(measure.Ingredient.ToDto());
             }
 
-            if (ingredients.Count() < 0)
+            if (ingredients.IsNullOrEmpty())
             {
                 return NotFound();
             }

@@ -24,8 +24,6 @@ namespace MyCocktail.Api.Dto.Extensions
                     IdOwner = Guid.Parse(drinkDto.IdOwner)
                 };
 
-                var measures = new List<Measure>();
-
                 foreach (var measureDto in drinkDto.Measures)
                 {
                     drinkToRetunr.AddMeasure(measureDto.Ingedient.Name, measureDto.Quantity);

@@ -16,7 +16,7 @@ namespace MyCocktail.ConsoleApp
         {
             using (var db = new DrinkDbContext())
             {
-                var repo = new DrinkRepository(db) ?? throw new ArgumentNullException(nameof(DrinkRepository));
+                var repo = new DrinkRepository(db) ?? throw new Exception(nameof(DrinkRepository));
                 var repoSource = new CocktailDbSourceRepository();
                 db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();

@@ -30,7 +30,7 @@ namespace MyCocktail.Api.Mapper
         {
             if (drinksToConvert.IsNullOrEmpty())
             {
-                return null;
+                return new List<DrinkPartialDto>();
             }
 
             return drinksToConvert.Select(d => d.ToPartialDto());
@@ -64,7 +64,7 @@ namespace MyCocktail.Api.Mapper
         {
             if (drinksToConvert.IsNullOrEmpty())
             {
-                return null;
+                return new List<DrinkDto>();
             }
 
             return drinksToConvert.Select(d => d.ToDto());
