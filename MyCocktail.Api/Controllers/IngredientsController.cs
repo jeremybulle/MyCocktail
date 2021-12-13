@@ -89,7 +89,6 @@ namespace MyCocktail.Api.Controllers
                 throw new ArgumentException(nameof(ingredientFromBody));
             }
 
-
             return result != null ? Ok(result.ToDto()) : StatusCode(500);
         }
         
