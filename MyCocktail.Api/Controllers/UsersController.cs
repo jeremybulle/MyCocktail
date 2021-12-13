@@ -29,7 +29,7 @@ namespace MyCocktail.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _repo.GetAsync();
+            var result = await _repo.GetAsync().ConfigureAwait(false);
 
             return result.IsNullOrEmpty() ? NoContent() : Ok(result.ToDtoNoPassword());
         }
@@ -49,7 +49,7 @@ namespace MyCocktail.Api.Controllers
 
                 throw new ArgumentException(nameof(idUser));
             }
-            var result = await _repo.GetByIdAsync(id);
+            var result = await _repo.GetByIdAsync(id).ConfigureAwait(false);
 
             return result == null ? NotFound(idUser) : Ok(result.ToDtoNoPassword());
         }
@@ -111,7 +111,7 @@ namespace MyCocktail.Api.Controllers
                     throw new ArgumentException(nameof(userFromBody));
                 }
 
-                var result = await _repo.UpdateAsync(userToUpdate);
+                var result = await _repo.UpdateAsync(userToUpdate).ConfigureAwait(false);
 
                 return result ? Ok(userFromBody) : BadRequest(userFromBody);
             }
@@ -124,7 +124,7 @@ namespace MyCocktail.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] Guid id)
         {
-            var result = await _repo.DeleteAsync(id);
+            var result = await _repo.DeleteAsync(id).ConfigureAwait(false);
 
             return result ? Ok() : NotFound(id);
         }
@@ -146,7 +146,7 @@ namespace MyCocktail.Api.Controllers
                 return BadRequest();
             }
 
-            var result = await _repo.GetFavorites(id);
+            var result = await _repo.GetFavoritesAsync(id).ConfigureAwait(false);
 
             return result.IsNullOrEmpty() ? NotFound() : Ok(result);
         }

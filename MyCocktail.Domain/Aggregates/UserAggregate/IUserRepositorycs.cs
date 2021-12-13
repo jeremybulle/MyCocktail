@@ -15,6 +15,6 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
         public Task<bool> DeleteAsync(Guid id);
 
         //Favorites
-        public Task<IEnumerable<Drink>> GetFavorites(Guid idUser);
+        public Task<IEnumerable<Drink>> GetFavoritesAsync(Guid idUser);
     }
 }
