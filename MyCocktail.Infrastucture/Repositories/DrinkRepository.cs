@@ -206,20 +206,19 @@ namespace MyCocktail.Infrastucture.Repositories
         }
 
 
-        public async Task<IEnumerable<Ingredient>> GetAllIngredients()
+        public async Task<IEnumerable<Ingredient>> GetAllIngredientsAsync()
         {
-            var ingredientsDao = await _context.Ingredients.ToListAsync();
-            var ingredientsToReturn = new List<Ingredient>();
+            var ingredientsDao = await _context.Ingredients.ToListAsync().ConfigureAwait(false);
 
             if (ingredientsDao.IsNullOrEmpty())
             {
-                return ingredientsToReturn;
+                return new List<Ingredient>();
             }
 
             return ingredientsDao.ToModel();
         }
 
-        public async Task<Ingredient> GetIngredientById(Guid id)
+        public async Task<Ingredient> GetIngredientByIdAsync(Guid id)
         {
             var ingredientDao = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id);
 
@@ -335,7 +334,7 @@ namespace MyCocktail.Infrastucture.Repositories
 
         public async Task<bool> UpdateIngredientAsync(Ingredient ingredient)
         {
-            var ingredientDao = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == ingredient.Id);
+            var ingredientDao = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == ingredient.Id).ConfigureAwait(false);
 
             if (ingredientDao != null)
             {
@@ -350,8 +349,8 @@ namespace MyCocktail.Infrastucture.Repositories
         {
             var ingredientToSave = ingredient.ToDao();
             ingredientToSave.Id = Guid.NewGuid();
-            await _context.Ingredients.AddAsync(ingredientToSave);
-            return await _context.SaveChangesAsync() > 0 ? ingredientToSave.ToModel() : null;
+            await _context.Ingredients.AddAsync(ingredientToSave).ConfigureAwait(false);
+            return await _context.SaveChangesAsync().ConfigureAwait(false) > 0 ? ingredientToSave.ToModel() : null;
         }
 
 

@@ -26,13 +26,13 @@ namespace MyCocktail.Api.Controllers
 
         // GET: api/<IngredientsController>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var result = await _repo.GetAllIngredients();
+            var result = await _repo.GetAllIngredientsAsync().ConfigureAwait(false);
 
             if (result.IsNullOrEmpty())
             {
-                return NotFound();
+                return NoContent();
             }
 
             return Ok(result.ToDto());
@@ -40,14 +40,14 @@ namespace MyCocktail.Api.Controllers
 
         // GET api/<IngredientsController>/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetByIdAsync(string id)
         {
             Ingredient result;
 
             try
             {
                 var idConverted = Guid.Parse(id);
-                result = await _repo.GetIngredientById(idConverted);
+                result = await _repo.GetIngredientByIdAsync(idConverted).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -67,42 +67,53 @@ namespace MyCocktail.Api.Controllers
         // POST api/<IngredientsController>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] IngredientDto ingredientFromBody)
+        public async Task<IActionResult> PostAsync([FromBody] IngredientDto ingredientFromBody)
         {
-            Ingredient ingredientToSave;
+            Ingredient result;
             try
             {
-                ingredientToSave = ingredientFromBody.ToModel();
+                if(ingredientFromBody == null)
+                {
+                    throw new ArgumentNullException(nameof(ingredientFromBody));
+                }
+
+                 var ingredientToSave = ingredientFromBody.ToModel();
+                if(ingredientToSave == null)
+                {
+                    return BadRequest(ingredientFromBody);
+                }
+                 result = await _repo.AddAsync(ingredientToSave).ConfigureAwait(false);
             }
             catch (Exception)
             {
-
                 throw new ArgumentException(nameof(ingredientFromBody));
             }
 
-            var result = await _repo.AddAsync(ingredientToSave);
-
-            return result != null ? Ok(result.ToDto()) : BadRequest(ingredientFromBody);
+            return result != null ? Ok(result.ToDto()) : StatusCode(500);
         }
+        
 
         // PUT api/<IngredientsController>/5
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] IngredientDto ingredientDto)
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] IngredientDto ingredientDto)
         {
-            Ingredient ingredientToUpdate;
+            bool result;
             try
             {
-                ingredientToUpdate = ingredientDto.ToModel();
+                var ingredientToUpdate = ingredientDto.ToModel();
+                if(ingredientToUpdate.Id != id)
+                {
+                    return BadRequest(ingredientDto);
+                }
+                result = await _repo.UpdateIngredientAsync(ingredientToUpdate).ConfigureAwait(false);
             }
             catch (Exception)
             {
                 throw new ArgumentException(nameof(ingredientDto));
             }
 
-            var result = await _repo.UpdateIngredientAsync(ingredientToUpdate);
-
-            return result ? Ok(result) : BadRequest(ingredientDto);
+            return result ? Ok() : NotFound(ingredientDto);
         }
     }
 }

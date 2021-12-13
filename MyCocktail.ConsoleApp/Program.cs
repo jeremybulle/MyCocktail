@@ -12,6 +12,11 @@ namespace MyCocktail.ConsoleApp
 {
     class Program
     {
+        protected Program()
+        {
+
+        }
+
         static async Task Main(string[] args)
         {
             using (var db = new DrinkDbContext())

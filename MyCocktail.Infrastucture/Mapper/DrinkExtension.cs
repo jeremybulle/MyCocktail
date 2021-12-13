@@ -16,8 +16,8 @@ namespace MyCocktail.Infrastucture.Mapper
             {
                 Id = drink.Id ?? Guid.NewGuid(),
                 IdSource = drink.IdSource,
-                Instruction = drink.Instruction ?? throw new ArgumentNullException(nameof(drink.Instruction)),
-                Name = drink.Name ?? throw new ArgumentNullException(nameof(drink.Name)),
+                Instruction = drink.Instruction ?? throw new Exception($"{nameof(drink.Instruction)} can not be null"),
+                Name = drink.Name ?? throw new Exception($"{nameof(drink.Name)} can not be null"),
                 UrlPicture = drink.UrlPicture.ToString(),
                 Category = categoryToAdd,
                 CategoryId = categoryToAdd.Id,

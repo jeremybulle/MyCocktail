@@ -18,8 +18,8 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 
         //Ingredient
         public Task<Ingredient> AddAsync(Ingredient ingredient);
-        public Task<IEnumerable<Ingredient>> GetAllIngredients();
-        public Task<Ingredient> GetIngredientById(Guid id);
+        public Task<IEnumerable<Ingredient>> GetAllIngredientsAsync();
+        public Task<Ingredient> GetIngredientByIdAsync(Guid id);
         public Task<bool> UpdateIngredientAsync(Ingredient ingredient);
     }
 }
