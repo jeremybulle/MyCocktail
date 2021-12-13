@@ -25,12 +25,9 @@ namespace MyCocktail.Infrastucture.Repositories
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            if(_context.Users.Any(u => u.UserName == user.UserName))
-            {
-                return Task.FromResult<User>(null);
-            }
 
             return AddInternalAsync(user);
+
         }
 
         private async Task<User> AddInternalAsync(User user)

@@ -77,7 +77,7 @@ namespace MyCocktail.Api.Controllers
                 throw new ArgumentException(nameof(userFromBody));
             }
 
-            var result = await _repo.AddAsync(userToSave);
+            var result = await _repo.AddAsync(userToSave).ConfigureAwait(false);
 
             return result != null ? Ok(result.ToDtoNoPassword()) : BadRequest();
 
