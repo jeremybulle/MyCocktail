@@ -25,6 +25,8 @@ namespace MyCocktail.Infrastucture.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+       
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.AddAsync(Drink)"/>
         public async Task<Drink> AddAsync(Drink drink)
         {
             if (!_context.Drinks.Any(d => d.Name == drink.Name))
@@ -55,6 +57,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return (await _context.Drinks.FirstOrDefaultAsync(d => d.Name == drink.Name).ConfigureAwait(false)).ToModel();
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.Delete(Guid)"/>
         public void Delete(Guid id)
         {
             var drinkToDelete = _context.Drinks.Include(d => d.Measures).FirstOrDefault(d => d.Id == id);
@@ -66,6 +69,7 @@ namespace MyCocktail.Infrastucture.Repositories
             }
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.GetByNameAsync(string)"/>
         public async Task<Drink> GetByNameAsync(string name)
         {
             if (name.IsNullOrEmpty())
@@ -76,6 +80,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return result != null ? result.ToModel() : null;
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.GetAsync()"/>
         public async Task<IEnumerable<Drink>> GetAsync()
         {
             var drinksFind = new List<Drink>();
@@ -88,6 +93,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return drinksFind;
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.GetByIdAsync(Guid)"/>
         public async Task<Drink> GetByIdAsync(Guid id)
         {
             var drinkFound = await _context.Drinks.Include(d => d.Glass).Include(d => d.Category).Include(d => d.Alcoholic).Include(d => d.Measures).ThenInclude(m => m.Ingredient).FirstOrDefaultAsync(d => d.Id == id).ConfigureAwait(false);
@@ -98,6 +104,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return null;
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.GetLastUpdatedAsync(int)"/>
         public async Task<IEnumerable<Drink>> GetLastUpdatedAsync(int nbSearch)
         {
             var drinkSorted = _context.Drinks.Include(d => d.Glass).Include(d => d.Category).Include(d => d.Alcoholic).Include(d => d.Measures).ThenInclude(m => m.Ingredient).OrderByDescending(d => d.DateModified).Take(nbSearch);
@@ -109,6 +116,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return listToReturn;
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.UpdateAsync(Guid, Drink)"/>
         public async Task<Drink> UpdateAsync(Guid id, Drink drink)
         {
             var drinkToUpdate = await _context.Drinks
@@ -197,6 +205,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return result != null ? result.ToModel() : null;
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.GetDrinksByIngredient(IEnumerable{Guid})"/>
         public async Task<IEnumerable<Drink>> GetDrinksByIngredient(IEnumerable<Guid> ingredientIds)
         {
 
@@ -214,7 +223,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return grpPurged.Select(e => e.Drink.ToModel());
         }
 
-
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.GetAllIngredientsAsync()"/>
         public async Task<IEnumerable<Ingredient>> GetAllIngredientsAsync()
         {
             var ingredientsDao = await _context.Ingredients.ToListAsync().ConfigureAwait(false);
@@ -227,6 +236,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return ingredientsDao.ToModel();
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.GetIngredientByIdAsync(Guid)"/>
         public async Task<Ingredient> GetIngredientByIdAsync(Guid id)
         {
             var ingredientDao = await _context.Ingredients.FirstOrDefaultAsync(i => i.Id == id).ConfigureAwait(false);

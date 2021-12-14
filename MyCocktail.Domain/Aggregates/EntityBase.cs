@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MyCocktail.Domain.Aggregates
 {
+    /// <summary>
+    /// Class base for several entity in this project
+    /// </summary>
     public class EntityBase
     {
         #region Id

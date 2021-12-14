@@ -4,7 +4,7 @@ using System;
 namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
     /// <summary>
-    /// Glass needed to serve a <seealso cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Drink"/>
+    /// Glass needed to serve a <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Drink"/>
     /// </summary>
     public class Glass : EntityBase
     {
