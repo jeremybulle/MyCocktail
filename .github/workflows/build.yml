@@ -46,7 +46,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"jeremybulle_MyCocktail" /o:"jeremybulle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.exclusions=.\MyCocktail.Infrastucture\Dao\*.cs,MyCocktail.ConsoleApp\**\* /d:"sonar.cs.opencover.reportsPaths=.\**\TestResults\*\*.opencover.xml" 
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"jeremybulle_MyCocktail" /o:"jeremybulle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.exclusions=.\MyCocktail.Infrastucture\Dao\*.cs,.\MyCocktail.ConsoleApp\**\* /d:"sonar.cs.opencover.reportsPaths=.\**\TestResults\*\*.opencover.xml" 
           
           dotnet build
           dotnet test --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=json,cobertura,lcov,teamcity,opencover
