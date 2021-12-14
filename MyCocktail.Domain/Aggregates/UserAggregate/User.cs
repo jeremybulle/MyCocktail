@@ -11,6 +11,9 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
         #region Id
         private Guid? _id;
 
+        /// <summary>
+        /// Unique id
+        /// </summary>
         public Guid? Id
         {
             get
@@ -26,6 +29,10 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
 
         #region UserName
         private string _userName;
+        /// <summary>
+        /// Username used in the service (pseudonym)
+        /// Can not be null or empty, will be trimed
+        /// </summary>
         public string UserName
         {
             get
@@ -45,6 +52,10 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
 
         #region FirstName
         private string _firstName;
+
+        /// <summary>
+        /// User FirstName, can not be null, empty or containing unauthorized character
+        /// </summary>
         public string FirstName
         {
             get
@@ -69,6 +80,10 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
 
         #region LastName
         private string _lastName;
+
+        /// <summary>
+        /// User Lastname, can not be null, empty or containing unauthorized character
+        /// </summary>
         public string LastName
         {
             get
@@ -93,6 +108,10 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
 
         #region Email
         private string _email;
+
+        /// <summary>
+        /// User email, can not be null or empty, must contain "@"and "."
+        /// </summary>
         public string Email
         {
             get
@@ -132,8 +151,14 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
 
         #endregion
 
+        /// <summary>
+        /// User Password
+        /// </summary>
         public string Password { get; set; }
 
+        /// <summary>
+        /// User authorisation / Role
+        /// </summary>
         public UserRole Role { get; set; }
 
     }

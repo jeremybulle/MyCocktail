@@ -14,6 +14,9 @@ namespace MyCocktail.Domain.Aggregates
     {
         #region Id
         protected Guid? _id;
+        /// <summary>
+        /// Unique Id
+        /// </summary>
         public Guid? Id
         {
             get
@@ -30,6 +33,9 @@ namespace MyCocktail.Domain.Aggregates
 
         #region Name
         protected string _name;
+        /// <summary>
+        /// Entity's name, can not be bull or empty, it will be trimed and lowercased
+        /// </summary>
         public string Name
         {
             get

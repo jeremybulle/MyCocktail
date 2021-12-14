@@ -4,13 +4,17 @@ using System;
 namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
     /// <summary>
-    /// Measures is an <seealso cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Ingredient"/> associated to a quantity.
-    /// Measures compose <seealso cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Drink"/> 
+    /// Measures is an <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Ingredient"/> associated to a quantity.
+    /// Measures is a component of <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Drink"/> 
     /// </summary>
     public class Measure
     {
         #region Id
         private Guid? _id;
+
+        /// <summary>
+        /// Unique Id
+        /// </summary>
         public Guid? Id
         {
             get
@@ -26,6 +30,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 
         #region Ingredient
         private Ingredient _ingredient;
+
+        /// <summary>
+        /// <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Ingredient"/> composing this Measure
+        /// </summary>
         public Ingredient Ingredient
         {
             get
@@ -49,6 +57,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 
         #region Quantity
         private string _quantity;
+
+        /// <summary>
+        /// Quantity related to this measure and this measure's <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Ingredient"/>
+        /// </summary>
         public string Quantity
         {
             get

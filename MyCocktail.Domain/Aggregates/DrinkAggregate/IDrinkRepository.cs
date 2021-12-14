@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
     /// <summary>
-    /// Repository intarface to manage Drink and Ingredient presistence
+    /// Repository intarface to manage <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Drink"/> and <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Ingredient"/> presistence
     /// </summary>
     public interface IDrinkRepository
     {

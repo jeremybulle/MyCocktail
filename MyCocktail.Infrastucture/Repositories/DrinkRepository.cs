@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyCocktail.Infrastucture.Repositories
 {
+    /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository"/>
     public class DrinkRepository : IDrinkRepository
     {
         private readonly DrinkDbContext _context;

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyCocktail.Infrastucture.Repositories
 {
+    /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository"/>
     public class UserRepository : IUserRepository
     {
         private readonly DrinkDbContext _context;
@@ -20,6 +21,7 @@ namespace MyCocktail.Infrastucture.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.AddAsync(User)"/>
         public Task<User> AddAsync(User user)
         {
             if (user != null)
@@ -46,6 +48,7 @@ namespace MyCocktail.Infrastucture.Repositories
           
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.DeleteAsync(Guid)"/>
         public async Task<bool> DeleteAsync(Guid id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -58,6 +61,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return await _context.SaveChangesAsync().ConfigureAwait(false) > 0;
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.GetAsync"/>
         public async Task<IEnumerable<User>> GetAsync()
         {
             var query = _context.Users.OrderBy(u => u.LastName).OrderBy(u => u.FirstName);
@@ -66,6 +70,7 @@ namespace MyCocktail.Infrastucture.Repositories
             return result.ToModel();
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.GetByIdAsync(Guid)"/>
         public async Task<User> GetByIdAsync(Guid id)
         {
             var result = await _context.Users.FirstOrDefaultAsync(u => u.Id == id).ConfigureAwait(false);
@@ -80,13 +85,14 @@ namespace MyCocktail.Infrastucture.Repositories
             return result == null ? null : result;
         }
 
-        public async Task<bool> UpdateAsync(User user)
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.UpdateAsync(User)"/>
+        public async Task<User> UpdateAsync(User user)
         {
             var userDao = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id).ConfigureAwait(false);
 
             if (userDao == null)
             {
-                return false;
+                return null;
             }
 
             userDao.FirstName = user.FirstName;
@@ -96,14 +102,15 @@ namespace MyCocktail.Infrastucture.Repositories
             userDao.UserName = user.UserName;
             userDao.Password = user.Password.IsNullOrEmpty() ? PasswordHasher.Hash(user.Password) : throw new ArgumentNullException(nameof(user),"Can not be Updated with null or empty password");
 
-            return await _context.SaveChangesAsync().ConfigureAwait(false) > 0;
+            return await _context.SaveChangesAsync().ConfigureAwait(false) > 0 ? user : null;
         }
 
+        /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.GetFavoritesAsync(Guid)"/>
         public async Task<IEnumerable<Drink>> GetFavoritesAsync(Guid idUser)
         {
             var query = _context.Favorites.Include(f => f.Drink).Where(f => f.IdUser == idUser).Select(f => f.Drink);
             var result = await query.ToListAsync().ConfigureAwait(false);
-            return result.IsNullOrEmpty() ? null : result.Select(d => d.ToModel());
+            return result.IsNullOrEmpty() ? new List<Drink>() : result.Select(d => d.ToModel());
         }
     }
 }

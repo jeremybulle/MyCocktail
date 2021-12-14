@@ -75,7 +75,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         private Uri _urlPicture;
 
         /// <summary>
-        /// Url for display this cocktail
+        /// Url for display an image of this cocktail
         /// </summary>
         public Uri UrlPicture
         {
@@ -115,7 +115,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         private Glass _glass;
 
         /// <summary>
-        /// <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Glass"/> used in this recipe
+        /// <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Glass"/> used in this recipe
         /// </summary>
         public Glass Glass
         {
@@ -134,7 +134,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         private Category _category;
 
         /// <summary>
-        /// The <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Category"/> of this drink like shot, beer, coffee/tea etc...
+        /// The <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Category"/> of this drink like shot, beer, coffee/tea etc...
         /// </summary>
         public Category Category
         {
@@ -154,7 +154,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 
         /// <summary>
         /// Represent if this recipe contains alcohol, or not, or optional
-        /// see : <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Alcoholic"/>
+        /// see : <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Alcoholic/>
         /// </summary>
         public Alcoholic Alcoholic
         {
@@ -192,7 +192,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         private readonly HashSet<Measure> _measures = new HashSet<Measure>();
 
         /// <summary>
-        /// Get all <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/>s related to this drink
+        /// Get all <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/>s related to this drink
         /// </summary>
         /// <returns>IEumerable of measure's copy</returns>
         public IEnumerable<Measure> GetMeasures()
@@ -207,10 +207,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         }
 
         /// <summary>
-        /// Search a Measure by Ingredient Name
+        /// Search a <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> by Ingredient Name
         /// </summary>
         /// <param name="ingredientName">Measure's name searched</param>
-        /// <returns>Measure or null</returns>
+        /// <returns><see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> or null</returns>
         public Measure GetMeasureByIngredientName(string ingredientName)
         {
             var ingredientNameHandled = ingredientName.ToLower().Trim();
@@ -233,6 +233,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             }
         }
 
+        /// <summary>
+        /// Add a <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/>
+        /// </summary>
+        /// <param name="measure"><see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/> to add</param>
         public void AddMeasure(Measure measure)
         {
             var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == measure.Ingredient.Name);
@@ -243,9 +247,9 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         }
 
         /// <summary>
-        /// Update a <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/> with the same Name
+        /// Update a <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> with the same Name
         /// </summary>
-        /// <param name="measureModified">New value for the measure to update</param>
+        /// <param name="measureModified">New value for the <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> to update</param>
         public void ModifyMeasure(Measure measureModified)
         {
             if (measureModified == null || !_measures.Any(m => m.Ingredient.Name == measureModified.Ingredient.Name))
@@ -257,9 +261,9 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         }
 
         /// <summary>
-        /// Delete a <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/> with the specifiedName
+        /// Delete a <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> with the specifiedName
         /// </summary>
-        /// <param name="IngredientName"></param>
+        /// <param name="measureToDelete">Measure to remove</param>
         public void DeleteMeasure(Measure measureToDelete)
         {
             var measureToDrop = _measures.FirstOrDefault(m => m.Ingredient.Name == measureToDelete.Ingredient.Name && m.Quantity == measureToDelete.Ingredient.Name);
@@ -270,7 +274,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         }
 
         /// <summary>
-        /// Get all <see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Ingredient"/>s needed for this Cocktail
+        /// Get all <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Ingredient"/>s needed for this Cocktail
         /// </summary>
         /// <returns>IEnumerable of Ingredient</returns>
         public IEnumerable<Ingredient> GetIngredients()

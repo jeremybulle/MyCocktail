@@ -4,7 +4,7 @@ using System;
 namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
     /// <summary>
-    /// Ingredient used in <seealso cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/> to composed <seealso cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Drink"/>
+    /// Ingredient used in <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> to composed <seealso cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Drink"/>
     /// </summary>
     public class Ingredient : EntityBase
     {
