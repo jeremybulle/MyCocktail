@@ -200,7 +200,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             List<Measure> measuresToReturn = new List<Measure>();
             foreach (var m in _measures)
             {
-                measuresToReturn.Add(new Measure() { Ingredient = new Ingredient() { Id = m.Ingredient.Id, Name = m.Ingredient.Name }, Quantity = m.Quantity });
+                measuresToReturn.Add(new Measure() { Id = m.Id ,Ingredient = new Ingredient() { Id = m.Ingredient.Id, Name = m.Ingredient.Name }, Quantity = m.Quantity });
             }
 
             return measuresToReturn;
