@@ -42,7 +42,7 @@ namespace MyCocktail.Domain.Aggregates.UserAggregate
         /// </summary>
         /// <param name="user"><seealso cref="MyCocktail.Domain.Aggregates.UserAggregate.User"/> with updates</param>
         /// <returns><seealso cref="MyCocktail.Domain.Aggregates.UserAggregate.User"/> updated</returns>
-        public Task<bool> UpdateAsync(User user);
+        public Task<User> UpdateAsync(User user);
 
         /// <summary>
         /// Remove an <seealso cref="MyCocktail.Domain.Aggregates.UserAggregate.User"/> from database

@@ -113,7 +113,7 @@ namespace MyCocktail.Api.Controllers
 
                 var result = await _repo.UpdateAsync(userToUpdate).ConfigureAwait(false);
 
-                return result ? Ok(userFromBody) : BadRequest(userFromBody);
+                return result != null ? Ok(userFromBody) : BadRequest(userFromBody);
             }
 
             return Unauthorized();

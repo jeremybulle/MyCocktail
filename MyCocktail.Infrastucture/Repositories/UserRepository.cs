@@ -95,7 +95,6 @@ namespace MyCocktail.Infrastucture.Repositories
                 return null;
             }
 
-
             userDao.FirstName = user.FirstName;
             userDao.LastName = user.LastName;
             userDao.Email = user.Email;
