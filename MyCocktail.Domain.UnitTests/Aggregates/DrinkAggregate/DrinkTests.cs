@@ -159,6 +159,69 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         }
 
         [Fact]
+        public void IdOwner_WhenIdOwnerIsNotNull_ShouldReturnIdOwner()
+        {
+            //Arrange
+            var measures = new List<Measure>();
+            var idOwner = Guid.NewGuid();
+            var drink = new Drink()
+            {
+                Id = Guid.NewGuid(),
+                Alcoholic = _fixture.Create<Alcoholic>(),
+                Category = _fixture.Create<Category>(),
+                DateModified = DateTime.Now,
+                Glass = _fixture.Create<Glass>(),
+                IdOwner = idOwner,
+                IdSource = _fixture.Create<string>(),
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>()
+            };
+            foreach (var measure in measures)
+            {
+                drink.AddMeasure(measure);
+            }
+
+            //Act
+            var result = drink.IdOwner;
+
+            //Assert
+            Assert.Equal(idOwner, result);
+        }
+
+        [Fact]
+        public void IdOwner_WhenIdOwnerIsNull_ShouldReturnNull()
+        {
+            //Arrange
+            var measures = new List<Measure>();
+            var drink = new Drink()
+            {
+                Id = Guid.NewGuid(),
+                Alcoholic = _fixture.Create<Alcoholic>(),
+                Category = _fixture.Create<Category>(),
+                DateModified = DateTime.Now,
+                Glass = _fixture.Create<Glass>(),
+                IdSource = _fixture.Create<string>(),
+                IdOwner = null,
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>()
+            };
+
+            foreach (var measure in measures)
+            {
+                drink.AddMeasure(measure);
+            }
+
+            //Act
+            var result = drink.IdOwner;
+
+            //Assert
+            Assert.Null(result);
+        }
+
+
+        [Fact]
         public void AddMeasure_WhenDrinkContainMeasure_ShouldNotThrowException()
         {
             //Arrange
