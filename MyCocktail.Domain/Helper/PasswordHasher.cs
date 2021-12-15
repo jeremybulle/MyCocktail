@@ -10,6 +10,11 @@ namespace MyCocktail.Domain.Helper
         private const int KeySize = 32; // 256 bit
         private const int Size = 1000;
 
+        /// <summary>
+        /// Hash password
+        /// </summary>
+        /// <param name="password">Password to hash</param>
+        /// <returns>Hashed pasword as <see langword="string"/></returns>
         public static string Hash(string password)
         {
             if(password == null)
@@ -29,6 +34,12 @@ namespace MyCocktail.Domain.Helper
             }
         }
 
+        /// <summary>
+        /// Allow to know if a clear password is equal to the same password hashed
+        /// </summary>
+        /// <param name="hash">Hashed password</param>
+        /// <param name="password">Clear passord</param>
+        /// <returns><see langword="true"/> if clear password and hashed password are equal, <see langword="false"/>  if clear password and hashed password are NOT equal</returns>
         public static bool Check(string hash, string password)
         {
             if (hash == null)

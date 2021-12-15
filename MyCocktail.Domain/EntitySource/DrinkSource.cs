@@ -10,6 +10,9 @@ namespace MyCocktail.Domain.EntitySource
         public DrinkSource[] drinks { get; set; }
     }
 
+    /// <summary>
+    /// Data object for carry drink send by original cocktailDb API
+    /// </summary>
     public class DrinkSource
     {
         public string idDrink { get; set; }

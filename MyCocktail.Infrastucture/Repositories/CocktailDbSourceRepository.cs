@@ -14,6 +14,11 @@ namespace MyCocktail.Infrastucture.Repositories
         {
         }
 
+        /// <summary>
+        /// Fetch Coktails' data from original cocktailDb API
+        /// </summary>
+        /// <param name="letter">First letter of the cocktails wanted</param>
+        /// <returns><see langword="IEnumerable"/> of <see cref="MyCocktail.Domain.EntitySource.DrinkSource"/></returns>
         public async Task<IEnumerable<DrinkSource>> GetCocktailSourcesByLetter(char letter)
         {
             var query = string.Concat("https://thecocktaildb.com/api/json/v1/1/search.php?f=", letter.ToString());
@@ -27,7 +32,7 @@ namespace MyCocktail.Infrastucture.Repositories
                 var cockatails = JsonConvert.DeserializeObject<DrinksSource>(responseBody);
                 return cockatails.drinks;
             }
-            System.Console.WriteLine("Error calling APi");
+            System.Console.WriteLine("Error calling original cocktailDb API");
             return new List<DrinkSource>();
         }
     }

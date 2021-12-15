@@ -7,10 +7,10 @@ namespace MyCocktail.Domain.Helper
     public static class DateHelper
     {
         /// <summary>
-        /// Convert string date as DateTime year month day
+        /// Convert string date as <see langword="Datetime"/> year month day
         /// </summary>
         /// <param name="strDate">should be like yyyy-mm-dd hh:mm:ss</param>
-        /// <returns></returns>
+        /// <returns>A <see langword="Datetime"/></returns>
         public static DateTime DateFromString(string strDate)
         {
             if (strDate.IsNullOrEmpty())
