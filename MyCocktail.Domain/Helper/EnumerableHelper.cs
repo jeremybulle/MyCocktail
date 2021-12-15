@@ -28,7 +28,7 @@ namespace MyCocktail.Domain.Helper
         /// <typeparam name="TKey">key's type of the couple key/value</typeparam>
         /// <typeparam name="TValue">value's type of the couple key/value</typeparam>
         /// <param name="dict"><see langword="IDictionary"/> on wich this is applied</param>
-        public static void PurgeNullValueFrom<TKey, TValue>(this IDictionary<TKey, TValue> dict)
+        public static void PurgeNullValue<TKey, TValue>(this IDictionary<TKey, TValue> dict)
         {
             if (dict != null)
             {
