@@ -238,11 +238,16 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// </summary>
         /// <param name="ingedientName">Ingredient's name of measure</param>
         /// <param name="quantity"></param>
-        public void AddMeasure(string ingedientName, string quantity)
+        public void AddMeasure(string ingredientName, string quantity)
         {
-            var ingredientNameHandled = ingedientName.ToLower().Trim();
-            var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == ingredientNameHandled);
-            if (!isMeasureForIngredient)
+            if(ingredientName.IsNullOrEmpty())
+            {
+                throw new ArgumentException("Ingredient name Can not be null or empty", nameof(ingredientName));
+            }
+
+            var ingredientNameHandled = ingredientName.ToLower().Trim();
+            var isSameMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == ingredientName && m.Quantity == quantity);
+            if (!isSameMeasureForIngredient)
             {
                 _measures.Add(new Measure() { Ingredient = new Ingredient() { Name = ingredientNameHandled }, Quantity = quantity });
             }
@@ -254,8 +259,8 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// <param name="measure"><see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/> to add</param>
         public void AddMeasure(Measure measure)
         {
-            var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == measure.Ingredient.Name && m.Quantity == measure.Quantity);
-            if (!isMeasureForIngredient)
+            var isSameMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == measure.Ingredient.Name && m.Quantity == measure.Quantity);
+            if (!isSameMeasureForIngredient)
             {
                 _measures.Add(measure);
             }

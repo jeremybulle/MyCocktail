@@ -616,5 +616,87 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             Assert.Equal(measuresWithIngredientSearch.Count, result.Count());
         }
 
+        [Fact]
+        public void GetMeasuresByIngredientName_WhenDrinkDoesNotContainsMeasureWithThisIngredient_ShouldReturnEmptyEnumerable()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = _fixture.Create<string>() };
+            var measuresWithRandomIngredient = _fixture.CreateMany<Measure>().ToList();
+
+            measuresWithRandomIngredient.ForEach(m => {
+                if (m.Ingredient.Name != ingredient.Name)
+                {
+                    drink.AddMeasure(m);
+                }
+            });
+            //Act
+            var result = drink.GetMeasureByIngredientName(ingredient.Name);
+
+            //Assert
+            Assert.False(result.Any());
+        }
+
+        [Fact]
+        public void AddMeasure_WhenParametersAreValid_ShouldAddMeasureToDrink()
+        {
+            //Arrange
+            var drink = new Drink()
+            {
+                Id = Guid.NewGuid(),
+                Alcoholic = _fixture.Create<Alcoholic>(),
+                Category = _fixture.Create<Category>(),
+                DateModified = DateTime.Now,
+                Glass = _fixture.Create<Glass>(),
+                IdOwner = Guid.NewGuid(),
+                IdSource = _fixture.Create<string>(),
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>(),
+            };
+            var ingredientName = _fixture.Create<string>();
+            var quantity = _fixture.Create<string>();
+
+            //Act
+            drink.AddMeasure(ingredientName, quantity);
+            var result = drink.GetMeasures().Select(m => m.Ingredient.Name == ingredientName && m.Quantity == quantity);
+
+            //Assert
+            Assert.True(result.Any());
+        }
+
+        //[Fact]
+        //public void AddMeasure_WhenParametersIngredientNameIsNotValid_ShouldThrowArgumentException()
+        //{
+        //    //Arrange
+        //    var drink = new Drink()
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        Alcoholic = _fixture.Create<Alcoholic>(),
+        //        Category = _fixture.Create<Category>(),
+        //        DateModified = DateTime.Now,
+        //        Glass = _fixture.Create<Glass>(),
+        //        IdOwner = Guid.NewGuid(),
+        //        IdSource = _fixture.Create<string>(),
+        //        Instruction = _fixture.Create<string>(),
+        //        Name = _fixture.Create<string>(),
+        //        UrlPicture = _fixture.Create<Uri>(),
+        //    };
+            
+        //    string ingredientName1 = null;
+        //    var quantity1 = _fixture.Create<string>();
+
+        //    string ingredientName2 = "";
+        //    var quantity2 = _fixture.Create<string>();
+
+        //    //Act
+        //    drink.AddMeasure(ingredientName1, quantity1);
+        //    Action act1 = () => drink.AddMeasure(ingredientName1, quantity1);
+        //    //var ex2 = Record.Exception(() => drink.AddMeasure(ingredientName2, quantity2));
+
+        //    //Assert
+        //    act1.Should().Throw<ArgumentException>();
+        //    //ex2.Should().BeOfType<ArgumentException>();
+        //}
     }
 }
