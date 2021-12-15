@@ -90,22 +90,15 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             set
             {
                 Uri url;
-                try
+                
+                if (value != null)
                 {
-                    if (value != null)
-                    {
-                        url = new Uri(value.ToString());
-                        _urlPicture = url;
-                    }
-                    else
-                    {
-                        _urlPicture = null;
-                    }
-
+                    url = new Uri(value.ToString());
+                    _urlPicture = url;
                 }
-                catch
+                else
                 {
-                    throw new ArgumentException(nameof(UrlPicture));
+                    _urlPicture = null;
                 }
             }
         }
@@ -125,6 +118,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             }
             set
             {
+                if(value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),"Dink must have a Glass");
+                }
                 _glass = new Glass() { Id = value.Id, Name = value.Name };
             }
         }
@@ -144,6 +141,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value), "Dink must have a Category");
+                }
                 _category = new Category() { Id = value.Id, Name = value.Name };
             }
         }
@@ -164,6 +165,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             }
             init
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value), "Dink must have a Category");
+                }
                 _alcoholic = new Alcoholic() { Id = value.Id, Name = value.Name };
             }
         }
@@ -207,15 +212,25 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         }
 
         /// <summary>
-        /// Search a <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> by Ingredient Name
+        /// Search all <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> wich are related to the same <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Ingredient"/> Name
         /// </summary>
         /// <param name="ingredientName">Measure's name searched</param>
         /// <returns><see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> or null</returns>
-        public Measure GetMeasureByIngredientName(string ingredientName)
+        public IEnumerable<Measure> GetMeasureByIngredientName(string ingredientName)
         {
             var ingredientNameHandled = ingredientName.ToLower().Trim();
-            var measure = _measures.FirstOrDefault(m => m.Ingredient.Name == ingredientNameHandled);
-            return measure != null ? new Measure() { Ingredient = new Ingredient() { Id = measure.Ingredient.Id, Name = ingredientNameHandled }, Quantity = measure.Quantity } : null;
+            var measures = _measures.Where(m => m.Ingredient.Name == ingredientNameHandled).ToList();
+
+            if (measures.IsNullOrEmpty())
+            {
+                return new List<Measure>();
+            }
+
+            var measuresToRetunr = new List<Measure>();
+
+            measures.ForEach(m => measuresToRetunr.Add(new Measure() { Id = m.Id, Ingredient = m.Ingredient, Quantity = m.Quantity }));
+
+            return measuresToRetunr;
         }
 
         /// <summary>
@@ -239,7 +254,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// <param name="measure"><see cref="MyCocktailDDD.Domain.AggregatesModel.DrinkAggregate.Measure"/> to add</param>
         public void AddMeasure(Measure measure)
         {
-            var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == measure.Ingredient.Name);
+            var isMeasureForIngredient = _measures.Any(m => m.Ingredient.Name == measure.Ingredient.Name && m.Quantity == measure.Quantity);
             if (!isMeasureForIngredient)
             {
                 _measures.Add(measure);
