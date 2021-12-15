@@ -130,5 +130,34 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             Assert.Equal(measure1.Quantity, expected);
             measure2.Quantity.Should().BeEquivalentTo("");
         }
+
+        [Fact]
+        public void idProperty_WhenNull_ShouldReturnNull()
+        {
+            //Arrange
+            var ingredient = _fixture.Create<Ingredient>();
+            var measure = new Measure() { Id = null, Ingredient = ingredient, Quantity = "Arthour Couillaire" };
+
+            //Act
+            var result = measure.Id;
+
+            //Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void idProperty_WhenValidId_ShouldReturnSameId()
+        {
+            //Arrange
+            var ingredient = _fixture.Create<Ingredient>();
+            var id = Guid.NewGuid();
+            var measure = new Measure() { Id = id, Ingredient = ingredient, Quantity = "Arthour Couillaire" };
+
+            //Act
+            var result = measure.Id;
+
+            //Assert
+            Assert.Equal(id,result);
+        }
     }
 }

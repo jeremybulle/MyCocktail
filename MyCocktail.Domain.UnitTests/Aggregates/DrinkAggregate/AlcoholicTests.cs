@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,13 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 {
     public class AlcoholicTests
     {
+        private readonly Fixture _fixture;
+
+        public AlcoholicTests()
+        {
+            _fixture = new Fixture();
+        }
+
         [Fact]
         public void Constructor_WithValidProperties_ShouldNotThrowException()
         {
@@ -95,6 +103,70 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             //Assert
             ex1.Should().BeOfType<ArgumentException>();
             ex2.Should().BeOfType<ArgumentException>();
+        }
+
+        [Fact]
+        public void GetHascode_WhenDifferentAlcoholic_ShouldReturnNonEqualHashCode()
+        {
+            //Arrange
+            var alcoholic1 = _fixture.Create<Alcoholic>();
+            var alcoholic2 = _fixture.Create<Alcoholic>();
+
+            //Act
+            var hashCode1 = alcoholic1.GetHashCode();
+            var hashCode2 = alcoholic2.GetHashCode();
+
+            //Assert
+            Assert.False(alcoholic1.Id == alcoholic2.Id && alcoholic1.Name == alcoholic2.Name);
+            Assert.NotEqual(hashCode1, hashCode2);
+        }
+
+        [Fact]
+        public void GetHascode_WhenSameAlcoholicPropertiesValue_ShouldReturnEqualHashCode()
+        {
+            //Arrange
+            var alcoholic1 = _fixture.Create<Alcoholic>();
+            var alcoholic2 = new Alcoholic() { Id = alcoholic1.Id, Name = alcoholic1.Name };
+
+            //Act
+            var hashCode1 = alcoholic1.GetHashCode();
+            var hashCode2 = alcoholic2.GetHashCode();
+
+            //Assert
+            Assert.True(alcoholic1.Id == alcoholic2.Id && alcoholic1.Name == alcoholic2.Name);
+            Assert.Equal(hashCode1, hashCode2);
+        }
+
+        [Fact]
+        public void Equals_WhenDifferentAlcoholic_ShouldReturnFalse()
+        {
+            //Arrange
+            var alcoholic1 = _fixture.Create<Alcoholic>();
+            var alcoholic2 = _fixture.Create<Alcoholic>();
+
+            //Act
+            var result1 = alcoholic1.Equals(alcoholic2);
+            var result2 = alcoholic2.Equals(alcoholic1);
+
+            //Assert
+            Assert.False(result1);
+            Assert.False(result2);
+        }
+
+        [Fact]
+        public void Equals_WhenSameAlcoholicPropertiesValue_ShouldReturnTrue()
+        {
+            //Arrange
+            var alcoholic1 = _fixture.Create<Alcoholic>();
+            var alcoholic2 = new Alcoholic() { Id = alcoholic1.Id, Name = alcoholic1.Name };
+
+            //Act
+            var result1 = alcoholic1.Equals(alcoholic2);
+            var result2 = alcoholic2.Equals(alcoholic1);
+
+            //Assert
+            Assert.True(result1);
+            Assert.True(result2);
         }
     }
 }

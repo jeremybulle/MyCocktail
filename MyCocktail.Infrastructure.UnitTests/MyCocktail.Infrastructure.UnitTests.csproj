@@ -26,4 +26,8 @@
     <ProjectReference Include="..\MyCocktail.Infrastucture\MyCocktail.Infrastucture.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestResults\" />
+  </ItemGroup>
+
 </Project>

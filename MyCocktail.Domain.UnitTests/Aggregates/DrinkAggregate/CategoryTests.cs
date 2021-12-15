@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,14 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 {
     public class CategoryTests
     {
+
+        private readonly Fixture _fixture;
+
+        public CategoryTests()
+        {
+            _fixture = new Fixture();
+        }
+
         [Fact]
         public void Constructor_WithValidProperties_ShouldNotThrowException()
         {
@@ -95,6 +104,70 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             //Assert
             ex1.Should().BeOfType<ArgumentException>();
             ex2.Should().BeOfType<ArgumentException>();
+        }
+
+        [Fact]
+        public void GetHascode_WhenDifferentCategory_ShouldReturnNonEqualHashCode()
+        {
+            //Arrange
+            var category1 = _fixture.Create<Category>();
+            var category2 = _fixture.Create<Category>();
+
+            //Act
+            var hashCode1 = category1.GetHashCode();
+            var hashCode2 = category2.GetHashCode();
+
+            //Assert
+            Assert.False(category1.Id == category2.Id && category1.Name == category2.Name);
+            Assert.NotEqual(hashCode1, hashCode2);
+        }
+
+        [Fact]
+        public void GetHascode_WhenSameCategoryPropertiesValue_ShouldReturnEqualHashCode()
+        {
+            //Arrange
+            var category1 = _fixture.Create<Category>();
+            var category2 = new Category() { Id = category1.Id, Name = category1.Name };
+
+            //Act
+            var hashCode1 = category1.GetHashCode();
+            var hashCode2 = category2.GetHashCode();
+
+            //Assert
+            Assert.True(category1.Id == category2.Id && category1.Name == category2.Name);
+            Assert.Equal(hashCode1, hashCode2);
+        }
+
+        [Fact]
+        public void Equals_WhenDifferentCategory_ShouldReturnFalse()
+        {
+            //Arrange
+            var category1 = _fixture.Create<Category>();
+            var category2 = _fixture.Create<Category>();
+
+            //Act
+            var result1 = category1.Equals(category2);
+            var result2 = category2.Equals(category1);
+
+            //Assert
+            Assert.False(result1);
+            Assert.False(result2);
+        }
+
+        [Fact]
+        public void Equals_WhenSameCategoryPropertiesValue_ShouldReturnTrue()
+        {
+            //Arrange
+            var category1 = _fixture.Create<Category>();
+            var category2 = new Category() { Id = category1.Id, Name = category1.Name };
+
+            //Act
+            var result1 = category1.Equals(category2);
+            var result2 = category2.Equals(category1);
+
+            //Assert
+            Assert.True(result1);
+            Assert.True(result2);
         }
     }
 }
