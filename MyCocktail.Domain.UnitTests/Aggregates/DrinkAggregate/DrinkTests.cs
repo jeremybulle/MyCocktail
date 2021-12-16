@@ -562,7 +562,6 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 
 
             //Assert
-            Assert.Equal(measures.Count(), result.Count());
             Assert.True(!result.Except(measures).Any());
         }
 
@@ -860,31 +859,37 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         }
 
         [Fact]
-        public void GetMeasures_WhenDrinkNotContainsMeasuresToDelete_ShouldRetunrEmptyEnumerable()
+        public void GetIngredients_WhenDrinkNotContainsMeasures_ShouldRetunrEmptyEnumerable()
         {
             //Arrange
             var drink = _fixture.Create<Drink>();
 
             //Act
-            var result = drink.GetMeasures();
+            var result = drink.GetIngredients();
 
             //Assert
             Assert.False(result.Any());
         }
 
         [Fact]
-        public void GetMeasures_WhenDrinkContainsMeasures_ShouldRetunrEnumerableWithAlldrink()
+        public void GetIngredients_WhenDrinkContainsMeasures_ShouldRetunrEnumerableWithAllIngredient()
         {
             //Arrange
             var drink = _fixture.Create<Drink>();
             var measures = _fixture.CreateMany<Measure>().ToList();
             measures.ForEach(m => drink.AddMeasure(m));
+            var ingredients = new HashSet<Ingredient>();
+
+            foreach(var m in measures)
+            {
+                ingredients.Add(m.Ingredient);
+            }
 
             //Act
-            var result = drink.GetMeasures();
+            var result = drink.GetIngredients();
 
             //Assert
-            Assert.True(measures.All(m => result.Any(m2 => m.Equals(m2))));
+            Assert.True(ingredients.All(i => result.Any(i2 => i.Equals(i2))));
         }
 
         [Fact]
@@ -927,6 +932,48 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             //Assert
             Assert.Equal(hashCode1, hashCode2);
         }
-        
+
+        [Fact]
+        public void Equals_WhenSameDrinkPropertiesValue_ShouldReturnTrue()
+        {
+            //Arrange
+            var drink1 = _fixture.Create<Drink>();
+            var drink2 = new Drink() {
+                Id = drink1.Id,
+                Name = drink1.Name,
+                Alcoholic = drink1.Alcoholic,
+                Category = drink1.Category,
+                DateModified = drink1.DateModified,
+                Glass = drink1.Glass,
+                IdSource = drink1.IdSource,
+                IdOwner = drink1.IdOwner,
+                Instruction = drink1.Instruction,
+                UrlPicture = drink1.UrlPicture
+            };
+
+            //Act
+            var result1 = drink1.Equals(drink2);
+            var result2 = drink2.Equals(drink1);
+
+            //Assert
+            Assert.True(result1);
+            Assert.True(result2);
+        }
+
+        [Fact]
+        public void Equals_WhenNotSameDrinkPropertiesValue_ShouldReturnTrue()
+        {
+            //Arrange
+            var drink1 = _fixture.Create<Drink>();
+            Object drink2 = _fixture.Create<Drink>();
+
+            //Act
+            var result1 = drink1.Equals(drink2);
+            var result2 = drink2.Equals(drink1);
+
+            //Assert
+            Assert.False(result1);
+            Assert.False(result2);
+        }
     }
 }
