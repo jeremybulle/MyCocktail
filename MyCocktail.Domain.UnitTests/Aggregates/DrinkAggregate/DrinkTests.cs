@@ -975,5 +975,20 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             Assert.False(result1);
             Assert.False(result2);
         }
+        [Fact]
+        public void Equals_WhenOneObjIsNotADrink_ShouldReturnTrue()
+        {
+            //Arrange
+            var drink1 = _fixture.Create<Drink>();
+            Object drink2 = _fixture.Create<string>();
+
+            //Act
+            var result1 = drink1.Equals(drink2);
+            var result2 = drink2.Equals(drink1);
+
+            //Assert
+            Assert.False(result1);
+            Assert.False(result2);
+        }
     }
 }
