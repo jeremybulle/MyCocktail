@@ -184,11 +184,11 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         {
             get
             {
-                return new DateTime(_dateModified.Year, _dateModified.Month, _dateModified.Day);
+               return new DateTime(_dateModified.Year, _dateModified.Month, _dateModified.Day, _dateModified.Hour, _dateModified.Minute, _dateModified.Second, _dateModified.Millisecond, _dateModified.Kind);
             }
             set
             {
-                _dateModified = new DateTime(value.Year, value.Month, value.Day);
+                _dateModified = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Millisecond,value.Kind);
             }
         }
         #endregion
@@ -270,13 +270,13 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// Update a <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> with the same Name
         /// </summary>
         /// <param name="measureModified">New value for the <see cref="MyCocktail.Domain.Aggregates.DrinkAggregate.Measure"/> to update</param>
-        public void ModifyMeasure(Measure measureModified)
+        public void ModifyMeasure(Measure actualValue, Measure measureModified)
         {
-            if (measureModified == null || !_measures.Any(m => m.Ingredient.Name == measureModified.Ingredient.Name))
+            if (measureModified == null || actualValue == null || !_measures.Any(m => m.Ingredient.Name == actualValue.Ingredient.Name && m.Quantity == actualValue.Quantity))
             {
                 return;
             }
-            _measures.RemoveWhere(m => m.Ingredient.Name == measureModified.Ingredient.Name);
+            _measures.RemoveWhere(m => m.Ingredient.Name == actualValue.Ingredient.Name && m.Quantity == actualValue.Quantity);
             _measures.Add(measureModified);
         }
 

@@ -499,7 +499,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             var result = drink.DateModified;
 
             //Assert
-            Assert.Equal(dateModified, result);
+            Assert.Equal(dateModified.Date, result.Date);
         }
 
         [Fact]
@@ -696,6 +696,131 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             //Assert
             act1.Should().Throw<ArgumentException>();
             ex2.Should().BeOfType<ArgumentException>();
+        }
+
+        [Fact]
+        public void AddMeasure_WhenDrinkAlreadyContainsAMeasureWithSameParameters_ShouldNotAddNewMeasure()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            var ingredientName = "poudre de Perlinpinpi";
+            var quantity = "Louche";
+            var measureTracked = new Measure() { Id = Guid.NewGuid(), Ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = ingredientName }, Quantity = quantity };
+
+            drink.AddMeasure(measureTracked);
+
+            //Act
+            drink.AddMeasure(ingredientName, quantity);
+            var result = drink.GetMeasures().Where(m => m.Ingredient.Name == measureTracked.Ingredient.Name && m.Quantity == measureTracked.Quantity);
+
+            //Assert
+            Assert.True(result.Count() == 1);
+        }
+
+        [Fact]
+        public void ModifyMeasure_WhenMeasureWithUpdatesIsValid_ShouldModifyMeasure()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            var ingredientName = "poudre de Perlinpinpi";
+            var quantity = "Louche";
+            var measureTracked = new Measure() { Id = Guid.NewGuid(), Ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = ingredientName }, Quantity = quantity };
+
+            drink.AddMeasure(measureTracked);
+
+            var modifiedMeasure = new Measure() { Ingredient = measureTracked.Ingredient, Quantity = _fixture.Create<string>() };
+
+            //Act
+            drink.ModifyMeasure(measureTracked, modifiedMeasure);
+            var isOlderValueInDrink = drink.GetMeasures().Any(m => m.Ingredient.Name == measureTracked.Ingredient.Name && m.Quantity == measureTracked.Quantity);
+            var isNewValueInDrink = drink.GetMeasures().Any(m => m.Ingredient.Name == modifiedMeasure.Ingredient.Name && m.Quantity == modifiedMeasure.Quantity);
+
+            //Assert
+            Assert.False(isOlderValueInDrink);
+            Assert.True(isNewValueInDrink);
+        }
+
+        [Fact]
+        public void ModifyMeasure_WhenMeasureWithUpdatesIsNull_ShouldNotThrowException()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            var ingredientName = "poudre de Perlinpinpi";
+            var quantity = "Louche";
+            var measureTracked = new Measure() { Id = Guid.NewGuid(), Ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = ingredientName }, Quantity = quantity };
+
+            drink.AddMeasure(measureTracked);
+
+            Measure modifiedMeasure = null;
+
+            //Act
+            var ex = Record.Exception(() => drink.ModifyMeasure(measureTracked, modifiedMeasure));
+
+            //Assert
+            Assert.Null(ex);
+        }
+
+        [Fact]
+        public void ModifyMeasure_WhenMeasureWithUpdatesIsValidAndActualValueIsNull_ShouldNotThrowExceptionAndNotUpadteMeasure()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            var ingredientName = "poudre de Perlinpinpi";
+            var quantity = "Louche";
+            var measureTracked = new Measure() { Id = Guid.NewGuid(), Ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = ingredientName }, Quantity = quantity };
+
+            drink.AddMeasure(measureTracked);
+
+            Measure modifiedMeasure = new Measure() { Ingredient = measureTracked.Ingredient, Quantity = _fixture.Create<string>() };
+
+            //Act
+            var ex = Record.Exception(() => drink.ModifyMeasure(null, modifiedMeasure));
+            var result = drink.GetMeasures().Any(m => m.Ingredient.Name == measureTracked.Ingredient.Name && m.Quantity == measureTracked.Quantity);
+
+            //Assert
+            Assert.Null(ex);
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void ModifyMeasure_WhenDrinkNotContainsActualValue_ShouldNotThrowExceptionAndNotUpadteMeasure()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            var ingredientName = "poudre de Perlinpinpi";
+            var quantity = "Louche";
+            var measureTracked = new Measure() { Id = Guid.NewGuid(), Ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = ingredientName }, Quantity = quantity };
+            drink.AddMeasure(measureTracked);
+            Measure modifiedMeasure = new Measure() { Ingredient = measureTracked.Ingredient, Quantity = _fixture.Create<string>() };
+            var actualValueNotInDrink = new Measure() { Ingredient = measureTracked.Ingredient, Quantity = "couillère Arthour" };
+
+            //Act
+            var ex = Record.Exception(() => drink.ModifyMeasure(actualValueNotInDrink, modifiedMeasure));
+            var result = drink.GetMeasures().Any(m => m.Ingredient.Name == measureTracked.Ingredient.Name && m.Quantity == measureTracked.Quantity);
+
+            //Assert
+            Assert.Null(ex);
+            Assert.True(result);
         }
     }
 }
