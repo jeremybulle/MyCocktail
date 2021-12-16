@@ -72,20 +72,20 @@ namespace MyCocktail.Domain.EntitySource
             var dict = new Dictionary<int, string>();
 
             dict[1] = strIngredient1.IsNullOrEmpty() ? null : strIngredient1;
-            dict[2] = strIngredient1.IsNullOrEmpty() ? null : strIngredient2;
-            dict[3] = strIngredient1.IsNullOrEmpty() ? null : strIngredient3;
-            dict[4] = strIngredient1.IsNullOrEmpty() ? null : strIngredient4;
-            dict[5] = strIngredient1.IsNullOrEmpty() ? null : strIngredient5;
-            dict[6] = strIngredient1.IsNullOrEmpty() ? null : strIngredient6;
-            dict[7] = strIngredient1.IsNullOrEmpty() ? null : strIngredient7;
-            dict[8] = strIngredient1.IsNullOrEmpty() ? null : strIngredient8;
-            dict[9] = strIngredient1.IsNullOrEmpty() ? null : strIngredient9;
-            dict[10] = strIngredient1.IsNullOrEmpty() ? null : strIngredient10;
-            dict[11] = strIngredient1.IsNullOrEmpty() ? null : strIngredient11;
-            dict[12] = strIngredient1.IsNullOrEmpty() ? null : strIngredient12;
-            dict[13] = strIngredient1.IsNullOrEmpty() ? null : strIngredient13;
-            dict[14] = strIngredient1.IsNullOrEmpty() ? null : strIngredient14;
-            dict[15] = strIngredient1.IsNullOrEmpty() ? null : strIngredient15;
+            dict[2] = strIngredient2.IsNullOrEmpty() ? null : strIngredient2;
+            dict[3] = strIngredient3.IsNullOrEmpty() ? null : strIngredient3;
+            dict[4] = strIngredient4.IsNullOrEmpty() ? null : strIngredient4;
+            dict[5] = strIngredient5.IsNullOrEmpty() ? null : strIngredient5;
+            dict[6] = strIngredient6.IsNullOrEmpty() ? null : strIngredient6;
+            dict[7] = strIngredient7.IsNullOrEmpty() ? null : strIngredient7;
+            dict[8] = strIngredient8.IsNullOrEmpty() ? null : strIngredient8;
+            dict[9] = strIngredient9.IsNullOrEmpty() ? null : strIngredient9;
+            dict[10] = strIngredient10.IsNullOrEmpty() ? null : strIngredient10;
+            dict[11] = strIngredient11.IsNullOrEmpty() ? null : strIngredient11;
+            dict[12] = strIngredient12.IsNullOrEmpty() ? null : strIngredient12;
+            dict[13] = strIngredient13.IsNullOrEmpty() ? null : strIngredient13;
+            dict[14] = strIngredient14.IsNullOrEmpty() ? null : strIngredient14;
+            dict[15] = strIngredient15.IsNullOrEmpty() ? null : strIngredient15;
 
             return dict;
         }
