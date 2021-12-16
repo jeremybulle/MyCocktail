@@ -432,18 +432,18 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 
             //Act
             var ex = Record.Exception(() => new Drink()
-                {
-                    Id = Guid.NewGuid(),
-                    Alcoholic = alcoholic,
-                    Category = _fixture.Create<Category>(),
-                    DateModified = DateTime.Now,
-                    Glass = _fixture.Create<Glass>(),
-                    IdOwner = Guid.NewGuid(),
-                    IdSource = _fixture.Create<string>(),
-                    Instruction = _fixture.Create<string>(),
-                    Name = _fixture.Create<string>(),
-                    UrlPicture = _fixture.Create<Uri>(),
-                }
+            {
+                Id = Guid.NewGuid(),
+                Alcoholic = alcoholic,
+                Category = _fixture.Create<Category>(),
+                DateModified = DateTime.Now,
+                Glass = _fixture.Create<Glass>(),
+                IdOwner = Guid.NewGuid(),
+                IdSource = _fixture.Create<string>(),
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>(),
+            }
             );
 
             //Assert
@@ -458,18 +458,18 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 
             //Act
             var ex = Record.Exception(() => new Drink()
-                {
-                    Id = Guid.NewGuid(),
-                    Alcoholic = alcoholic,
-                    Category = _fixture.Create<Category>(),
-                    DateModified = DateTime.Now,
-                    Glass = _fixture.Create<Glass>(),
-                    IdOwner = Guid.NewGuid(),
-                    IdSource = _fixture.Create<string>(),
-                    Instruction = _fixture.Create<string>(),
-                    Name = _fixture.Create<string>(),
-                    UrlPicture = _fixture.Create<Uri>(),
-                }
+            {
+                Id = Guid.NewGuid(),
+                Alcoholic = alcoholic,
+                Category = _fixture.Create<Category>(),
+                DateModified = DateTime.Now,
+                Glass = _fixture.Create<Glass>(),
+                IdOwner = Guid.NewGuid(),
+                IdSource = _fixture.Create<string>(),
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>(),
+            }
             );
 
             //Assert
@@ -503,7 +503,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         }
 
         [Fact]
-        public void AddMeasure_WhenDrinkContainMeasure_ShouldNotThrowException()
+        public void AddMeasure_WhenDrinkContainOtherMeasures_ShouldNotThrowException()
         {
             //Arrange
             var measures = _fixture.CreateMany<Measure>(4);
@@ -604,7 +604,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             var drink = _fixture.Create<Drink>();
             var ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = _fixture.Create<string>() };
             var measuresWithRandomIngredient = _fixture.CreateMany<Measure>().ToList();
-            var measuresWithIngredientSearch = _fixture.Build<Measure>().With(m => m.Ingredient , ingredient).CreateMany().ToList();
+            var measuresWithIngredientSearch = _fixture.Build<Measure>().With(m => m.Ingredient, ingredient).CreateMany().ToList();
 
             measuresWithRandomIngredient.ForEach(m => drink.AddMeasure(m));
             measuresWithIngredientSearch.ForEach(m => drink.AddMeasure(m));
@@ -624,7 +624,8 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             var ingredient = new Ingredient() { Id = Guid.NewGuid(), Name = _fixture.Create<string>() };
             var measuresWithRandomIngredient = _fixture.CreateMany<Measure>().ToList();
 
-            measuresWithRandomIngredient.ForEach(m => {
+            measuresWithRandomIngredient.ForEach(m =>
+            {
                 if (m.Ingredient.Name != ingredient.Name)
                 {
                     drink.AddMeasure(m);
@@ -688,7 +689,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 
             string ingredientName2 = "";
             var quantity2 = _fixture.Create<string>();
-            
+
             //Act
             Action act1 = () => drink.AddMeasure(ingredientName1, quantity1);
             var ex2 = Record.Exception(() => drink.AddMeasure(ingredientName2, quantity2));
@@ -714,7 +715,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             drink.AddMeasure(measureTracked);
 
             //Act
-            drink.AddMeasure(ingredientName, quantity);
+            drink.AddMeasure(measureTracked.Ingredient.Name, measureTracked.Quantity);
             var result = drink.GetMeasures().Where(m => m.Ingredient.Name == measureTracked.Ingredient.Name && m.Quantity == measureTracked.Quantity);
 
             //Assert
@@ -822,5 +823,110 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             Assert.Null(ex);
             Assert.True(result);
         }
+
+        [Fact]
+        public void DeleteMeasure_WhenDrinkContainsMeasureToDelete_ShouldNotThrowExceptionAndRemoveMeasure()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+            var measureToRemove = measures.First();
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            //Act
+            var ex = Record.Exception(() => drink.DeleteMeasure(measureToRemove));
+            var result = drink.GetMeasures().Any(m => m.Ingredient.Name == measureToRemove.Ingredient.Name && m.Quantity == measureToRemove.Quantity);
+
+            //Assert
+            Assert.Null(ex);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void DeleteMeasure_WhenDrinkNotContainsMeasureToDelete_ShouldNotThrowExceptionAndNotRemoveMeasure()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+            var measureToRemove = _fixture.Create<Measure>();
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            //Act
+            var ex = Record.Exception(() => drink.DeleteMeasure(measureToRemove));
+
+            //Assert
+            Assert.Null(ex);
+            Assert.Equal(measures.Count, drink.GetMeasures().Count());
+        }
+
+        [Fact]
+        public void GetMeasures_WhenDrinkNotContainsMeasuresToDelete_ShouldRetunrEmptyEnumerable()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+
+            //Act
+            var result = drink.GetMeasures();
+
+            //Assert
+            Assert.False(result.Any());
+        }
+
+        [Fact]
+        public void GetMeasures_WhenDrinkContainsMeasures_ShouldRetunrEnumerableWithAlldrink()
+        {
+            //Arrange
+            var drink = _fixture.Create<Drink>();
+            var measures = _fixture.CreateMany<Measure>().ToList();
+            measures.ForEach(m => drink.AddMeasure(m));
+
+            //Act
+            var result = drink.GetMeasures();
+
+            //Assert
+            Assert.True(measures.All(m => result.Any(m2 => m.Equals(m2))));
+        }
+
+        [Fact]
+        public void GetHascode_WhenDifferentDrink_ShouldReturnNonEqualHashCode()
+        {
+            //Arrange
+            var drink1 = _fixture.Create<Drink>();
+            var drink2 = _fixture.Create<Drink>();
+
+            //Act
+            var hashCode1 = drink1.GetHashCode();
+            var hashCode2 = drink2.GetHashCode();
+
+            //Assert
+            Assert.NotEqual(hashCode1, hashCode2);
+        }
+
+        [Fact]
+        public void GetHascode_WhenSameDrinkPropertiesValue_ShouldReturnEqualHashCode()
+        {
+            //Arrange
+            var drink1 = _fixture.Create<Drink>();
+            var drink2 = new Drink() {
+                Id = drink1.Id,
+                Name = drink1.Name,
+                Alcoholic = drink1.Alcoholic,
+                Category = drink1.Category,
+                DateModified = drink1.DateModified,
+                Glass = drink1.Glass,
+                IdSource = drink1.IdSource,
+                IdOwner = drink1.IdOwner,
+                Instruction = drink1.Instruction,
+                UrlPicture = drink1.UrlPicture
+            };
+
+            //Act
+            var hashCode1 = drink1.GetHashCode();
+            var hashCode2 = drink2.GetHashCode();
+
+            //Assert
+            Assert.Equal(hashCode1, hashCode2);
+        }
+        
     }
 }

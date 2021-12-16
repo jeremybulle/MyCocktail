@@ -286,7 +286,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// <param name="measureToDelete">Measure to remove</param>
         public void DeleteMeasure(Measure measureToDelete)
         {
-            var measureToDrop = _measures.FirstOrDefault(m => m.Ingredient.Name == measureToDelete.Ingredient.Name && m.Quantity == measureToDelete.Ingredient.Name);
+            var measureToDrop = _measures.FirstOrDefault(m => m.Ingredient.Name == measureToDelete.Ingredient.Name && m.Quantity == measureToDelete.Quantity);
             if (measureToDrop != null)
             {
                 _measures.Remove(measureToDrop);
@@ -323,7 +323,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(IdSource, Name, DateModified, UrlPicture, Glass, Category, Alcoholic, IdOwner);
+            return HashCode.Combine(IdSource, Name, DateModified.Date, UrlPicture, Glass, Category, Alcoholic, IdOwner);
         }
     }
 }
