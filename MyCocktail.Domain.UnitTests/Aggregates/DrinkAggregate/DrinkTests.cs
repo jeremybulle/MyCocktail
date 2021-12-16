@@ -682,20 +682,20 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         //        Name = _fixture.Create<string>(),
         //        UrlPicture = _fixture.Create<Uri>(),
         //    };
-            
+
         //    string ingredientName1 = null;
         //    var quantity1 = _fixture.Create<string>();
 
-        //    string ingredientName2 = "";
-        //    var quantity2 = _fixture.Create<string>();
+        //    //string ingredientName2 = "";
+        //    //var quantity2 = _fixture.Create<string>();
 
         //    //Act
         //    drink.AddMeasure(ingredientName1, quantity1);
-        //    Action act1 = () => drink.AddMeasure(ingredientName1, quantity1);
+        //    var ex1 = Record.Exception(() => drink.AddMeasure(ingredientName1, quantity1));
         //    //var ex2 = Record.Exception(() => drink.AddMeasure(ingredientName2, quantity2));
 
         //    //Assert
-        //    act1.Should().Throw<ArgumentException>();
+        //    ex1.Should().BeOfType<ArgumentException>();
         //    //ex2.Should().BeOfType<ArgumentException>();
         //}
     }
