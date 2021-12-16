@@ -665,38 +665,37 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             Assert.True(result.Any());
         }
 
-        //[Fact]
-        //public void AddMeasure_WhenParametersIngredientNameIsNotValid_ShouldThrowArgumentException()
-        //{
-        //    //Arrange
-        //    var drink = new Drink()
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        Alcoholic = _fixture.Create<Alcoholic>(),
-        //        Category = _fixture.Create<Category>(),
-        //        DateModified = DateTime.Now,
-        //        Glass = _fixture.Create<Glass>(),
-        //        IdOwner = Guid.NewGuid(),
-        //        IdSource = _fixture.Create<string>(),
-        //        Instruction = _fixture.Create<string>(),
-        //        Name = _fixture.Create<string>(),
-        //        UrlPicture = _fixture.Create<Uri>(),
-        //    };
+        [Fact]
+        public void AddMeasure_WhenParametersIngredientNameIsNotValid_ShouldThrowArgumentException()
+        {
+            //Arrange
+            var drink = new Drink()
+            {
+                Id = Guid.NewGuid(),
+                Alcoholic = _fixture.Create<Alcoholic>(),
+                Category = _fixture.Create<Category>(),
+                DateModified = DateTime.Now,
+                Glass = _fixture.Create<Glass>(),
+                IdOwner = Guid.NewGuid(),
+                IdSource = _fixture.Create<string>(),
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>(),
+            };
 
-        //    string ingredientName1 = null;
-        //    var quantity1 = _fixture.Create<string>();
+            string ingredientName1 = null;
+            var quantity1 = _fixture.Create<string>();
 
-        //    //string ingredientName2 = "";
-        //    //var quantity2 = _fixture.Create<string>();
+            string ingredientName2 = "";
+            var quantity2 = _fixture.Create<string>();
+            
+            //Act
+            Action act1 = () => drink.AddMeasure(ingredientName1, quantity1);
+            var ex2 = Record.Exception(() => drink.AddMeasure(ingredientName2, quantity2));
 
-        //    //Act
-        //    drink.AddMeasure(ingredientName1, quantity1);
-        //    var ex1 = Record.Exception(() => drink.AddMeasure(ingredientName1, quantity1));
-        //    //var ex2 = Record.Exception(() => drink.AddMeasure(ingredientName2, quantity2));
-
-        //    //Assert
-        //    ex1.Should().BeOfType<ArgumentException>();
-        //    //ex2.Should().BeOfType<ArgumentException>();
-        //}
+            //Assert
+            act1.Should().Throw<ArgumentException>();
+            ex2.Should().BeOfType<ArgumentException>();
+        }
     }
 }
