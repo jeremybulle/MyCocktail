@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCocktail.Infrastucture.Dao;
 using MyCocktail.Infrastucture.EntityTypeConfiguration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyCocktail.Infrastucture
 {
+    [ExcludeFromCodeCoverage]
     public class DrinkDbContext : DbContext
     {
 

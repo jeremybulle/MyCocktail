@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyCocktail.Infrastucture.Dao;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyCocktail.Infrastucture.EntityTypeConfiguration
 {
+    [ExcludeFromCodeCoverage]
     public class GlassEntityTypeConfiguration : IEntityTypeConfiguration<GlassDao>
     {
         public void Configure(EntityTypeBuilder<GlassDao> builder)

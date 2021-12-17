@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyCocktail.Infrastucture.Dao
 {
+    [ExcludeFromCodeCoverage]
     public class MeasureDao
     {
         public Guid Id;

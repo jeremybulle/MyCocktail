@@ -13,10 +13,12 @@ using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Infrastucture;
 using MyCocktail.Infrastucture.Repositories;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace MyCocktail.Api
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)

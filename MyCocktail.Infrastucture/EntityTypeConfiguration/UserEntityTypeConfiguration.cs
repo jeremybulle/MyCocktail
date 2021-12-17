@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Infrastucture.Dao;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyCocktail.Infrastucture.EntityTypeConfiguration
 {
+    [ExcludeFromCodeCoverage]
     public class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserDao>
     {
         public void Configure(EntityTypeBuilder<UserDao> builder)

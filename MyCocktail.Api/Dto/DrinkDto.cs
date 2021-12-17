@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyCocktail.Api.Dto
 {
+    [ExcludeFromCodeCoverage]
     public class DrinkDto
     {
         public string Id { get; set; }
