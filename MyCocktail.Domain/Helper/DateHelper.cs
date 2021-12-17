@@ -25,7 +25,7 @@ namespace MyCocktail.Domain.Helper
             ymdhms.AddRange(ymd.Split("-"));
             ymdhms.AddRange(hms.Split(":"));
 
-            var ymdhmsConverted = new int[ymd.Length + hms.Length];
+            var ymdhmsConverted = new int[ymdhms.Count];
 
             for (int i = 0; i < ymdhms.Count; i++)
             {
@@ -41,7 +41,7 @@ namespace MyCocktail.Domain.Helper
                 }
             }
 
-            return new DateTime(ymdhmsConverted[0], ymdhmsConverted[1], ymdhmsConverted[2], ymdhmsConverted[3], ymdhmsConverted[4], ymdhmsConverted[5]);
+            return new DateTime(ymdhmsConverted[2], ymdhmsConverted[1], ymdhmsConverted[0], ymdhmsConverted[3], ymdhmsConverted[4], ymdhmsConverted[5]);
         }
     }
 }

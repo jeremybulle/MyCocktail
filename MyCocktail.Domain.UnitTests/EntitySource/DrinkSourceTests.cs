@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using Castle.Core.Internal;
 using FluentAssertions;
+using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Domain.EntitySource;
 using System;
 using System.Collections.Generic;
@@ -125,6 +126,29 @@ namespace MyCocktail.Domain.UnitTests.EntitySource
 
             //Assert
             Assert.True(result.All(m => m.Value == null));
+            
+        }
+
+        [Fact]
+        public void ToModel_WhenDrinkSourceIsValid_ShouldReturnDrinkAndNotThrowException()
+        {
+            //Arrange
+            var drinkSource = _fixture.Build<DrinkSource>()
+                .With(d => d.strDrinkThumb, _fixture.Create<Uri>().ToString())
+                .With(d => d.dateModified, DateTime.Now.ToString().Replace('/','-'))
+                .Create();
+            var result = false;
+
+            //Act
+            var ex = Record.Exception(() => {
+                var drinkConverted = drinkSource.ToModel();
+                result = drinkConverted.GetIngredients().All(i => !i.Name.IsNullOrEmpty());
+            }
+            );
+
+            //Assert
+            Assert.Null(ex);
+            Assert.True(result);
             
         }
     }
