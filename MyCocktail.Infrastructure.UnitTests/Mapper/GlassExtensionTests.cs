@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using MyCocktail.Infrastucture.Dao;
 using MyCocktail.Infrastucture.Mapper;
 using System;
@@ -31,6 +32,19 @@ namespace MyCocktail.Infrastructure.UnitTests.Mapper
             //Act
             Assert.True(result.Id == glassDao.Id);
             Assert.True(result.Name == glassDao.Name);
+        }
+
+        [Fact]
+        public void ToModel_WhenNullParameter_ShouldThrowArgumentNullException()
+        {
+            //Arrange
+            GlassDao glassDao = null;
+
+            //Assert
+            var ex = Record.Exception( ()=> glassDao.ToModel());
+
+            //Act
+            ex.Should().BeOfType<ArgumentNullException>();
         }
     }
 }

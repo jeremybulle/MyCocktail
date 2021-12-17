@@ -8,6 +8,11 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static IngredientDao ToDao(this Ingredient ingredientToMap)
         {
+            if(ingredientToMap == null)
+            {
+                throw new ArgumentNullException(nameof(ingredientToMap));
+            }
+
             return new IngredientDao()
             {
                 Id = ingredientToMap.Id ?? Guid.NewGuid(),

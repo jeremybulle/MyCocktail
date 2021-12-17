@@ -53,5 +53,33 @@ namespace MyCocktail.Infrastructure.UnitTests.Mapper
             Assert.True(ingredientsDao.All(i => result.Any(i2 => i2.Id == i.Id && i2.Name == i.Name)));
             Assert.True(result.Count() == ingredientsDao.Count);
         }
+
+        [Fact]
+        public void ToModel_WhenParametersIsEmpty_ShouldReturnEmptyIEnumerableIngredients()
+        {
+            //Arrange
+            var ingredientsDao = new List<IngredientDao>();
+
+            //Assert
+            var result = ingredientsDao.ToModel();
+
+            //Act
+            Assert.False(result.Any());
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ToModel_WhenParametersIsNull_ShouldReturnEmptyIEnumerableIngredients()
+        {
+            //Arrange
+            List<IngredientDao> ingredientsDao = null;
+
+            //Assert
+            var result = ingredientsDao.ToModel();
+
+            //Act
+            Assert.False(result.Any());
+            Assert.NotNull(result);
+        }
     }
 }

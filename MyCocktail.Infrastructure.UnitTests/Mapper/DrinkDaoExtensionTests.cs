@@ -92,5 +92,18 @@ namespace MyCocktail.Infrastructure.UnitTests.Mapper
             Assert.True(result.Category.Name == drinkDao.Category.Name);
             Assert.True(measuresDao.All(m => result.GetMeasures().Any(m2 => m.Ingredient.Id == m2.Ingredient.Id && m.Ingredient.Name == m2.Ingredient.Name && m.Quantity == m2.Quantity)));
         }
+
+        [Fact]
+        public void ToModel_WhenParameterisNull_ShouldReturnNull()
+        {
+            //Arrange
+            DrinkDao drinkDao = null;
+
+            //Act
+            var result = drinkDao.ToModel();
+
+            //Assert
+            Assert.Null(result);
+        }
     }
 }

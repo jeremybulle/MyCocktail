@@ -1,6 +1,8 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Infrastucture.Mapper;
+using System;
 using Xunit;
 
 namespace MyCocktail.Infrastructure.UnitTests.Mapper
@@ -26,6 +28,19 @@ namespace MyCocktail.Infrastructure.UnitTests.Mapper
             //Assert
             Assert.True(result.Id == ingredient.Id);
             Assert.True(result.Name == ingredient.Name);
+        }
+
+        [Fact]
+        public void ToDao_WhenNullParameters_ShouldThrowArgumentNullException()
+        {
+            //Arrange
+            Ingredient ingredient = null;
+
+            //Act
+            var ex = Record.Exception( () => ingredient.ToDao());
+
+            //Assert
+            ex.Should().BeOfType<ArgumentNullException>();
         }
     }
 }
