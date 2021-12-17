@@ -66,6 +66,10 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             }
             set
             {
+                if(value == null)
+                {
+                    throw new ArgumentException("A drink must Have instruction");
+                }
                 _instruction = value.Trim();
             }
         }

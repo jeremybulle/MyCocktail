@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Infrastucture.Mapper;
 using System;
@@ -87,6 +88,40 @@ namespace MyCocktail.Infrastructure.UnitTests.Mapper
             Assert.True(result.Name == drink.Name);
             Assert.True(result.OwnerId == drink.IdOwner);
             Assert.True(result.UrlPicture == drink.UrlPicture.ToString());
+        }
+
+        [Fact]
+        public void ToDao_WhenDrinkHaveNoId_ShouldReturnDrinkDao()
+        {
+            //Arrange
+            var drink = new Drink()
+            {
+                Alcoholic = new Alcoholic() { Id = null, Name = _fixture.Create<string>() },
+                Category = new Category() { Id = null, Name = _fixture.Create<string>() },
+                DateModified = DateTime.Now,
+                Glass = new Glass() { Id = null, Name = _fixture.Create<string>() },
+                Id = Guid.NewGuid(),
+                IdOwner = Guid.NewGuid(),
+                IdSource = null,
+                Instruction = _fixture.Create<string>(),
+                Name = _fixture.Create<string>(),
+                UrlPicture = _fixture.Create<Uri>(),
+            };
+
+            //Act
+            var result = drink.ToDao();
+
+            //Assert
+            Assert.True(result.Alcoholic.Name == drink.Alcoholic.Name);
+            Assert.True(result.Category.Name == drink.Category.Name);
+            Assert.True(result.DateModified == drink.DateModified);
+            Assert.True(result.Glass.Name == drink.Glass.Name);
+            Assert.True(result.IdSource == drink.IdSource);
+            Assert.True(result.Instruction == drink.Instruction);
+            Assert.True(result.Name == drink.Name);
+            Assert.True(result.OwnerId == drink.IdOwner);
+            Assert.True(result.UrlPicture == drink.UrlPicture.ToString());
+
         }
     }
 }
