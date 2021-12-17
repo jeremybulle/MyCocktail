@@ -31,6 +31,19 @@ namespace MyCocktail.Infrastructure.UnitTests.Mapper
         }
 
         [Fact]
+        public void ToDao_WhenIngredientHasNullId_ShouldReturnIngredientDaoWithNotNullId()
+        {
+            //Arrange
+            var ingredient = new Ingredient() { Id = null, Name = _fixture.Create<string>() };
+
+            //Act
+            var result = ingredient.ToDao();
+
+            //Assert
+            Assert.True(result.Name == ingredient.Name);
+        }
+
+        [Fact]
         public void ToDao_WhenNullParameters_ShouldThrowArgumentNullException()
         {
             //Arrange
