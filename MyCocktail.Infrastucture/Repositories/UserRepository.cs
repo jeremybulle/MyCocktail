@@ -40,12 +40,12 @@ namespace MyCocktail.Infrastucture.Repositories
 
         private async Task<User> AddInternalAsync(UserDao userTosave)
         {
-            
+
             await _context.Users.AddAsync(userTosave).ConfigureAwait(false);
             await _context.SaveChangesAsync().ConfigureAwait(false);
 
             return userTosave.ToModel();
-          
+
         }
 
         /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.DeleteAsync(Guid)"/>
@@ -100,7 +100,7 @@ namespace MyCocktail.Infrastucture.Repositories
             userDao.Email = user.Email;
             userDao.Role = user.Role;
             userDao.UserName = user.UserName;
-            userDao.Password = user.Password.IsNullOrEmpty() ? PasswordHasher.Hash(user.Password) : throw new ArgumentNullException(nameof(user),"Can not be Updated with null or empty password");
+            userDao.Password = user.Password.IsNullOrEmpty() ? PasswordHasher.Hash(user.Password) : throw new ArgumentNullException(nameof(user), "Can not be Updated with null or empty password");
 
             return await _context.SaveChangesAsync().ConfigureAwait(false) > 0 ? user : null;
         }

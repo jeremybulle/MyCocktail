@@ -6,7 +6,6 @@ using MyCocktail.Api.Mapper;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Domain.Helper;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -72,17 +71,17 @@ namespace MyCocktail.Api.Controllers
             Ingredient result;
             try
             {
-                if(ingredientFromBody == null)
+                if (ingredientFromBody == null)
                 {
                     throw new ArgumentNullException(nameof(ingredientFromBody));
                 }
 
-                 var ingredientToSave = ingredientFromBody.ToModel();
-                if(ingredientToSave == null)
+                var ingredientToSave = ingredientFromBody.ToModel();
+                if (ingredientToSave == null)
                 {
                     return BadRequest(ingredientFromBody);
                 }
-                 result = await _repo.AddAsync(ingredientToSave).ConfigureAwait(false);
+                result = await _repo.AddAsync(ingredientToSave).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -91,7 +90,7 @@ namespace MyCocktail.Api.Controllers
 
             return result != null ? Ok(result.ToDto()) : StatusCode(500);
         }
-        
+
 
         // PUT api/<IngredientsController>/5
         [Authorize(Roles = "Admin")]
@@ -102,7 +101,7 @@ namespace MyCocktail.Api.Controllers
             try
             {
                 var ingredientToUpdate = ingredientDto.ToModel();
-                if(ingredientToUpdate.Id != id)
+                if (ingredientToUpdate.Id != id)
                 {
                     return BadRequest(ingredientDto);
                 }

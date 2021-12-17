@@ -28,9 +28,9 @@ namespace MyCocktail.ConsoleApp
                 db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
 
-                char[] dico = { 'a', 'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
+                char[] dico = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-                foreach(var c in dico)
+                foreach (var c in dico)
                 {
 
                     System.Console.WriteLine($"Calling Api for the letter => {c}");
@@ -58,7 +58,7 @@ namespace MyCocktail.ConsoleApp
                     }
 
                 }
-               
+
                 System.Console.WriteLine($" nb Alcoholics = {db.Alcoholics.Count()}");
                 System.Console.WriteLine($" nb Glasse = {db.Glasses.Count()}");
                 System.Console.WriteLine($" nb Categories = {db.Categories.Count()}");

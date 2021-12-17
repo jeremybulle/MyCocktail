@@ -2,10 +2,6 @@
 using FluentAssertions;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
@@ -47,7 +43,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
 
             //Act
             bool result;
-            if(alcoholic.Name[0] == ' ' || alcoholic.Name[alcoholic.Name.Length -1] == ' ')
+            if (alcoholic.Name[0] == ' ' || alcoholic.Name[alcoholic.Name.Length - 1] == ' ')
             {
                 result = true;
             }

@@ -26,7 +26,7 @@ namespace MyCocktail.Infrastucture.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-       
+
         /// <inheritdoc cref="MyCocktail.Domain.Aggregates.DrinkAggregate.IDrinkRepository.AddAsync(Drink)"/>
         public async Task<Drink> AddAsync(Drink drink)
         {
@@ -214,7 +214,7 @@ namespace MyCocktail.Infrastucture.Repositories
             //var query = _context.Drinks.Include(d => d.Measures).Include(d => d.Alcoholic).Include(d => d.Category).Include(d => d.Glass).Where(d => d.Measures.All( m => ingredientIds.Contains(m.IngredientId))); => Drink contient tous les ingrétients de la liste pas plus pas moins
 
             //var grp = await Task.FromResult(_context.Measures.Include(m => m.Drink).Include(m => m.Drink.Alcoholic).Include(m => m.Drink.Category).Include(m => m.Drink.Glass).Include(m => m.Ingredient).AsEnumerable().GroupBy(m => m.Drink, (key, g) => new { Drink = key, ingredients = g.Select(e => e.IngredientId) })).ConfigureAwait(false);
-            
+
             var query = await _context.Measures.Include(m => m.Drink).Include(m => m.Drink.Alcoholic).Include(m => m.Drink.Category).Include(m => m.Drink.Glass).Include(m => m.Ingredient).ToListAsync();
 
             var grp = query.GroupBy(m => m.Drink, (key, g) => new { Drink = key, ingredients = g.Select(e => e.IngredientId) });

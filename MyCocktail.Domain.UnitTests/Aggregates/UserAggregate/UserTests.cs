@@ -1,10 +1,6 @@
 ﻿using FluentAssertions;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace MyCocktail.Domain.UnitTests.Aggregates.UserAggregate
@@ -22,7 +18,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.UserAggregate
                 Id = Guid.NewGuid(),
                 CreationDate = DateTime.Now,
                 Email = "toto@gmail.com",
-                FirstName ="John",
+                FirstName = "John",
                 LastName = "Doe",
                 Password = "password",
                 UserName = "42",

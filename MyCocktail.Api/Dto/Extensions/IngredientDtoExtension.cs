@@ -7,7 +7,7 @@ namespace MyCocktail.Api.Dto.Extensions
     {
         public static Ingredient ToModel(this IngredientDto ingredientDto)
         {
-            if(ingredientDto == null)
+            if (ingredientDto == null)
             {
                 return null;
             }

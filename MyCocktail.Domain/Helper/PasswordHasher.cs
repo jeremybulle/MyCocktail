@@ -17,7 +17,7 @@ namespace MyCocktail.Domain.Helper
         /// <returns>Hashed pasword as <see langword="string"/></returns>
         public static string Hash(string password)
         {
-            if(password == null)
+            if (password == null)
             {
                 throw new ArgumentNullException(nameof(password));
             }

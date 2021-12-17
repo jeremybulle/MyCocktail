@@ -2,10 +2,6 @@
 using FluentAssertions;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
@@ -53,7 +49,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             //Assert
             Assert.IsType<ArgumentNullException>(ex);
         }
-       
+
         [Fact]
         public void Constructor_WithValidQuantity_ShouldHaveTrimedName()
         {
@@ -157,7 +153,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             var result = measure.Id;
 
             //Assert
-            Assert.Equal(id,result);
+            Assert.Equal(id, result);
         }
     }
 }

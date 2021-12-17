@@ -1,5 +1,4 @@
-﻿using MyCocktail.Domain.Helper;
-using System;
+﻿using System;
 
 namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {
@@ -17,7 +16,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name,Id);
+            return HashCode.Combine(Name, Id);
         }
     }
 }

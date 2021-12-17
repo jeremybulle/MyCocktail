@@ -90,7 +90,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             set
             {
                 Uri url;
-                
+
                 if (value != null)
                 {
                     url = new Uri(value.ToString());
@@ -118,9 +118,9 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             }
             set
             {
-                if(value == null)
+                if (value == null)
                 {
-                    throw new ArgumentNullException(nameof(value),"Dink must have a Glass");
+                    throw new ArgumentNullException(nameof(value), "Dink must have a Glass");
                 }
                 _glass = new Glass() { Id = value.Id, Name = value.Name };
             }
@@ -184,11 +184,11 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         {
             get
             {
-               return new DateTime(_dateModified.Year, _dateModified.Month, _dateModified.Day, _dateModified.Hour, _dateModified.Minute, _dateModified.Second, _dateModified.Millisecond, _dateModified.Kind);
+                return new DateTime(_dateModified.Year, _dateModified.Month, _dateModified.Day, _dateModified.Hour, _dateModified.Minute, _dateModified.Second, _dateModified.Millisecond, _dateModified.Kind);
             }
             set
             {
-                _dateModified = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Millisecond,value.Kind);
+                _dateModified = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Millisecond, value.Kind);
             }
         }
         #endregion
@@ -205,7 +205,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
             List<Measure> measuresToReturn = new List<Measure>();
             foreach (var m in _measures)
             {
-                measuresToReturn.Add(new Measure() { Id = m.Id ,Ingredient = new Ingredient() { Id = m.Ingredient.Id, Name = m.Ingredient.Name }, Quantity = m.Quantity });
+                measuresToReturn.Add(new Measure() { Id = m.Id, Ingredient = new Ingredient() { Id = m.Ingredient.Id, Name = m.Ingredient.Name }, Quantity = m.Quantity });
             }
 
             return measuresToReturn;
@@ -240,7 +240,7 @@ namespace MyCocktail.Domain.Aggregates.DrinkAggregate
         /// <param name="quantity"></param>
         public void AddMeasure(string ingredientName, string quantity)
         {
-            if(ingredientName.IsNullOrEmpty())
+            if (ingredientName.IsNullOrEmpty())
             {
                 throw new ArgumentException("Ingredient name Can not be null or empty", nameof(ingredientName));
             }

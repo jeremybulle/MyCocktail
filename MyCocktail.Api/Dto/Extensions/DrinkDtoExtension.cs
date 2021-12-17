@@ -1,7 +1,6 @@
 ﻿using MyCocktail.Domain.Aggregates.DrinkAggregate;
 using MyCocktail.Domain.Helper;
 using System;
-using System.Collections.Generic;
 
 namespace MyCocktail.Api.Dto.Extensions
 {

@@ -8,9 +8,9 @@ namespace MyCocktail.Infrastucture.Mapper
     {
         public static DrinkDao ToDao(this Drink drink)
         {
-            var categoryToAdd = new CategoryDao() { Id = Guid.NewGuid(), Name = drink.Category.Name };
-            var glassToAdd = new GlassDao() { Id = Guid.NewGuid(), Name = drink.Glass.Name };
-            var alcoholicToAdd = new AlcoholicDao() { Id = Guid.NewGuid(), Name = drink.Alcoholic.Name };
+            var categoryToAdd = new CategoryDao() { Id = (Guid)(drink.Category.Id != null ? drink.Category.Id : Guid.NewGuid()), Name = drink.Category.Name };
+            var glassToAdd = new GlassDao() { Id = (Guid)(drink.Glass.Id != null ? drink.Glass.Id : Guid.NewGuid()), Name = drink.Glass.Name };
+            var alcoholicToAdd = new AlcoholicDao() { Id = (Guid)(drink.Alcoholic.Id != null ? drink.Alcoholic.Id : Guid.NewGuid()), Name = drink.Alcoholic.Name };
 
             var drinkToReturn = new DrinkDao()
             {

@@ -1,5 +1,4 @@
-﻿using MyCocktail.Domain.Helper;
-using System;
+﻿using System;
 
 namespace MyCocktail.Domain.Aggregates.DrinkAggregate
 {

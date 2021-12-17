@@ -55,7 +55,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.Helper
             string passwordToTest = "Toto";
 
             //Act
-            var ex = Record.Exception( () => PasswordHasher.Hash(passwordToTest) );
+            var ex = Record.Exception(() => PasswordHasher.Hash(passwordToTest));
 
             //Result
             ex.Should().BeNull();

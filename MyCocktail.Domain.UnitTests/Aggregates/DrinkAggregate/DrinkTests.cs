@@ -1,12 +1,9 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using MyCocktail.Domain.Aggregates.DrinkAggregate;
-using MyCocktail.Domain.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
@@ -880,7 +877,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
             measures.ForEach(m => drink.AddMeasure(m));
             var ingredients = new HashSet<Ingredient>();
 
-            foreach(var m in measures)
+            foreach (var m in measures)
             {
                 ingredients.Add(m.Ingredient);
             }
@@ -912,7 +909,8 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         {
             //Arrange
             var drink1 = _fixture.Create<Drink>();
-            var drink2 = new Drink() {
+            var drink2 = new Drink()
+            {
                 Id = drink1.Id,
                 Name = drink1.Name,
                 Alcoholic = drink1.Alcoholic,
@@ -938,7 +936,8 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.DrinkAggregate
         {
             //Arrange
             var drink1 = _fixture.Create<Drink>();
-            var drink2 = new Drink() {
+            var drink2 = new Drink()
+            {
                 Id = drink1.Id,
                 Name = drink1.Name,
                 Alcoholic = drink1.Alcoholic,
