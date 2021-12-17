@@ -41,7 +41,7 @@ namespace MyCocktail.Domain.Helper
                 }
             }
 
-            return new DateTime(ymdhmsConverted[2], ymdhmsConverted[1], ymdhmsConverted[0], ymdhmsConverted[3], ymdhmsConverted[4], ymdhmsConverted[5]);
+            return new DateTime(ymdhmsConverted[0] > 31 ? ymdhmsConverted[0] : ymdhmsConverted[2], ymdhmsConverted[1], ymdhmsConverted[2] > 31 ? ymdhmsConverted[0] : ymdhmsConverted[2], ymdhmsConverted[3], ymdhmsConverted[4], ymdhmsConverted[5]);
         }
     }
 }

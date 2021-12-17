@@ -4,12 +4,14 @@ using MyCocktail.Infrastucture;
 using MyCocktail.Infrastucture.Dao;
 using MyCocktail.Infrastucture.Repositories;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyCocktail.ConsoleApp
 {
+    [ExcludeFromCodeCoverage]
     class Program
     {
         protected Program()
