@@ -75,6 +75,19 @@ namespace MyCocktail.Domain.UnitTests.EntitySource
         }
 
         [Fact]
+        public void GetIngredientStr_WhenStrIngredientsAreNull_ShouldReturnDictionnaryWithNullValues()
+        {
+            //Arrange
+            var drinkSource = new DrinkSource();
+
+            //Act
+            var result = drinkSource.GetIngredientStr();
+
+            //Assert
+            Assert.True(result.All(i => i.Value == null));
+        }
+
+        [Fact]
         public void GetMeasureStr_WhenValidParameters_ShouldReturnDictionnaryWithAllMeasures()
         {
             //Arrange
@@ -99,6 +112,20 @@ namespace MyCocktail.Domain.UnitTests.EntitySource
             Assert.True(drinkSource.strMeasure13.IsNullOrEmpty() ? result[13] == null : result[13] == drinkSource.strMeasure13);
             Assert.True(drinkSource.strMeasure14.IsNullOrEmpty() ? result[14] == null : result[14] == drinkSource.strMeasure14);
             Assert.True(drinkSource.strMeasure15.IsNullOrEmpty() ? result[15] == null : result[15] == drinkSource.strMeasure15);
+        }
+
+        [Fact]
+        public void GetMeasureStr_WhenMeasuresAreNull_ShouldReturnDictionnaryWithNullValues()
+        {
+            //Arrange
+            var drinkSource = new DrinkSource();
+
+            //Act
+            var result = drinkSource.GetMeasureStr();
+
+            //Assert
+            Assert.True(result.All(m => m.Value == null));
+            
         }
     }
 }
