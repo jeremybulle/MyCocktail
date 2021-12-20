@@ -28,11 +28,12 @@ namespace MyCocktail.Infrastucture.Repositories
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            var userToSave = user.ToDao();
-            if (userToSave.Password.IsNullOrEmpty())
+            
+            if (user.Password.IsNullOrEmpty())
             {
                 throw new ArgumentException("Can not Create an user wihtout password");
             }
+            var userToSave = user.ToDao();
 
             return AddInternalAsync(userToSave);
 
