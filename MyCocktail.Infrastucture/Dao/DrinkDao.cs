@@ -15,19 +15,19 @@ namespace MyCocktail.Infrastucture.Dao
         public DateTime DateModified;
 
         public Guid? CategoryId;
-        public CategoryDao Category;
+        public virtual CategoryDao Category { get; set; }
 
         public Guid GlassId;
-        public GlassDao Glass;
+        public virtual GlassDao Glass { get; set; }
 
         public Guid AlcoholicId;
-        public AlcoholicDao Alcoholic;
+        public virtual AlcoholicDao Alcoholic { get; set; }
 
         public Guid? OwnerId;
-        public UserDao Owner;
+        public virtual UserDao Owner { get; set; }
 
-        public ICollection<MeasureDao> Measures;
+        public virtual ICollection<MeasureDao> Measures { get; set; }
 
-        public ICollection<FavoriteDao> Favorites;
+        public virtual ICollection<FavoriteDao> Favorites { get; set; }
     }
 }

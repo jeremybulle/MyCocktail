@@ -9,6 +9,6 @@ namespace MyCocktail.Infrastucture.Dao
     {
         public Guid Id;
         public string Name;
-        public ICollection<DrinkDao> Drinks;
+        public virtual ICollection<DrinkDao> Drinks { get; set; }
     }
 }

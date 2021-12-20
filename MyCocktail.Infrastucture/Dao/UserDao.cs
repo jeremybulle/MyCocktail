@@ -17,7 +17,7 @@ namespace MyCocktail.Infrastucture.Dao
         public DateTime CreationDate;
         public UserRole Role;
 
-        public ICollection<FavoriteDao> Favorites;
-        public ICollection<DrinkDao> DrinksOwned;
+        public virtual ICollection<FavoriteDao> Favorites { get; set; }
+        public virtual ICollection<DrinkDao> DrinksOwned { get; set; }
     }
 }

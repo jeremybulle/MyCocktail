@@ -10,9 +10,9 @@ namespace MyCocktail.Infrastucture.Dao
         public string Quantity;
 
         public Guid DrinkId;
-        public DrinkDao Drink;
+        public virtual DrinkDao Drink { get; set; }
 
         public Guid IngredientId;
-        public IngredientDao Ingredient;
+        public virtual IngredientDao Ingredient { get; set; }
     }
 }

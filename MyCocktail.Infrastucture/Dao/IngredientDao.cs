@@ -10,6 +10,6 @@ namespace MyCocktail.Infrastucture.Dao
         public Guid Id;
         public string Name;
 
-        public ICollection<MeasureDao> Measures;
+        public virtual ICollection<MeasureDao> Measures { get; set; }
     }
 }

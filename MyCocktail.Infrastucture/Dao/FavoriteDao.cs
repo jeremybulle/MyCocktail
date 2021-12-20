@@ -9,9 +9,9 @@ namespace MyCocktail.Infrastucture.Dao
         public Guid Id;
 
         public Guid IdUser;
-        public UserDao User;
+        public virtual UserDao User { get; set; }
 
         public Guid IdDrink;
-        public DrinkDao Drink;
+        public virtual DrinkDao Drink { get; set; }
     }
 }
