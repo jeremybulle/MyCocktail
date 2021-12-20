@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoFixture;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Infrastucture;
@@ -13,6 +14,8 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
 {
     public static class MockDrinkDbContext
     {
+        private static readonly Fixture _fixture = new Fixture();
+         
         public static Mock<DrinkDbContext> GetMockedDbContext()
         {
             var mockContext = new Mock<DrinkDbContext>();
@@ -20,9 +23,9 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             #region alcoholicDatas
             var alcoholicDatas = new List<AlcoholicDao>()
             {
-                new AlcoholicDao() { Id = Guid.NewGuid(), Name = "alcoholic"},
-                new AlcoholicDao() { Id = Guid.NewGuid(), Name = "non alcoholic"},
-                new AlcoholicDao() { Id = Guid.NewGuid(), Name = "optional alcohol"}
+                new AlcoholicDao() { Id = Guid.NewGuid(), Name = "alcoholic", Drinks = new List<DrinkDao>()},
+                new AlcoholicDao() { Id = Guid.NewGuid(), Name = "non alcoholic", Drinks = new List<DrinkDao>()},
+                new AlcoholicDao() { Id = Guid.NewGuid(), Name = "optional alcohol", Drinks = new List<DrinkDao>()}
             }.AsQueryable();
 
 
@@ -38,12 +41,12 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             #region categoryDatas
             var categoryDatas = new List<CategoryDao>()
             {
-                new CategoryDao() { Id = Guid.NewGuid(), Name = "beer" },
-                new CategoryDao() { Id = Guid.NewGuid(), Name = "cocktail" },
-                new CategoryDao() { Id = Guid.NewGuid(), Name = "cocoa" },
-                new CategoryDao() { Id = Guid.NewGuid(), Name = "coffee / tea" },
-                new CategoryDao() { Id = Guid.NewGuid(), Name = "ordinary drink" },
-                new CategoryDao() { Id = Guid.NewGuid(), Name = "shot" }
+                new CategoryDao() { Id = Guid.NewGuid(), Name = "beer", Drinks = new List<DrinkDao>()},
+                new CategoryDao() { Id = Guid.NewGuid(), Name = "cocktail", Drinks = new List<DrinkDao>()},
+                new CategoryDao() { Id = Guid.NewGuid(), Name = "cocoa", Drinks = new List<DrinkDao>()},
+                new CategoryDao() { Id = Guid.NewGuid(), Name = "coffee / tea", Drinks = new List<DrinkDao>()},
+                new CategoryDao() { Id = Guid.NewGuid(), Name = "ordinary drink", Drinks = new List<DrinkDao>()},
+                new CategoryDao() { Id = Guid.NewGuid(), Name = "shot", Drinks = new List<DrinkDao>()}
             }.AsQueryable();
 
 
@@ -59,15 +62,14 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             #region glassDatas
             var glassDatas = new List<GlassDao>()
             {
-                new GlassDao() { Id = Guid.NewGuid(), Name = "balloon glass" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "beer glass" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "cocktail glass" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "coffee mug" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "jar" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "whiskey glass" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "wine glass" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "highball glass" },
-                new GlassDao() { Id = Guid.NewGuid(), Name = "highball glass" }
+                new GlassDao() { Id = Guid.NewGuid(), Name = "balloon glass", Drinks = new List<DrinkDao>()},
+                new GlassDao() { Id = Guid.NewGuid(), Name = "beer glass", Drinks = new List<DrinkDao>()},
+                new GlassDao() { Id = Guid.NewGuid(), Name = "cocktail glass", Drinks = new List<DrinkDao>()},
+                new GlassDao() { Id = Guid.NewGuid(), Name = "coffee mug", Drinks = new List<DrinkDao>()},
+                new GlassDao() { Id = Guid.NewGuid(), Name = "jar", Drinks = new List<DrinkDao>()},
+                new GlassDao() { Id = Guid.NewGuid(), Name = "whiskey glass", Drinks = new List<DrinkDao>()},
+                new GlassDao() { Id = Guid.NewGuid(), Name = "wine glass", Drinks = new List<DrinkDao>()},
+                new GlassDao() { Id = Guid.NewGuid(), Name = "highball glass", Drinks = new List<DrinkDao>()},
             }.AsQueryable();
 
 
@@ -83,21 +85,21 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             #region ingredientDatas
             var ingredientDatas = new List<IngredientDao>()
             {
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "7-up"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "absinthe"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "banana"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "beer"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "blue curacao"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "chocolate"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "cider"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "coffee"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "dark rum"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "honey"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "ice"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "lemon"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "vodka"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "whisky"},
-                new IngredientDao() { Id = Guid.NewGuid(), Name = "wine"},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "7-up", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "absinthe", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "banana", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "beer", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "blue curacao", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "chocolate", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "cider", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "coffee", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "dark rum", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "honey", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "ice", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "lemon", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "vodka", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "whisky", Measures = new List<MeasureDao>()},
+                new IngredientDao() { Id = Guid.NewGuid(), Name = "wine", Measures = new List<MeasureDao>()},
             }.AsQueryable();
 
 
@@ -115,30 +117,39 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             {
                 new UserDao() { 
                     Id = Guid.NewGuid(), 
+                    UserName = "admin",
                     CreationDate = DateTime.Now, 
                     Email = "admin@gmail.com", 
                     FirstName = "john", 
                     LastName="doe", 
                     Password="password", 
-                    Role = UserRole.Admin
+                    Role = UserRole.Admin,
+                    DrinksOwned = new List<DrinkDao>(),
+                    Favorites = new List<FavoriteDao>()
                 },
                new UserDao() {
                     Id = Guid.NewGuid(),
+                    UserName = "DarkSasuke",
                     CreationDate = DateTime.Now,
                     Email = "jeandupont@gmail.com",
                     FirstName = "jean",
                     LastName="dupont",
                     Password="password",
-                    Role = UserRole.User
+                    Role = UserRole.User,
+                    DrinksOwned = new List<DrinkDao>(),
+                    Favorites = new List<FavoriteDao>()
                 },
                new UserDao() {
                     Id = Guid.NewGuid(),
+                    UserName = "Tati",
                     CreationDate = DateTime.Now,
                     Email = "tatigertrude@gmail.com",
                     FirstName = "tati",
                     LastName="gertrude",
                     Password="password",
-                    Role = UserRole.Unidentified
+                    Role = UserRole.Unidentified,
+                    DrinksOwned = new List<DrinkDao>(),
+                    Favorites = new List<FavoriteDao>()
                 },
 
             }.AsQueryable();
@@ -153,29 +164,210 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             mockContext.Setup(c => c.Users).Returns(mockUser.Object);
             #endregion
 
-            #region DrinkDatas
-            var DrinkDatas = new List<DrinkDao>()
+            #region drinkDatas
+            var drinkDatas = new List<DrinkDao>()
             {
-                new DrinkDao() { 
-                    Id = Guid.NewGuid(), 
-                    Name = "7-up"
+                new DrinkDao() {
+                    Id = Guid.NewGuid(),
+                    Name = "whisky honey",
+                    Alcoholic = alcoholicDatas.FirstOrDefault(a => a.Name == "alcoholic"),
+                    AlcoholicId = alcoholicDatas.FirstOrDefault(a => a.Name == "alcoholic").Id,
+                    Category = categoryDatas.FirstOrDefault(c => c.Name == "ordinary drink"),
+                    CategoryId = categoryDatas.FirstOrDefault(c => c.Name == "ordinary drink").Id,
+                    DateModified = DateTime.Now,
+                    Glass = glassDatas.FirstOrDefault(g => g.Name == "whiskey glass"),
+                    GlassId = glassDatas.FirstOrDefault(g => g.Name == "whiskey glass").Id,
+                    IdSource = _fixture.Create<int>().ToString(),
+                    Instruction = _fixture.Create<string>(),
+                    Owner = null,
+                    OwnerId = null,
+                    UrlPicture = _fixture.Create<Uri>().ToString(),
+                    Favorites = new List<FavoriteDao>(),
+                    Measures = new List<MeasureDao>()
                 },
-                
+                new DrinkDao() {
+                    Id = Guid.NewGuid(),
+                    Name = "Beer lemon",
+                    Alcoholic = alcoholicDatas.FirstOrDefault(a => a.Name == "alcoholic"),
+                    AlcoholicId = alcoholicDatas.FirstOrDefault(a => a.Name == "alcoholic").Id,
+                    Category = categoryDatas.FirstOrDefault(c => c.Name == "beer"),
+                    CategoryId = categoryDatas.FirstOrDefault(c => c.Name == "beer").Id,
+                    DateModified = DateTime.Now,
+                    Glass = glassDatas.FirstOrDefault(g => g.Name == "beer glass"),
+                    GlassId = glassDatas.FirstOrDefault(g => g.Name == "beer glass").Id,
+                    IdSource = _fixture.Create<int>().ToString(),
+                    Instruction = _fixture.Create<string>(),
+                    Owner = null,
+                    OwnerId = null,
+                    UrlPicture = _fixture.Create<Uri>().ToString(),
+                    Favorites = new List<FavoriteDao>(),
+                    Measures = new List<MeasureDao>()
+                },
+                new DrinkDao() {
+                    Id = Guid.NewGuid(),
+                    Name = "Rum banana",
+                    Alcoholic = alcoholicDatas.FirstOrDefault(a => a.Name == "alcoholic"),
+                    AlcoholicId = alcoholicDatas.FirstOrDefault(a => a.Name == "alcoholic").Id,
+                    Category = categoryDatas.FirstOrDefault(c => c.Name == "cocktail"),
+                    CategoryId = categoryDatas.FirstOrDefault(c => c.Name == "cocktail").Id,
+                    DateModified = DateTime.Now,
+                    Glass = glassDatas.FirstOrDefault(g => g.Name == "cocktail glass"),
+                    GlassId = glassDatas.FirstOrDefault(g => g.Name == "cocktail glass").Id,
+                    IdSource = _fixture.Create<int>().ToString(),
+                    Instruction = _fixture.Create<string>(),
+                    Owner = null,
+                    OwnerId = null,
+                    UrlPicture = _fixture.Create<Uri>().ToString(),
+                    Favorites = new List<FavoriteDao>(),
+                    Measures = new List<MeasureDao>()
+                },
+
             }.AsQueryable();
-
-
+            
+            
             var mockDrink = new Mock<DbSet<DrinkDao>>();
-            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.Provider).Returns(DrinkDatas.Provider);
-            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.Expression).Returns(DrinkDatas.Expression);
-            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.ElementType).Returns(DrinkDatas.ElementType);
-            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.GetEnumerator()).Returns(DrinkDatas.GetEnumerator());
+            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.Provider).Returns(drinkDatas.Provider);
+            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.Expression).Returns(drinkDatas.Expression);
+            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.ElementType).Returns(drinkDatas.ElementType);
+            mockDrink.As<IQueryable<DrinkDao>>().Setup(m => m.GetEnumerator()).Returns(drinkDatas.GetEnumerator());
 
             mockContext.Setup(c => c.Ingredients).Returns(mockIngredient.Object);
             #endregion
 
+            #region measureDatas
+            var measureDatas = new List<MeasureDao>();
 
+            var measure = new MeasureDao()
+            {
+                Id = Guid.NewGuid(),
+                DrinkId = drinkDatas.First(d => d.Name == "whisky honey").Id,
+                Drink = drinkDatas.First(d => d.Name == "whisky honey"),
+                Ingredient = ingredientDatas.First(i => i.Name == "whisky"),
+                IngredientId = ingredientDatas.First(i => i.Name == "whisky").Id,
+                Quantity = "1L",
+            };
 
+            measureDatas.Add(measure);
+            drinkDatas.First(d => d.Name == "whisky honey").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+            ingredientDatas.First(i => i.Name == "whisky").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
 
+            measure = new MeasureDao()
+            {
+                Id = Guid.NewGuid(),
+                DrinkId = drinkDatas.First(d => d.Name == "whisky honey").Id,
+                Drink = drinkDatas.First(d => d.Name == "whisky honey"),
+                Ingredient = ingredientDatas.First(i => i.Name == "honey"),
+                IngredientId = ingredientDatas.First(i => i.Name == "honey").Id,
+                Quantity = "1 cac"
+            };
+
+            measureDatas.Add(measure);
+            drinkDatas.First(d => d.Name == "whisky honey").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+            ingredientDatas.First(i => i.Name == "honey").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+
+            measure = new MeasureDao()
+            {
+                Id = Guid.NewGuid(),
+                DrinkId = drinkDatas.First(d => d.Name == "whisky honey").Id,
+                Drink = drinkDatas.First(d => d.Name == "whisky honey"),
+                Ingredient = ingredientDatas.First(i => i.Name == "ice"),
+                IngredientId = ingredientDatas.First(i => i.Name == "ice").Id,
+                Quantity = "1 cac"
+            };
+
+            measureDatas.Add(measure);
+            drinkDatas.First(d => d.Name == "whisky honey").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+            ingredientDatas.First(i => i.Name == "ice").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+
+            measure = new MeasureDao()
+            {
+                Id = Guid.NewGuid(),
+                DrinkId = drinkDatas.First(d => d.Name == "Beer lemon").Id,
+                Drink = drinkDatas.First(d => d.Name == "Beer lemon"),
+                Ingredient = ingredientDatas.First(i => i.Name == "beer"),
+                IngredientId = ingredientDatas.First(i => i.Name == "beer").Id,
+                Quantity = "1 pinte"
+            };
+            measureDatas.Add(measure);
+            drinkDatas.First(d => d.Name == "Beer lemon").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+            ingredientDatas.First(i => i.Name == "beer").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+
+            measure = new MeasureDao()
+            {
+                Id = Guid.NewGuid(),
+                DrinkId = drinkDatas.First(d => d.Name == "Beer lemon").Id,
+                Drink = drinkDatas.First(d => d.Name == "Beer lemon"),
+                Ingredient = ingredientDatas.First(i => i.Name == "lemon"),
+                IngredientId = ingredientDatas.First(i => i.Name == "lemon").Id,
+                Quantity = "1"
+            };
+            measureDatas.Add(measure);
+            drinkDatas.First(d => d.Name == "Beer lemon").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+            ingredientDatas.First(i => i.Name == "lemon").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+
+            measure = new MeasureDao()
+            {
+                Id = Guid.NewGuid(),
+                DrinkId = drinkDatas.First(d => d.Name == "Rum banana").Id,
+                Drink = drinkDatas.First(d => d.Name == "Rum banana"),
+                Ingredient = ingredientDatas.First(i => i.Name == "dark rum"),
+                IngredientId = ingredientDatas.First(i => i.Name == "dark rum").Id,
+                Quantity = "1"
+            };
+            measureDatas.Add(measure);
+            drinkDatas.First(d => d.Name == "Rum banana").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+            ingredientDatas.First(i => i.Name == "dark rum").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+
+            measure = new MeasureDao()
+            {
+                Id = Guid.NewGuid(),
+                DrinkId = drinkDatas.First(d => d.Name == "Rum banana").Id,
+                Drink = drinkDatas.First(d => d.Name == "Rum banana"),
+                Ingredient = ingredientDatas.First(i => i.Name == "banana"),
+                IngredientId = ingredientDatas.First(i => i.Name == "banana").Id,
+                Quantity = "1"
+            };
+            measureDatas.Add(measure);
+            drinkDatas.First(d => d.Name == "Rum banana").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+            ingredientDatas.First(i => i.Name == "banana").Measures.Add(measureDatas.First(m => m.Id == measure.Id));
+
+            #endregion
+
+            #region favoriteDatas
+
+            var favoriteDatas = new List<FavoriteDao>();
+
+            var favorite = new FavoriteDao()
+            {
+                Id = Guid.NewGuid(),
+                Drink = drinkDatas.First(d => d.Name == "Beer lemon"),
+                IdDrink = drinkDatas.First(d => d.Name == "Beer lemon").Id,
+                User = userDatas.First(u => u.UserName == "Tati"),
+                IdUser = userDatas.First(u => u.UserName == "Tati").Id
+            };
+
+            favoriteDatas.Add(favorite);
+            userDatas.First(u => u.UserName == "Tati").Favorites.Add(favoriteDatas.First(f => f.Id == favorite.Id));
+            drinkDatas.First(d => d.Name == "Rum banana").Favorites.Add(favoriteDatas.First(f => f.Id == favorite.Id));
+
+            favorite = new FavoriteDao()
+            {
+                Id = Guid.NewGuid(),
+                Drink = drinkDatas.First(d => d.Name == "Beer lemon"),
+                IdDrink = drinkDatas.First(d => d.Name == "Beer lemon").Id,
+                User = userDatas.First(u => u.UserName == "DarkSasuke"),
+                IdUser = userDatas.First(u => u.UserName == "DarkSasuke").Id
+            };
+
+            favoriteDatas.Add(favorite);
+            userDatas.First(u => u.UserName == "DarkSasuke").Favorites.Add(favoriteDatas.First(f => f.Id == favorite.Id));
+            drinkDatas.First(d => d.Name == "Beer lemon").Favorites.Add(favoriteDatas.First(f => f.Id == favorite.Id));
+
+            #endregion
+
+            userDatas.First(u => u.UserName == "admin").DrinksOwned.Add(drinkDatas.First(d => d.Name == "whisky honey"));
+            drinkDatas.First(d => d.Name == "whisky honey").Owner = userDatas.First(u => u.UserName == "admin");
+            drinkDatas.First(d => d.Name == "whisky honey").OwnerId = userDatas.First(u => u.UserName == "admin").Id;
 
             return mockContext;
         }

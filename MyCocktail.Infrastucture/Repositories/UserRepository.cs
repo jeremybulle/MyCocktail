@@ -24,7 +24,7 @@ namespace MyCocktail.Infrastucture.Repositories
         /// <inheritdoc cref="MyCocktail.Domain.Aggregates.UserAggregate.IUserRepository.AddAsync(User)"/>
         public Task<User> AddAsync(User user)
         {
-            if (user != null)
+            if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
