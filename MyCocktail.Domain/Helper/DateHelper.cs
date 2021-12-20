@@ -24,6 +24,11 @@ namespace MyCocktail.Domain.Helper
             ymdhms.AddRange(ymd.Split("-"));
             ymdhms.AddRange(hms.Split(":"));
 
+            if(ymdhms.Count < 6)
+            {
+                throw new ArgumentException(nameof(strDate));
+            }
+
             var ymdhmsConverted = new int[ymdhms.Count];
 
             for (int i = 0; i < ymdhms.Count; i++)

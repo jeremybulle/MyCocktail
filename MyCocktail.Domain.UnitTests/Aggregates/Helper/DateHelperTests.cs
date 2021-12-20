@@ -47,7 +47,7 @@ namespace MyCocktail.Domain.UnitTests.Aggregates.Helper
         [InlineData("2021--12-02 11:-30:42")]
         [InlineData("2021--02 11:30:42")]
         [InlineData("2021-02 11:30:42")]
-        public void DateFromString_WithNoValidParameter_ShouldThrowArgumentNullException(string inputDate)
+        public void DateFromString_WithNoValidParameter_ShouldThrowArgumentException(string inputDate)
         {
             //Arrange
             var dateAsString = inputDate;
