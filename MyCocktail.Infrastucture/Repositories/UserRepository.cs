@@ -35,6 +35,16 @@ namespace MyCocktail.Infrastucture.Repositories
             }
             var userToSave = user.ToDao();
 
+            if(_context.Users.Any(u => u.UserName == userToSave.UserName))
+            {
+                throw new ArgumentException($"{userToSave.UserName} est déjà utilisé");
+            }
+
+            if (_context.Users.Any(u => u.Email == userToSave.Email))
+            {
+                throw new ArgumentException($"{userToSave.Email} est déjà utilisé");
+            }
+
             return AddInternalAsync(userToSave);
 
         }

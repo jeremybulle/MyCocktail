@@ -88,7 +88,7 @@ namespace MyCocktail.Infrastructure.UnitTests.Repositories
             var ex = await Record.ExceptionAsync(async () => await _repo.AddAsync(user));
 
             //Assert
-            ex.Should().BeOfType<ArgumentNullException>();
+            ex.Should().BeOfType<ArgumentException>();
         }
 
         [Fact]
@@ -135,9 +135,73 @@ namespace MyCocktail.Infrastructure.UnitTests.Repositories
 
             //Assert
             Assert.Null(ex);
-            //Assert.Equal(user.UserName, _context.Object.Users.FirstOrDefault(u => u.Id == user.Id).UserName);
             _context.Verify(c => c.Users.AddAsync(It.IsAny<UserDao>(),It.IsAny<CancellationToken>()), Times.Once);
-            
+            _context.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
+
+        [Fact]
+        public async Task AddAsync_WhenUserNameIsAlreadyInDatabase_ShouldThrowArgumentException()
+        {
+            //Arrange
+            var user = new User()
+            {
+                Id = Guid.NewGuid(),
+                UserName = "admin",
+                CreationDate = DateTime.Now,
+                Email = "admin2@gmail.com",
+                FirstName = "john",
+                LastName = "doe",
+                Password = "password",
+                Role = UserRole.Admin,
+            };
+
+            //Act
+            var ex = await Record.ExceptionAsync(async () => await _repo.AddAsync(user));
+
+            //Assert
+            ex.Should().BeOfType<ArgumentException>();
+            _context.Verify(c => c.Users.AddAsync(It.IsAny<UserDao>(), It.IsAny<CancellationToken>()), Times.Never);
+            _context.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task AddAsync_WhenEmailIsAlreadyInDatabase_ShouldThrowArgumentException()
+        {
+            //Arrange
+            var user = new User()
+            {
+                Id = Guid.NewGuid(),
+                UserName = "Rantanplan",
+                CreationDate = DateTime.Now,
+                Email = "admin@gmail.com",
+                FirstName = "john",
+                LastName = "doe",
+                Password = "password",
+                Role = UserRole.Admin,
+            };
+
+            //Act
+            var ex = await Record.ExceptionAsync(async () => await _repo.AddAsync(user));
+
+            //Assert
+            ex.Should().BeOfType<ArgumentException>();
+            _context.Verify(c => c.Users.AddAsync(It.IsAny<UserDao>(), It.IsAny<CancellationToken>()), Times.Never);
+            _context.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        //[Fact]
+        //public async Task DeleteAsync_WhenUserIsNotInDatabase_ShouldReturnFalse()
+        //{
+        //    //Arrange
+        //    var id = Guid.NewGuid();
+
+        //    //Act
+        //    var result = await _repo.DeleteAsync(id);
+
+        //    //Assert
+        //    Assert.False(result);
+        //    _context.Verify(c => c.Users.Remove(It.IsAny<UserDao>()), Times.Never);
+        //    _context.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        //}
     }
 }

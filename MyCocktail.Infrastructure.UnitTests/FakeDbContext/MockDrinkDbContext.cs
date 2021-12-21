@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Moq;
 using MyCocktail.Domain.Aggregates.UserAggregate;
 using MyCocktail.Infrastucture;
@@ -7,7 +8,9 @@ using MyCocktail.Infrastucture.Dao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
