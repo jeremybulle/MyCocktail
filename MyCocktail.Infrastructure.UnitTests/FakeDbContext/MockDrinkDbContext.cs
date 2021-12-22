@@ -116,7 +116,7 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             #endregion
 
             #region userDatas
-            var userDatas = new List<UserDao>()
+            IQueryable<UserDao> userDatas = new List<UserDao>()
             {
                 new UserDao() { 
                     Id = Guid.NewGuid(), 
@@ -163,6 +163,8 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             mockUser.As<IQueryable<UserDao>>().Setup(m => m.Expression).Returns(userDatas.Expression);
             mockUser.As<IQueryable<UserDao>>().Setup(m => m.ElementType).Returns(userDatas.ElementType);
             mockUser.As<IQueryable<UserDao>>().Setup(m => m.GetEnumerator()).Returns(userDatas.GetEnumerator());
+
+            //var mockUser = GetDbSet<UserDao>(userDatas);
 
             mockContext.Setup(c => c.Users).Returns(mockUser.Object);
             #endregion
@@ -373,6 +375,17 @@ namespace MyCocktail.Infrastructure.UnitTests.FakeDbContext
             drinkDatas.First(d => d.Name == "whisky honey").OwnerId = userDatas.First(u => u.UserName == "admin").Id;
 
             return mockContext;
+        }
+
+        public static Mock<DbSet<T>> GetDbSet<T>(IQueryable<T> TestData) where T : class
+        {
+            var MockSet = new Mock<DbSet<T>>();
+            MockSet.As<IAsyncEnumerable<T>>().Setup(x => x.GetAsyncEnumerator(new CancellationToken())).Returns(new TestAsyncEnumerator<T>(TestData.GetEnumerator()));
+            MockSet.As<IQueryable<T>>().Setup(x => x.Provider).Returns(new TestAsyncQueryProvider<T>(TestData.Provider));
+            MockSet.As<IQueryable<T>>().Setup(x => x.Expression).Returns(TestData.Expression);
+            MockSet.As<IQueryable<T>>().Setup(x => x.ElementType).Returns(TestData.ElementType);
+            MockSet.As<IQueryable<T>>().Setup(x => x.GetEnumerator()).Returns(TestData.GetEnumerator());
+            return MockSet;
         }
     }
 }
